@@ -104,7 +104,7 @@ public class ScoreSheet {
 		
 		@Override
 		public String toString() {
-			String scoreString = "Frame scores {";
+			String scoreString = "Frame scores { ";
 			for(int i = 1; i < 11; i++) {
 				scoreString += frameScores[i] + " ";
 			}
