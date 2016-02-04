@@ -9,12 +9,15 @@ public class ScoreSheet {
 		/**
 		 * 
 		 * 
-		 * @return true if valid throw and false if frame is 11 or higher.
+		 * @return true if valid throw, false if invalid pincount or frame
 		 */
 		public boolean addThrow(int pincount) {
-			boolean isGameOver = false;
+			boolean isValid = true;
 			if(currentFrame > 10) {
-				isGameOver = true;
+				isValid = false;
+			}
+			else if (pincount < 0 || pincount > 10) {
+				isValid = false;
 			}
 			else {
 				recordScore(pincount);
@@ -22,7 +25,7 @@ public class ScoreSheet {
 				updateScores();
 			}
 			
-			return isGameOver;
+			return isValid;
 		}
 		
 		private void recordScore(int pincount) {
