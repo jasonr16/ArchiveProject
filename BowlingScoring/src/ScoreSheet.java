@@ -62,7 +62,7 @@ public class ScoreSheet {
 		}
 		/**
 		 * 
-		 * 
+		 * @param frame		1 represents the first frame
 		 * @return the current value of an individual frame or -1 if invalid frame.
 		 * 
 		 */
@@ -97,6 +97,20 @@ public class ScoreSheet {
 					frameScores[i] = frameScores[i] + frameScores[i + 1];
 				}
 			}
+		}
+		
+		@Override
+		public String toString() {
+			String scoreString = "Frame scores {";
+			for(int i = 1; i < 11; i++) {
+				scoreString += frameScores[i] + " ";
+			}
+			scoreString += "} ";
+			
+			scoreString += "Total score - " + getGameScore() + "\n"; 
+			
+			return scoreString;
+			
 		}
 
 		
