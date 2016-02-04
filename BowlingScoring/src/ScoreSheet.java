@@ -2,6 +2,7 @@
 public class ScoreSheet {
 		private int[] frameScores = new int[13];
 		private boolean[] strikeFrames = new boolean[13];
+		private boolean[] spareFrames = new boolean[13];
 		private int currentFrame = 1;
 		private int currentThrowInFrame = 1;
 		
@@ -16,20 +17,32 @@ public class ScoreSheet {
 				isGameOver = true;
 			}
 			else {
-				frameScores[currentFrame] += pincount;
-				if(isStrike(pincount)) {
-					strikeFrames[currentFrame] = true;
-				}
+				recordScore(pincount);
+				advanceThrowAndFrame(pincount);
+				updateScores();
 			}
-			advanceThrowAndFrame(pincount);
-			updateScores();
 			
 			return isGameOver;
 		}
 		
-		private boolean isStrike(int pincount) {
-			return (pincount == 10 && currentThrowInFrame == 1);
+		private void recordScore(int pincount) {
+			frameScores[currentFrame] += pincount;
+			if(isStrike(pincount, currentThrowInFrame)) {
+				strikeFrames[currentFrame] = true;
+			}
+			if(isSpare()) {
+				spareFrames[currentFrame] = true;
+			}
 		}
+
+		private boolean isStrike(int pincount, int throwInFrame) {
+			return (pincount == 10 && throwInFrame == 1);
+		}
+		
+		private boolean isSpare() {
+			return (frameScores[currentFrame] == 10 && strikeFrames[currentFrame] == false);
+		}
+		
 
 		private void advanceThrowAndFrame(int pincount) {
 			//threw second shot
@@ -50,11 +63,17 @@ public class ScoreSheet {
 		/**
 		 * 
 		 * 
-		 * @return the current value of an individual frame. 
-		 * This value may increase after more throws if it is a spare or a strike frame.
+		 * @return the current value of an individual frame or -1 if invalid frame.
+		 * 
 		 */
 		public int getScoreInIndividualFrame(int frame) {
-			return frameScores[frame];
+			int score;
+			if(frame < 1 || frame > 10)
+				score = -1;
+			else
+				score = frameScores[frame];
+			
+			return score; 
 		}
 		
 		/**
@@ -74,14 +93,11 @@ public class ScoreSheet {
 				if(strikeFrames[i]) {
 					frameScores[i] = frameScores[i] + frameScores[i + 1] + frameScores[i + 2];
 				}
-				else if (isSpare(i)) {
+				else if (spareFrames[i]) {
 					frameScores[i] = frameScores[i] + frameScores[i + 1];
 				}
 			}
 		}
 
-		private boolean isSpare(int frame) {
-			return (frameScores[frame] == 10 && strikeFrames[frame] == false);
-		}
 		
 }
