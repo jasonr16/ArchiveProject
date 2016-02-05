@@ -16,7 +16,7 @@ public class ScoreSheetTest {
 		for (int i = 0; i <= 10; ++i) {
 			testSheet = new ScoreSheet();
 			assertTrue(testSheet.addThrow(i));
-			assertEquals(testSheet.getScoreInIndividualFrame(1), i);
+			assertEquals(testSheet.getScoreInIndividualFrame(1), i);//TODO ? assertEquals parameters all need to be reversed! The expected value is the first parameter.
 			assertEquals(testSheet.getGameScore(),i);
 		}
 		// test invalid pincount
@@ -163,8 +163,8 @@ public class ScoreSheetTest {
 		assertTrue(testSheet.addThrow(pinCount3));
 		assertEquals(testSheet.getScoreInIndividualFrame(3), 10);
 		assertEquals(testSheet.getScoreInIndividualFrame(2), 20);
-		assertEquals(testSheet.getScoreInIndividualFrame(1), 40);
-		assertEquals(testSheet.getGameScore(), 70);
+		assertEquals(testSheet.getScoreInIndividualFrame(1), 40);//TODO ? needs to be 30 (max score in a frame)
+		assertEquals(testSheet.getGameScore(), 70);//TODO ? needs to be 60 (30+20+10)
 		
 		// test one strike and one spare
 		pinCount1 = 10;

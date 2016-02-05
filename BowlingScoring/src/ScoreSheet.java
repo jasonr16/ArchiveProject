@@ -1,6 +1,7 @@
 
 public class ScoreSheet {
-		private int[] frameScores = new int[13];
+		private int[] singleFrameRawPincountScores = new int[13];
+		private int[] multipleFrameCalculatedScores = new int[13];
 		private boolean[] strikeFrames = new boolean[13];
 		private boolean[] spareFrames = new boolean[13];
 		private int currentFrame = 1;
@@ -29,7 +30,7 @@ public class ScoreSheet {
 		}
 		
 		private void recordScore(int pincount) {
-			frameScores[currentFrame] += pincount;
+			singleFrameRawPincountScores[currentFrame] += pincount;
 			if(isStrike(pincount, currentThrowInFrame)) {
 				strikeFrames[currentFrame] = true;
 			}
@@ -43,7 +44,7 @@ public class ScoreSheet {
 		}
 		
 		private boolean isSpare() {
-			return (frameScores[currentFrame] == 10 && strikeFrames[currentFrame] == false);
+			return (singleFrameRawPincountScores[currentFrame] == 10 && strikeFrames[currentFrame] == false);
 		}
 		
 
@@ -74,7 +75,7 @@ public class ScoreSheet {
 			if(frame < 1 || frame > 10)
 				score = -1;
 			else
-				score = frameScores[frame];
+				score = multipleFrameCalculatedScores[frame];
 			
 			return score; 
 		}
@@ -86,7 +87,7 @@ public class ScoreSheet {
 		public int getGameScore() {
 			int gameScore = 0;
 			for(int i = 1; i < 11; i++) {
-				gameScore += frameScores[i]; 
+				gameScore += multipleFrameCalculatedScores[i]; 
 			}
 			return gameScore;
 		}
@@ -94,10 +95,14 @@ public class ScoreSheet {
 		private void updateScores() {
 			for(int i = 1; i < 11; i++) {
 				if(strikeFrames[i]) {
-					frameScores[i] = frameScores[i] + frameScores[i + 1] + frameScores[i + 2];
+					multipleFrameCalculatedScores[i] = singleFrameRawPincountScores[i] 
+							+ singleFrameRawPincountScores[i + 1] + singleFrameRawPincountScores[i + 2];
 				}
 				else if (spareFrames[i]) {
-					frameScores[i] = frameScores[i] + frameScores[i + 1];
+					multipleFrameCalculatedScores[i] = singleFrameRawPincountScores[i] + singleFrameRawPincountScores[i + 1];
+				}
+				else {
+					multipleFrameCalculatedScores[i] = singleFrameRawPincountScores[i];
 				}
 			}
 		}
@@ -106,7 +111,7 @@ public class ScoreSheet {
 		public String toString() {
 			String scoreString = "Frame scores { ";
 			for(int i = 1; i < 11; i++) {
-				scoreString += frameScores[i] + " ";
+				scoreString += multipleFrameCalculatedScores[i] + " ";
 			}
 			scoreString += "} ";
 			
