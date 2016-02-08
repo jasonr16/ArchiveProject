@@ -9,16 +9,22 @@ public class ScoreSheet {
 		
 		/**
 		 * 
-		 * 
 		 * @return true if valid throw, false if invalid pincount or frame
 		 */
 		public boolean addThrow(int pincount) {
 			boolean isValid = true;
 			if(currentFrame > 10) {
 				isValid = false;
+				//System.out.println("Error. Throw in 11th frame is invalid.");
 			}
 			else if (pincount < 0 || pincount > 10) {
 				isValid = false;
+				//System.out.println("Error. A single throw must be between 0 and 10 pins inclusive.");
+			}
+			else if (currentThrowInFrame == 2 && (pincount + singleFrameRawPincountScores[currentFrame] > 10)) {
+				isValid = false;
+				//System.out.println("Error. Total score of first and second throws in a frame "
+						//+ "must be no greater than 10.");
 			}
 			else {
 				recordScore(pincount);
@@ -66,7 +72,7 @@ public class ScoreSheet {
 		}
 		/**
 		 * 
-		 * @param frame		1 represents the first frame
+		 * @param frame	1 represents the first frame
 		 * @return the current value of an individual frame or -1 if invalid frame.
 		 * 
 		 */
