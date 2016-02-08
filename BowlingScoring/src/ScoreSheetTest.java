@@ -336,8 +336,8 @@ public class ScoreSheetTest {
 								assertTrue(isThrow3Valid);
 								assertEquals(pinCount3, frame3Score);
 								assertEquals(10+pinCount3, frame2Score);
-								assertEquals(Math.min(10+10+pinCount3+pinCount3,30), frame1Score);
-								assertEquals(Math.min(10+10+pinCount3+pinCount3,30)+10+pinCount3+pinCount3, gameScore);
+								assertEquals(10+10+pinCount3, frame1Score);
+								assertEquals((10+10+pinCount3)+(10+pinCount3)+pinCount3, gameScore);
 							}
 							else if (pinCount3 == 10){
 								// three consecutive strikes
