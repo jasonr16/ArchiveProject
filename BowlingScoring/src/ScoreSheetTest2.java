@@ -18,8 +18,8 @@ public class ScoreSheetTest2 {
 		assertTrue(testSheet.addThrow(6));
 		assertEquals(10, testSheet.getGameScore());
 		//test once something new has been thrown
-		testSheet.addThrow(5));
-		testSheet.addThrow(0));
+		testSheet.addThrow(5);
+		testSheet.addThrow(0);
 		assertEquals(15, testSheet.getScoreInIndividualFrame(1));
 		assertEquals(20, testSheet.getGameScore());
 		
@@ -55,7 +55,7 @@ public class ScoreSheetTest2 {
 		//test strike score
 		assertEquals(18, testSheet.getScoreInIndividualFrame(1));
 		//test total score (18 + 8 = 26)
-		assertEquals(20, testSheet.getGameScore());
+		assertEquals(26, testSheet.getGameScore());
 		
 		//add next score (4) to the sheet
 		assertTrue(testSheet.addThrow(4));
