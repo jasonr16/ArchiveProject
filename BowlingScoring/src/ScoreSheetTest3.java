@@ -10,7 +10,7 @@ public class ScoreSheetTest3 {
 	public void initialize() {
 		
 		testSheet=new ScoreSheet();
-		for(int i=0;i<8;i++){
+		for(int i=0;i<7;i++){
 			testSheet.addThrow(10);
 		}
 		
@@ -47,7 +47,7 @@ public class ScoreSheetTest3 {
 	public void testThrowOn11thFrame() {
 		testSheet.addThrow(10);
 		testSheet.addThrow(10);
-		testSheet.addThrow(10);
+		assertTrue(testSheet.addThrow(10));
 		assertFalse(testSheet.addThrow(10));
 	}
 }
