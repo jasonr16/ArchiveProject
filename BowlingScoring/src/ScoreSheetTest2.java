@@ -46,7 +46,7 @@ public class ScoreSheetTest2 {
 	
 	@Test public void testStrikeCountsNextFrameScores() {
 		testSheet = new ScoreSheet();
-		
+		//test one strike
 		//add strike
 		assertTrue(testSheet.addThrow(10));
 		//add next throw of 8
@@ -63,5 +63,19 @@ public class ScoreSheetTest2 {
 		assertEquals(22, testSheet.getScoreInIndividualFrame(1));
 		//test total score of the game (22 + 8 + 4 = 34)
 		assertEquals(34, testSheet.getGameScore());
+		//test 2 consecutive strikes
+		
+		testSheet = new ScoreSheet();
+		assertTrue(testSheet.addThrow(10));
+		assertTrue(testSheet.addThrow(10));
+		assertTrue(testSheet.addThrow(4));
+		assertTrue(testSheet.addThrow(4));
+		//test first frame correct scoring
+		assertEquals(28, testSheet.getScoreInIndividualFrame(1));
+		//test second frame correct scoring
+		assertEquals(18, testSheet.getScoreInIndividualFrame(2));
+		//test correct game score
+		assertEquals(28+18+8, testSheet.getGameScore());
+		
 	}
 }
