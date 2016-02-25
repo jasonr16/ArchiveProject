@@ -1,5 +1,10 @@
 package chronoTimerMain.software;
-	
-public class Timer {
 
+import java.sql.Time;
+
+public class Timer {
+	private Time timer;
+	
+	public void setTime(){};
+	public void getTime(){};
 }

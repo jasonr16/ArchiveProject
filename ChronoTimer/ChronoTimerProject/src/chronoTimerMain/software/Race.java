@@ -1,5 +1,15 @@
 package chronoTimerMain.software;
 
-public class Race {
+import java.util.ArrayList;
 
+public class Race {
+	private Timer timer;
+	private ArrayList<Racer> racerList;
+	
+	public Race(){};
+	public Race(Timer time){};
+	
+	public void num(int racerNumber){};
+	public void clr(int racerNumber){};
+	
 }
