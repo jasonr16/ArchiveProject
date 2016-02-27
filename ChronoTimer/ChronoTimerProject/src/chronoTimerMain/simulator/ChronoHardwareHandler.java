@@ -1,6 +1,11 @@
 package chronoTimerMain.simulator;
 
+import java.util.ArrayList;
+
 public class ChronoHardwareHandler {
+	
+	private ArrayList<Sensor> sensors;
+	
 	public void power(boolean s){};
 	public void exit(){};
 	public void reset() {};

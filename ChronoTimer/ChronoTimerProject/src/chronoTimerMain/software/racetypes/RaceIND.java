@@ -1,9 +1,14 @@
 package chronoTimerMain.software.racetypes;
 
-import chronoTimerMain.software.Results;
+import chronoTimerMain.software.Race;
+import chronoTimerMain.software.Timer;
 
-public class RaceIND implements RaceTypes {
-	private Results results;
+public class RaceIND extends Race {
+	public RaceIND(Timer time) {
+		super(time);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void swap() {
 		// TODO Auto-generated method stub
