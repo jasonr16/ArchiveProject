@@ -1,10 +1,8 @@
 package chronoTimerMain.software;
 
-import java.sql.Time;
-
 public class Racer {
 	private int number;
-	private String raceDuration;
+	private String duration;
 	
 	public int getNumber() {
 		return number;
@@ -12,10 +10,10 @@ public class Racer {
 	public void setNumber(int number) {
 		this.number = number;
 	}
-	public String getRaceDuration() {
-		return raceDuration;
+	public String getDuration() {
+		return duration;
 	}
-	public void setRaceDuration(String raceDuration) {
-		this.raceDuration = raceDuration;
+	public void setDuration(String raceDuration) {
+		this.duration = raceDuration;
 	}
 }
