@@ -13,8 +13,8 @@ import java.util.Queue;
 
 public class RaceIND extends Race {
 	
-	/*TODO (from Jason) Please use the LinkedLists in the Race superclass for start/running/finish racer handling.
-		It contains all the methods in Queue plus allows me to access indexes for updating each Racer duration.
+	/*TODO (from Jason) I put these Queues in Race because my Timer duration methods need access to them.
+	 * I made them LinkedLists because I need to access indexes, but Java LinkedLists implement Queue methods too.
 		 **/
 	Queue<Racer> startQueue;
 	Queue<Racer> runningQueue;

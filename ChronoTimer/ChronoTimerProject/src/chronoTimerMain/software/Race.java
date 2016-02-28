@@ -15,7 +15,7 @@ public abstract class Race {
 	private Timer timer;
 	private LinkedList<Racer> startList;
 	private LinkedList<Racer> runningList;
-	private LinkedList<Racer> endedList;
+	private LinkedList<Racer> finishList;
 	
 	public Race(Timer time){};
 	
@@ -46,9 +46,9 @@ public abstract class Race {
 				return runningList.get(i);
 			}
 		}
-		for(int i = 0; i < endedList.size(); i++) {
-			if (endedList.get(i).getNumber() == racerNumber) {
-				return endedList.get(i);
+		for(int i = 0; i < finishList.size(); i++) {
+			if (finishList.get(i).getNumber() == racerNumber) {
+				return finishList.get(i);
 			}
 		}
 		return null;
