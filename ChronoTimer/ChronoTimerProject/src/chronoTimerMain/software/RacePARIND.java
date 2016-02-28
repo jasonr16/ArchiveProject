@@ -1,4 +1,4 @@
-package chronoTimerMain.software.racetypes;
+package chronoTimerMain.software;
 
 public class RacePARIND {
 	//not used in sprint 1

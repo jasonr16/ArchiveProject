@@ -2,13 +2,17 @@ package chronoTimerMain.software;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a single generic race event with multiple participating racers.
+ * A race is created via the NEWRUN command in ChronoTimer.
+ * Always contains a Timer object that is associated with ChronoTimer's internal clock.
+ * Racer queues are implemented by concrete classes that extend Race.
+ * @author yangxie
+ *
+ */
+
 public abstract class Race {
 	private Timer timer;
-	private ArrayList<Racer> racerList;
-	
-	public Race(Timer time){};
-	
-	
 	
 	/**
 	 * Duration is stored in racerList-obtain with racerList[i].getDuration(). 
@@ -32,24 +36,27 @@ public abstract class Race {
 	}
 	
 	/**
-	 * sets a racer to start next. Adds the racer to racerList with the specified number.
-	 * @param racerNumber
+	 * Adds a racer as the next racer to start in race
+	 * Corresponds to the NUM <NUMBER> command
+	 * @param racer
 	 */
-	public void num(int racerNumber){}
+	public abstract void addRacer(Racer racer);
+	
 	/**
-	 * removes the specified racer from racerList
+	 * Removes the next racer to start from the race
+	 * Corresponds to the CLR <NUMBER> command
 	 * @param racerNumber
 	 */
-	public void clr(int racerNumber){}
+	public abstract void removeRacer(Racer racer);
 
-	public abstract void swap();
-
-	public abstract void dnf();
+	/**
+	 * Marks the next racer to finish as DNF
+	 * Corresponds to the DNF
+	 */
+	public abstract void markRacerDNF();
 
 	public abstract void start();
 
 	public abstract void finish();
 	public abstract void trig(int channel);
-	
-	
 }
