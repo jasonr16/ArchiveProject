@@ -1,6 +1,6 @@
 package chronoTimerMain.software;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Represents a single generic race event with multiple participating racers.
@@ -13,6 +13,11 @@ import java.util.ArrayList;
 
 public abstract class Race {
 	private Timer timer;
+	private LinkedList<Racer> startList;
+	private LinkedList<Racer> runningList;
+	private LinkedList<Racer> endedList;
+	
+	public Race(Timer time){};
 	
 	/**
 	 * Duration is stored in racerList-obtain with racerList[i].getDuration(). 
@@ -23,7 +28,31 @@ public abstract class Race {
 	 */
 	public String getRacerDuration(int racerNumber) {
 		updateDuration(racerNumber);
-		return null;}
+		return getCorrectRacer(racerNumber).getDuration();
+	}
+	/**
+	 * helper method for finding the correct Racer in racerlist.
+	 * @param racerNumber
+	 * @return Racer with number raceNumber, or null if does not exist
+	 */
+	private Racer getCorrectRacer(int racerNumber) {
+		for(int i = 0; i < startList.size(); i++) {
+			if (startList.get(i).getNumber() == racerNumber) {
+				return startList.get(i);
+			}
+		}
+		for(int i = 0; i < runningList.size(); i++) {
+			if (runningList.get(i).getNumber() == racerNumber) {
+				return runningList.get(i);
+			}
+		}
+		for(int i = 0; i < endedList.size(); i++) {
+			if (endedList.get(i).getNumber() == racerNumber) {
+				return endedList.get(i);
+			}
+		}
+		return null;
+	}
 	
 	/** 
 	 * updateDuration updates the duration field in racerList's racers.
@@ -32,8 +61,9 @@ public abstract class Race {
 	 * @param racerNumber
 	 */
 	public void updateDuration(int racerNumber) {
-		
+		getCorrectRacer(racerNumber).setDuration(timer.getDurationAsString(racerNumber));
 	}
+
 	
 	/**
 	 * Adds a racer as the next racer to start in race
