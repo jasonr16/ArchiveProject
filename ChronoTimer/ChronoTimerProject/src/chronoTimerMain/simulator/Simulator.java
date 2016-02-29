@@ -7,65 +7,83 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Simulator {
-	private boolean eventWaiting;
-	private boolean fileinput;
-	private long initialTime;
+	private boolean fileinput=true;
+	private BufferedReader br;
 	private ConcurrentLinkedQueue<String> events=new ConcurrentLinkedQueue<String>();
-	private ConcurrentLinkedQueue<Long> eventTimes;
-	
+	private ConcurrentLinkedQueue<String> eventsInFileQueue;//this is to store commands from file
+	private ConcurrentLinkedQueue<Long> eventTimes;//used for file input
+	private Timer t;//used to create events at correct times for file input
+	private long lastTime;private long currentTime;
+	private final int FFmultiplier=360;
+
 	public Simulator(){
 		fileinput=false;
 	}
-	
+
 	public Simulator(File file) throws IOException{
 		eventTimes=new ConcurrentLinkedQueue<Long>();
-		captureInputLoop(file);
-		fileinput=true;
+		eventsInFileQueue=new ConcurrentLinkedQueue<String>();
+		readFile(file);
 	}
-	
-	//start the simulation
-	public void start(){
-		if(fileinput){
-			Timer t=new Timer();
-			t.schedule(new RunTask(),eventTimes.remove()-initialTime);
-		}
-	}
-	
-	public void changeEventwaiting(){
-		eventWaiting=!eventWaiting;
-	}
-	
-	public Long getNextTime(){
-		return(eventTimes.remove());
-	}
-	
-	public void captureInputLoop(File file) throws NumberFormatException, IOException{
+
+	private void readFile(File file) throws NumberFormatException, IOException{
 		FileInputStream fis = new FileInputStream(file);
 		//Construct BufferedReader from InputStreamReader
-		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+		br = new BufferedReader(new InputStreamReader(fis));
 		String[] temp=null;
-		String[] temp2=null;
+		String[] temp2=new String[2];
 		String line = null;
 		while ((line = br.readLine()) != null) {
 			//parse time and add to queue
-			temp=line.split("/t");
-			temp2=temp[0].split(".");
-			long t=Time.valueOf(temp[0]).getTime();
+			temp=line.split("\t");
+			line=temp[0];
+			temp2[0]=line.substring(0,8);
+			temp2[1]=line.substring(9);
+			long t=Time.valueOf(temp2[0]).getTime();
 			t+=Long.parseLong(temp2[1]);
 			eventTimes.add(t);
 			//add command to queue to be parsed by driver
-			events.add(temp[1]);
-			}
-		initialTime=eventTimes.peek();
+			eventsInFileQueue.add(temp[1]);
+		}
+		
 		br.close();
-	};
-	//TODO also switch with above
-	public void readFile(File file) {};
-	
-	public boolean listen(){//is there an event?
-		return(eventWaiting);
 	}
+
+	private void captureInputLoop() throws IOException {
+		String line="";
+		br = new BufferedReader(new InputStreamReader(System.in));
+		while(!line.equals("EXIT")){
+			System.out.print("Enter Command<EXIT to quit>: ");
+			line=br.readLine();
+			events.add(line);
+		}
+	}
+
 	
+	//these are for driver class to interact with simulator
+	//start the simulation
+	public void start() throws IOException{
+		if(fileinput){
+			t=new Timer();
+			lastTime=eventTimes.peek();
+			while(!eventTimes.isEmpty()){
+				t.schedule(new RunTask(),(eventTimes.remove()-lastTime)/FFmultiplier);
+			}
+		}else{
+			captureInputLoop();
+		}
+	}
+
+	class RunTask extends TimerTask {
+		@Override
+		public void run() {
+			events.add(eventsInFileQueue.remove());
+		}
+	}
+	public boolean listen(){//is there an event?
+		return(!events.isEmpty());
+	}
+
 	public String getEvent(){
 		if(listen()){
 			return(events.remove());
@@ -73,13 +91,6 @@ public class Simulator {
 			return("No command waiting");
 		}
 	}
+
 }
-//TODO
-class RunTask extends TimerTask {
-	
-	@Override
-	public void run() {
-		Simulator.changeEventwaiting();
-		
-	}
-}
+
