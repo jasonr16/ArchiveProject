@@ -4,6 +4,10 @@ public class Racer {
 	private int number;
 	private String duration;
 	
+	public Racer(int number) {
+		this.number = number;
+	}
+	
 	public int getNumber() {
 		return number;
 	}

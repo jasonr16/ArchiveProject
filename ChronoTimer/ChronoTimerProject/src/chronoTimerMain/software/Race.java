@@ -12,6 +12,7 @@ import java.util.LinkedList;
  */
 
 public abstract class Race {
+	private int runNumber = 1;
 	private Timer timer;
 	private LinkedList<Racer> startList;
 	private LinkedList<Racer> runningList;
@@ -71,6 +72,14 @@ public abstract class Race {
 	 * @param racer
 	 */
 	public abstract void addRacer(Racer racer);
+	/**
+	 * Adds a racer as the next racer to start in race
+	 * Corresponds to the NUM <NUMBER> command
+	 * @param racer
+	 */
+	public abstract void addRacer(int RacerNumber);
+	// I need add racers that take an int for racernumber. -Jason
+	
 	
 	/**
 	 * Removes the next racer to start from the race
@@ -78,15 +87,39 @@ public abstract class Race {
 	 * @param racerNumber
 	 */
 	public abstract void removeRacer(Racer racer);
+	/**
+	 * Removes the next racer to start from the race
+	 * Corresponds to the CLR <NUMBER> command
+	 * @param racerNumber
+	 */
+	public abstract void removeRacer(int racerNumber);
+	// I need remove racers that take an int for racernumber. -Jason
 
 	/**
 	 * Marks the next racer to finish as DNF
 	 * Corresponds to the DNF
 	 */
 	public abstract void markRacerDNF();
-
+	public abstract void swap();
 	public abstract void start();
 
 	public abstract void finish();
 	public abstract void trig(int channel);
+
+	public int getRunNumber() {
+		return runNumber;
+	}
+
+	public void setRunNumber(int runNumber) {
+		this.runNumber = runNumber;
+	}
+
+	public void print() {
+		System.out.println("Race " + runNumber);
+		for(int i = 0; i < finishList.size(); i++) {
+			System.out.println(finishList.get(i).getNumber() + "     "
+					+ getRacerDuration(finishList.get(i).getNumber()));
+		}
+		
+	}
 }

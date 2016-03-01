@@ -36,4 +36,8 @@ public class Timer {
 		return null;
 		
 	}
+	
+	public void storeEvent(String event) {
+		//TODO store all output in a file?
+	}
 }
