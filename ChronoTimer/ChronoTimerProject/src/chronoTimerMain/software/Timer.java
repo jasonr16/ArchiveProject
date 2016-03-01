@@ -32,4 +32,8 @@ public class Timer {
 		
 		return d.toString();
 	}
+	public String getCurrentTime() {
+		return null;
+		
+	}
 }
