@@ -32,11 +32,11 @@ public abstract class Race {
 		return getCorrectRacer(racerNumber).getDuration();
 	}
 	/**
-	 * helper method for finding the correct Racer in racerlist.
+	 * Method for finding the correct Racer in racerlists.
 	 * @param racerNumber
 	 * @return Racer with number raceNumber, or null if does not exist
 	 */
-	private Racer getCorrectRacer(int racerNumber) {
+	public Racer getCorrectRacer(int racerNumber) {
 		for(int i = 0; i < startList.size(); i++) {
 			if (startList.get(i).getNumber() == racerNumber) {
 				return startList.get(i);
@@ -72,14 +72,6 @@ public abstract class Race {
 	 * @param racer
 	 */
 	public abstract void addRacer(Racer racer);
-	/**
-	 * Adds a racer as the next racer to start in race
-	 * Corresponds to the NUM <NUMBER> command
-	 * @param racer
-	 */
-	public abstract void addRacer(int RacerNumber);
-	// I need add racers that take an int for racernumber. -Jason
-	
 	
 	/**
 	 * Removes the next racer to start from the race
@@ -87,13 +79,6 @@ public abstract class Race {
 	 * @param racerNumber
 	 */
 	public abstract void removeRacer(Racer racer);
-	/**
-	 * Removes the next racer to start from the race
-	 * Corresponds to the CLR <NUMBER> command
-	 * @param racerNumber
-	 */
-	public abstract void removeRacer(int racerNumber);
-	// I need remove racers that take an int for racernumber. -Jason
 
 	/**
 	 * Marks the next racer to finish as DNF

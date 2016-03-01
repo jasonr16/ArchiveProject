@@ -19,14 +19,14 @@ public class ChronoTimerEventHandler {
 		}
 		else if (isNum(token)) {
 			try {
-			race.addRacer(Integer.parseInt(st.nextToken()));	
+			race.addRacer(new Racer(Integer.parseInt(st.nextToken())));	
 			} catch (NumberFormatException e) {
 				System.out.println("Error - invalid number.");
 			}
 		}
 		else if (isClr(token)) {
 			try {
-				race.removeRacer(Integer.parseInt(st.nextToken()));	
+				race.removeRacer(race.getCorrectRacer(Integer.parseInt(st.nextToken())));	
 				} catch (NumberFormatException e) {
 					System.out.println("Error - invalid number.");
 				}

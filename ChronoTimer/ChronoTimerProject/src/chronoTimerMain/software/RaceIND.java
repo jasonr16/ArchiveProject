@@ -27,13 +27,11 @@ public class RaceIND extends Race {
 	public void swap() {
 		// TODO Auto-generated method stub	
 	}
-
 	@Override
 	public void addRacer(Racer racer) {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public void removeRacer(Racer racer) {
 		// TODO Auto-generated method stub
