@@ -185,8 +185,16 @@ public class Timer {
 	}	
 	
 	
-		
 	
+	
+	
+	
+	
+	
+	
+	
+		
+	//Internal Unit Tests
 	@Test
 		public void testCorrectStringFormat() {
 			setcurrentSysTimes();
