@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 public class ChronoTimerEventHandler {
 	private Timer timer;
 	private Race race;
+	private int runNumber = 1;
 	
 	public void timeEvent(String s){
 		StringTokenizer st = new StringTokenizer(s);
@@ -72,6 +73,8 @@ public class ChronoTimerEventHandler {
 		//TODO add other races in upcoming sprints.
 	};
 	
+	// TODO: default event type of new run is IND, so new run without event command should also
+	// create a new race?
 	public void newRun(){
 		race.setRunNumber(race.getRunNumber()+1);
 		System.out.println("A new race has begun.");
