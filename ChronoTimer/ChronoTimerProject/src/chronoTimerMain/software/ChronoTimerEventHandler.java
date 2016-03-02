@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 public class ChronoTimerEventHandler {
 	private Timer timer;
 	private Race race;
+	private int runNumber = 1;
 	
 	public void timeEvent(String s){
 		StringTokenizer st = new StringTokenizer(s);
@@ -19,26 +20,26 @@ public class ChronoTimerEventHandler {
 		}
 		else if (isNum(token)) {
 			try {
-			race.addRacer(new Racer(Integer.parseInt(st.nextToken())));	
+			race.addRacerToStart(new Racer(Integer.parseInt(st.nextToken())));	
 			} catch (NumberFormatException e) {
 				System.out.println("Error - invalid number.");
 			}
 		}
 		else if (isClr(token)) {
 			try {
-				race.removeRacer(race.getCorrectRacer(Integer.parseInt(st.nextToken())));	
+				race.removeRacerFromStart(race.getCorrectRacer(Integer.parseInt(st.nextToken())));	
 				} catch (NumberFormatException e) {
 					System.out.println("Error - invalid number.");
 				}
 		}
 		else if (isSwap(token)) {
-			race.swap();
+			race.swapRunningRacers();
 		}
 		else if (isStart(token)) {
-			race.start();
+			race.moveRacerToRunning();
 		}
 		else if (isFinish(token)) {
-			race.finish();
+			race.moveRacerToFinish();
 		}
 		else if (isTrig(token)) {
 			try {
@@ -48,7 +49,7 @@ public class ChronoTimerEventHandler {
 			}
 		}
 		else if (isDNF(token)) {
-			race.markRacerDNF();
+			race.handleRacerDNF();
 		}
 		else if (isNewRun(token)) {
 			this.newRun();
@@ -72,6 +73,8 @@ public class ChronoTimerEventHandler {
 		//TODO add other races in upcoming sprints.
 	};
 	
+	// TODO: default event type of new run is IND, so new run without event command should also
+	// create a new race?
 	public void newRun(){
 		race.setRunNumber(race.getRunNumber()+1);
 		System.out.println("A new race has begun.");
