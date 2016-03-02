@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.StringTokenizer;
 
+import org.junit.Test;
+
 public class Timer {
 	public static final int NOT_YET_TIMED = -100000;
 	private class RacerTime {
