@@ -118,33 +118,30 @@ public class Timer {
 	 * If the racer is still racing, returns elapsed time.
 	 */
 	public String getDurationAsString(int racerNum) {
-		int durationHours;
-		int durationMinutes;
-		int durationSeconds;
-		int durationNanos;
 		setCurrentTimes();
 		findCurrentTimeRelativeToSetTimes();
 		
 		RacerTime rT = racerTimes.get(racerNum);
 		
+		ChronoTimeFormatWrapper durationTime = new ChronoTimeFormatWrapper();
+		
 		if(rT.finishTime.getHour() != NOT_YET_TIMED) {
-			durationHours = rT.finishTime.getHour()-rT.startTime.getHour();
-			durationMinutes = rT.finishTime.getMinute()-rT.startTime.getMinute();
-			durationSeconds = rT.finishTime.getSecond()-rT.startTime.getSecond();
-			durationNanos = rT.finishTime.getNano()-rT.startTime.getNano();
+			durationTime.setHour(rT.finishTime.getHour()-rT.startTime.getHour());
+			durationTime.setMinute(rT.finishTime.getMinute()-rT.startTime.getMinute());
+			durationTime.setSecond(rT.finishTime.getSecond()-rT.startTime.getSecond());
+			durationTime.setNano(rT.finishTime.getNano()-rT.startTime.getNano());
 		}
 		else {
-			durationHours = adjustedTime.getHour()-rT.startTime.getHour();
-			durationMinutes = adjustedTime.getMinute()-rT.startTime.getMinute();
-			durationSeconds = adjustedTime.getSecond()-rT.startTime.getSecond();
-			durationNanos = adjustedTime.getNano()-rT.startTime.getNano();
+			durationTime.setHour(adjustedTime.getHour()-rT.startTime.getHour());
+			durationTime.setHour(adjustedTime.getMinute()-rT.startTime.getMinute());
+			durationTime.setHour(adjustedTime.getSecond()-rT.startTime.getSecond());
+			durationTime.setHour(adjustedTime.getNano()-rT.startTime.getNano());
 		}
 		
-		return durationHours + ":" + durationMinutes + ":" +
-		durationSeconds + "." + durationNanos;
+		return timeToString(durationTime);
 	}
 	/**
-	 * Gets the current time based on the set system time of ChronoTimer. 
+	 * Gets the current time based on the set system time of ChronoTimer. A timestamp for system commands.
 	 * If no Time has been set, it uses system time.
 	 * @return current ChronoTime String in hh:mm:ss.ns format.
 	 */
@@ -223,15 +220,31 @@ public class Timer {
 			adjustedTime.setNano(currentTime.getNano()-offsetTimeValues.getNano());
 		return 0;
 	}	
+	
+	public String timeToString(ChronoTimeFormatWrapper timer) {
+		return timer.getHour() + ":" + timer.getMinute() + ":" +
+				timer.getSecond() + "." + timer.getNano()/10000000;
+	}
 
 	public void storeEvent(String event) {
 		//TODO store all output in a file?
 	}
+		
 	
-	private class TestTimer {
-		@Test
+	@Test
 		public void testCorrectStringFormat() {
-			System.out.println(getCurrentChronoTime());
+			setCurrentTimes();
+			System.out.println(timeToString(currentTime));
 		}
+	@Test
+	public void testTimeSet() {
+		time("02:04:45.50");
+		System.out.println(timeToString(setTime));
+	}
+	@Test
+	public void testDuration() {
+		RacerTime rT = new RacerTime();
+		racerTimes.put(1, rT);
+		
 	}
 }
