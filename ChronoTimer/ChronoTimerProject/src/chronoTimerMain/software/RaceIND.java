@@ -38,36 +38,84 @@ public class RaceIND extends Race {
 	}
 	
 	/**
-	 * 
-	 * @param racer
+	 * Add a new racer to the end of the start queue
+	 * @param racer to be added
+	 * @return true if add was successful, else false
 	 */
 	@Override
-	public void addRacerToStart(Racer racer) {
-		// TODO Auto-generated method stub
-		
+	public boolean addRacerToStart(Racer racer) {
+		boolean result = false;
+		ArrayList<Racer> startList = super.getStartList();
+		if (!startList.contains(racer)) {
+			startList.add(racer);
+			result = true;
+		}
+		return result;
 	}
+	
+	/**
+	 * Remove a racer from the start queue
+	 * @param racer to be removed
+	 * @return true if remove was successful, else false
+	 */
 	@Override
-	public void removeRacer(Racer racer) {
+	public boolean removeRacerFromStart(Racer racer) {
+		boolean result = false;
+		ArrayList<Racer> startList = super.getStartList();
+		if (startList.contains(racer)) {
+			startList.remove(racer);
+			result = true;
+		}
+		return result;
+	}
+
+	/**
+	 * Remove the racer at the head of the running queue and add him to the finish queue.
+	 * Mark the racer's dnf field as true.
+	 * @return true if a racer was handled, else false
+	 */
+	@Override
+	public boolean handleRacerDNF() {
+		boolean result = false;
+		ArrayList<Racer> runningList = super.getRunningList();
+		ArrayList<Racer> finishList = super.getFinishList();
+		Racer racer = null;
+		if (runningList.size() >= 1) {
+			racer = runningList.remove(0);
+			racer.setDNF(true);
+			finishList.add(racer);
+		}
+		return result;
+	}
+
+	/**
+	 * Remove the racer at the end of the running queue (latest racer to start) and add him
+	 * back to the head of the start queue.
+	 * Reset the racer's start time field.
+	 * @return true if a racer was handled, else false
+	 */
+	@Override
+	public boolean handleRacerCancel() {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public void markRacerDNF() {
+	public boolean swapRunningRacers() {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public void start() {
+	public boolean moveRacerToRunning() {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public void finish() {
+	public boolean moveRacerToFinish() {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override

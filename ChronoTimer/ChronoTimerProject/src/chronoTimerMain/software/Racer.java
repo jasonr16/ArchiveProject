@@ -9,16 +9,13 @@ import java.time.Instant;
  */
 public class Racer {
 	private int number;
-	private Instant startTime;
-	private Instant finishTime;
 	// duration can be calculated from start and finish time by passing a Racer object
 	// to the Timer class?
 	private String duration;
+	private boolean dnf;
 	
 	public Racer(int number) {
 		this.number = number;
-		this.startTime = null;
-		this.finishTime = null;
 	}
 	
 	public int getNumber() {
@@ -27,29 +24,28 @@ public class Racer {
 	public void setNumber(int number) {
 		this.number = number;
 	}
-
-	public Instant getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Instant startTime) {
-		this.startTime = startTime;
-	}
-
-	public Instant getFinishTime() {
-		return finishTime;
-	}
-
-	public void setFinishTime(Instant finishTime) {
-		this.finishTime = finishTime;
-	}
 	
 	public String getDuration() {
-		return this.duration;
+		String result;
+		if (dnf) {
+			result = "DNF";
+		}
+		else {
+			result = this.duration;
+		}
+		return result;
 	}
 
 	public void setDuration(String durationAsString) {
 		this.duration = durationAsString;
 		
+	}
+	
+	public boolean getDNF() {
+		return this.dnf;
+	}
+	
+	public void setDNF(boolean dnf) {
+		this.dnf = dnf;
 	}
 }

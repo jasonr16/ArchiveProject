@@ -102,24 +102,24 @@ public abstract class Race {
 	 * Corresponds to the NUM <NUMBER> command
 	 * @param racer
 	 */
-	public abstract void addRacerToStart(Racer racer);
+	public abstract boolean addRacerToStart(Racer racer);
 	
 	/**
 	 * Removes the next racer to start from the race
 	 * Corresponds to the CLR <NUMBER> command
 	 * @param racerNumber
 	 */
-	public abstract void removeRacerFromStart(Racer racer);
+	public abstract boolean removeRacerFromStart(Racer racer);
 
 	/**
 	 * Marks the next racer to finish as DNF
 	 * Corresponds to the DNF
 	 */
-	public abstract void handleRacerDNF();
-	public abstract void handleRacerCancel();
+	public abstract boolean handleRacerDNF();
+	public abstract boolean handleRacerCancel();
 	public abstract boolean swapRunningRacers();
-	public abstract void moveRacerToRunning();
-	public abstract void moveRacerToFinish();
+	public abstract boolean moveRacerToRunning();
+	public abstract boolean moveRacerToFinish();
 
 	public abstract void trig(int channel);
 
@@ -131,12 +131,12 @@ public abstract class Race {
 		this.runNumber = runNumber;
 	}
 
+	// TODO: also have to handle specific run parameter
 	public void print() {
 		System.out.println("Race " + runNumber);
 		for(int i = 0; i < finishList.size(); i++) {
 			System.out.println(finishList.get(i).getNumber() + "     "
 					+ getRacerDuration(finishList.get(i).getNumber()));
 		}
-		
 	}
 }

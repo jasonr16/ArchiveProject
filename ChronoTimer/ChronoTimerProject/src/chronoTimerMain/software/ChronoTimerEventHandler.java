@@ -4,7 +4,7 @@ import java.util.StringTokenizer;
 
 public class ChronoTimerEventHandler {
 	private Timer timer;
-	private Race race;
+	private Race race; // TODO: array or list of races?
 	private int runNumber = 1;
 	
 	public void timeEvent(String s){
