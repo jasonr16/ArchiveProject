@@ -102,25 +102,25 @@ public abstract class Race {
 	 * Corresponds to the NUM <NUMBER> command
 	 * @param racer
 	 */
-	public abstract void addRacer(Racer racer);
+	public abstract void addRacerToStart(Racer racer);
 	
 	/**
 	 * Removes the next racer to start from the race
 	 * Corresponds to the CLR <NUMBER> command
 	 * @param racerNumber
 	 */
-	public abstract void removeRacer(Racer racer);
+	public abstract void removeRacerFromStart(Racer racer);
 
 	/**
 	 * Marks the next racer to finish as DNF
 	 * Corresponds to the DNF
 	 */
-	public abstract void markRacerDNF();
-	public abstract void markRacerCancel();
-	public abstract boolean swap();
-	public abstract void start();
+	public abstract void handleRacerDNF();
+	public abstract void handleRacerCancel();
+	public abstract boolean swapRunningRacers();
+	public abstract void moveRacerToRunning();
+	public abstract void moveRacerToFinish();
 
-	public abstract void finish();
 	public abstract void trig(int channel);
 
 	public int getRunNumber() {

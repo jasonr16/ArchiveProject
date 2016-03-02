@@ -37,8 +37,12 @@ public class RaceIND extends Race {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @param racer
+	 */
 	@Override
-	public void addRacer(Racer racer) {
+	public void addRacerToStart(Racer racer) {
 		// TODO Auto-generated method stub
 		
 	}

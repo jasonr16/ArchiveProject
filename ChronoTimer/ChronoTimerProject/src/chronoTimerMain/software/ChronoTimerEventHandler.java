@@ -20,26 +20,26 @@ public class ChronoTimerEventHandler {
 		}
 		else if (isNum(token)) {
 			try {
-			race.addRacer(new Racer(Integer.parseInt(st.nextToken())));	
+			race.addRacerToStart(new Racer(Integer.parseInt(st.nextToken())));	
 			} catch (NumberFormatException e) {
 				System.out.println("Error - invalid number.");
 			}
 		}
 		else if (isClr(token)) {
 			try {
-				race.removeRacer(race.getCorrectRacer(Integer.parseInt(st.nextToken())));	
+				race.removeRacerFromStart(race.getCorrectRacer(Integer.parseInt(st.nextToken())));	
 				} catch (NumberFormatException e) {
 					System.out.println("Error - invalid number.");
 				}
 		}
 		else if (isSwap(token)) {
-			race.swap();
+			race.swapRunningRacers();
 		}
 		else if (isStart(token)) {
-			race.start();
+			race.moveRacerToRunning();
 		}
 		else if (isFinish(token)) {
-			race.finish();
+			race.moveRacerToFinish();
 		}
 		else if (isTrig(token)) {
 			try {
@@ -49,7 +49,7 @@ public class ChronoTimerEventHandler {
 			}
 		}
 		else if (isDNF(token)) {
-			race.markRacerDNF();
+			race.handleRacerDNF();
 		}
 		else if (isNewRun(token)) {
 			this.newRun();
