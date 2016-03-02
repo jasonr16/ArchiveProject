@@ -1,6 +1,6 @@
-package chronoTimerMain.software.Times;
+package chronoTimerMain.software;
 
-public abstract class Times {
+public class ChronoTimeFormatWrapper {
 	private int hour;
 	private int minute;
 	private int second;
@@ -24,10 +24,10 @@ public abstract class Times {
 	public void setSecond(int second) {
 		this.second = second;
 	}
-	public int getNanoseconds() {
+	public int getNano() {
 		return nanoseconds;
 	}
-	public void setNanoseconds(int nanoseconds) {
+	public void setNano(int nanoseconds) {
 		this.nanoseconds = nanoseconds;
 	}
 	
