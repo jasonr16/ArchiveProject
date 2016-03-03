@@ -6,7 +6,7 @@ public class ChronoHardwareHandler {
 	
 	private ArrayList<Sensor> sensors;
 	
-	public void inputFromSimulator(String command) {
+	public void inputFromSimulator(String command, String[] args) {
 		//TODO call from simulator
 	}
 	public void power(boolean s){};
