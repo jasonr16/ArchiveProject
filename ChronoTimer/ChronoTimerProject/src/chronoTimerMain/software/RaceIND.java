@@ -1,5 +1,6 @@
 package chronoTimerMain.software;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -16,24 +17,35 @@ public class RaceIND extends Race {
 	/*TODO (from Jason) I put these Queues in Race because my Timer duration methods need access to them.
 	 * I made them LinkedLists because I need to access indexes, but Java LinkedLists implement Queue methods too.
 		 **/
-	Queue<Racer> startQueue;
-	Queue<Racer> runningQueue;
-	Queue<Racer> finishQueue;
 	
-	public RaceIND(Timer time) {
-		startQueue = new LinkedList<Racer>();
+	public RaceIND(Timer timer) {
+		super(timer);
 	}
 
-	public void swap() {
-		// TODO Auto-generated method stub	
+	/**
+	 * Swap the next two racers that will finish
+	 * @return true if swap was successful, else false
+	 */
+	public boolean swap() {
+		boolean result = false;
+		ArrayList<Racer> runningList = super.getRunningList();
+		if (runningList.size() >= 2) {
+			Racer temp = runningList.remove(0);
+			runningList.add(1, temp);
+			result = true;
+		}
+		return result;
 	}
-
+	
+	/**
+	 * 
+	 * @param racer
+	 */
 	@Override
-	public void addRacer(Racer racer) {
+	public void addRacerToStart(Racer racer) {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public void removeRacer(Racer racer) {
 		// TODO Auto-generated method stub
