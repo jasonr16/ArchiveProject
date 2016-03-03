@@ -2,11 +2,13 @@ import java.io.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import chronoTimerMain.simulator.ChronoHardwareHandler;
 import chronoTimerMain.simulator.Simulator;
 
 public class ChronoDriver {
 	public static void main (String [] args) throws IOException{
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		ChronoHardwareHandler hardware=new ChronoHardwareHandler();
 		String input="";
 		boolean actionSuccess=false;
 		Simulator Sim;
@@ -31,7 +33,7 @@ public class ChronoDriver {
 			default:Sim=new Simulator();
 		}
 		Timer listenTimer=new Timer();
-		listenTimer.scheduleAtFixedRate(new ListenTask(Sim),(long) 0, (long) 10);
+		listenTimer.scheduleAtFixedRate(new ListenTask(Sim,hardware),(long) 0, (long) 10);
 		Sim.start();
 		
 		
@@ -39,15 +41,17 @@ public class ChronoDriver {
 	
 	static class ListenTask extends TimerTask {
         Simulator sim;
-		public ListenTask(Simulator sim){
+        ChronoHardwareHandler x;
+		public ListenTask(Simulator sim, ChronoHardwareHandler hardware){
         	this.sim=sim;
+        	x=hardware;
         }
 		@Override
 		public void run() {
 			Command currentCommand;
 			if(sim.listen()){
 				currentCommand=new Command(sim.getEvent());
-				currentCommand.execute();
+				currentCommand.execute(x);
 			}
 		}
     }
@@ -64,10 +68,9 @@ public class ChronoDriver {
 				args[1]=temp[2];
 			}
 		}
-		//TODO
-		public void execute(){
-			//temporary
-			System.out.println(command);
+		
+		public void execute(ChronoHardwareHandler hardware){
+			hardware.inputFromSimulator(command, args);
 		}
 	}
 }
