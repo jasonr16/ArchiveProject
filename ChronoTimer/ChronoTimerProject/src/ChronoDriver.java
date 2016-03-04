@@ -54,7 +54,7 @@ public class ChronoDriver {
 		public void run() {
 			Command currentCommand;
 			if(sim.listen()){
-				currentCommand=new Command(sim.getEvent());
+				currentCommand=new Command(sim.getEvent(),sim.getEventTimestamp());
 				currentCommand.execute(x);
 			}
 		}
@@ -62,8 +62,10 @@ public class ChronoDriver {
 	static class Command{
 		String[] args=new String[2];
 		String command;
-		public Command(String event){
+		String timestamp;
+		public Command(String event,String timeStamp){
 			String[] temp=event.split(" ");
+			timestamp=timeStamp;
 			command=temp[0];
 			if(temp.length==2){
 						args[0]=temp[1];
@@ -74,7 +76,7 @@ public class ChronoDriver {
 		}
 		
 		public void execute(ChronoHardwareHandler hardware){
-			hardware.inputFromSimulator(command, args);
+			hardware.inputFromSimulator(command, args,timestamp);
 		}
 	}
 }

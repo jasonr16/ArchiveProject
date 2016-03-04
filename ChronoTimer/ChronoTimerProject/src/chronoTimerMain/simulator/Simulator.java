@@ -14,6 +14,7 @@ public class Simulator {
 	private ConcurrentLinkedQueue<String> events=new ConcurrentLinkedQueue<String>();
 	private ConcurrentLinkedQueue<String> eventsInFileQueue;//this is to store commands from file
 	private ConcurrentLinkedQueue<Long> eventTimes;//used for file input
+	private ConcurrentLinkedQueue<String> timesInFileQueue=new ConcurrentLinkedQueue<String>();//this is to store timestamps from file
 	private Timer t;//used to create events at correct times for file input
 	private long lastTime;private long currentTime;
 	private final int FFmultiplier=500;
@@ -26,6 +27,7 @@ public class Simulator {
 		eventTimes=new ConcurrentLinkedQueue<Long>();
 		eventsInFileQueue=new ConcurrentLinkedQueue<String>();
 		readFile(file);
+		
 	}
 
 	private void readFile(File file) throws NumberFormatException, IOException{
@@ -35,10 +37,12 @@ public class Simulator {
 		String[] temp=null;
 		String[] temp2=new String[2];
 		String line = null;
+		
 		while ((line = br.readLine()) != null) {
 			//parse time and add to queue
 			temp=line.split("\t");
 			line=temp[0];
+			timesInFileQueue.add(line);
 			temp2[0]=line.substring(0,8);
 			temp2[1]=line.substring(9);
 			long t=Time.valueOf(temp2[0]).getTime();
@@ -85,7 +89,9 @@ public class Simulator {
 	public boolean listen(){//is there an event?
 		return(!events.isEmpty());
 	}
-
+	public String getEventTimestamp(){
+		return(timesInFileQueue.remove());
+	}
 	public String getEvent(){
 		if(listen()){
 			return(events.remove());

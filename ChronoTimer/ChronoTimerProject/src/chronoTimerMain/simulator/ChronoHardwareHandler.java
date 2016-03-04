@@ -49,8 +49,9 @@ public class ChronoHardwareHandler {
 	/**
 	 * Interaction between simulator and rest of ChronoTimer
 	 * @param command
+	 * @param timestamp 
 	 **/
-	public void inputFromSimulator(String command, String[] args) {
+	public void inputFromSimulator(String command, String[] args, String timestamp) {
 		eventLog.add(new SingleEvent(time.getCurrentChronoTime(), command, args));
 		command = command.toUpperCase();
 		
