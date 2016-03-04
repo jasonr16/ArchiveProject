@@ -14,28 +14,30 @@ public class ChronoDriver {
 		ChronoHardwareHandler hardware=new ChronoHardwareHandler();
 		String input="";
 		boolean actionSuccess=false;
-		Simulator Sim;
+		Simulator Sim=new Simulator();
 		while(!actionSuccess){
 			System.out.print("File or Console input<C or F> :");
 			input=br.readLine().trim().toUpperCase();
-			if(input.equals("C")||input.equals("F")) actionSuccess=true;
-		}
-		switch(input){
-		case "C":Sim = new Simulator();
-				 break;
-		case "F":
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Text file", "txt");
-				choose.setFileFilter(filter);
-				int returnVal = choose.showOpenDialog(null);
-				if(returnVal == JFileChooser.APPROVE_OPTION) {
-					System.out.println("Running Simulator from file: " +
-					choose.getSelectedFile().getName()+ " ...");
-				}
-				Sim=new Simulator(choose.getSelectedFile());
-				break;
+			if(!input.equals("C")&&!input.equals("F")) continue;
+			switch(input){
+			case "C":Sim = new Simulator();
+					actionSuccess=true;
+					 break;
+			case "F":
+					FileNameExtensionFilter filter = new FileNameExtensionFilter("Text file", "txt");
+					choose.setFileFilter(filter);
+					int returnVal=choose.showOpenDialog(null);
+					if(returnVal == JFileChooser.APPROVE_OPTION) {
+						System.out.println("Running Simulator from file: " +
+						choose.getSelectedFile().getName()+ " ...");
+						Sim=new Simulator(choose.getSelectedFile());
+						actionSuccess=true;
+						break;
+					}
+			}
 			
-		default:Sim=new Simulator();
 		}
+		
 		Timer listenTimer=new Timer();
 		listenTimer.scheduleAtFixedRate(new ListenTask(Sim,hardware),(long) 0, (long) 10);
 		Sim.start();
