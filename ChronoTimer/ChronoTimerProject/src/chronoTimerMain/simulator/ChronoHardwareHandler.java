@@ -7,7 +7,6 @@ public class ChronoHardwareHandler {
 	private ArrayList<Sensor> sensors;
 	private boolean power = false;
 	
-	
 	/**
 	 * 
 	 * Interaction between simulator and rest of ChronoTimer
@@ -20,6 +19,9 @@ public class ChronoHardwareHandler {
 		switch (command){
 			
 		}
+	}
+	public void inputFromSimulator(String command, String[] args) {
+		//TODO call from simulator
 	}
 	/**
 	 * Toggles the interaction between Hardware and Software

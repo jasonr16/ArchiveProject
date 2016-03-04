@@ -1,250 +1,120 @@
-/**
- * Time is meant to be encapsulated to handle all time manipulations for system times, racer times, etc. 
- * It provides strings to other classes for racer startTimes, finishTimes, and total time duration. 
- * 
- */
 package chronoTimerMain.software;
 
+import static org.junit.Assert.assertEquals;
+
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
+import java.time.temporal.Temporal;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 
 public class Timer {
-	public static final int NOT_YET_TIMED = -100000;
-	private class RacerTime {
-		private ChronoTimeFormatWrapper startTime;
-		private ChronoTimeFormatWrapper finishTime;
-		private RacerTime() {
-			startTime.setHour(NOT_YET_TIMED);
-			startTime.setMinute(NOT_YET_TIMED);
-			startTime.setSecond(NOT_YET_TIMED);
-			startTime.setNano(NOT_YET_TIMED);
-			
-			finishTime.setHour(NOT_YET_TIMED);
-			finishTime.setMinute(NOT_YET_TIMED);
-			finishTime.setSecond(NOT_YET_TIMED);
-			finishTime.setNano(NOT_YET_TIMED);
-		}
-	}
-	/**
-	 * systemTimer may be changed to an offset value that modifies the system clock to print out the correct time.
-	 */
-	private ChronoTimeFormatWrapper adjustedTime;
-	private ChronoTimeFormatWrapper setTime;
-	private ChronoTimeFormatWrapper currentTime;
-	private ChronoTimeFormatWrapper offsetTimeValues;
-
-	private LinkedHashMap<Integer, RacerTime> racerTimes;
-	
+	// TODO: what if time is set again? Wouldn't the system start time also have to reset 
+	// so the correct durations are calculated?
+	LocalDateTime setStartChronoTime;
+	LocalDateTime systemStartTime; 
 	public Timer() {
-		adjustedTime = new ChronoTimeFormatWrapper();
-		setTime = new ChronoTimeFormatWrapper();
-		currentTime = new ChronoTimeFormatWrapper();
-		offsetTimeValues = new ChronoTimeFormatWrapper();
-		
-		LocalDateTime currentSystemTime = LocalDateTime.now();
-		
-		setTime.setHour(currentSystemTime.getHour());
-		setTime.setMinute(currentSystemTime.getMinute());
-		setTime.setSecond(currentSystemTime.getSecond());
-		setTime.setNano(currentSystemTime.getNano());
+		setStartChronoTime = LocalDateTime.now();
+		systemStartTime = LocalDateTime.now();
 	}
 	
 	/**
-	 * sets the system time
-	 * @param hhmmssss
+	 * sets the chrono system time as different from the system's time
+	 * @param hh:mm:ss.n
 	 */
-	public void time(String hhmmssss) {
-		StringTokenizer st = new StringTokenizer(hhmmssss, ":.");
-		setTime.setHour(Integer.parseInt(st.nextToken()));
-		setTime.setMinute(Integer.parseInt(st.nextToken()));
-		setTime.setSecond(Integer.parseInt(st.nextToken()));
-		setTime.setNano(Integer.parseInt(st.nextToken()));
-		
-		setCurrentTimes();
-		
-		offsetTimeValues.setHour(currentTime.getHour()-setTime.getHour());
-		offsetTimeValues.setMinute(currentTime.getMinute()-setTime.getMinute());
-		offsetTimeValues.setSecond(currentTime.getSecond()-setTime.getSecond());
-		offsetTimeValues.setNano(currentTime.getNano()-setTime.getNano());
-
-	}
-	
-	private void setCurrentTimes() {
-		LocalDateTime currentSystemTime = LocalDateTime.now();
-		
-		currentTime.setHour(currentSystemTime.getHour());
-		currentTime.setMinute(currentSystemTime.getMinute());
-		currentTime.setSecond(currentSystemTime.getSecond());
-		currentTime.setNano(currentSystemTime.getNano());
-	}
-	/**
-	 * Assigns a ChronoTime start time to a racer.
-	 * @param racerNum
-	 */
-	public void setStartTimeForRacer(int racerNumber) {
-		setCurrentTimes();
-		findCurrentTimeRelativeToSetTimes();
-		RacerTime rT = new RacerTime();
-		rT.startTime.setHour(adjustedTime.getHour());
-		rT.startTime.setMinute(adjustedTime.getMinute());
-		rT.startTime.setSecond(adjustedTime.getSecond());
-		rT.startTime.setNano(adjustedTime.getNano());
-		
-		racerTimes.put(racerNumber, rT);
-	}
-	/**
-	 * Assigns a ChronoTime finish time to a racer.
-	 * @param racerNum
-	 */
-	public void setFinishTimeForRacer(int racerNumber) {
-		setCurrentTimes();
-		findCurrentTimeRelativeToSetTimes();
-		RacerTime rT = new RacerTime();
-		rT.finishTime.setHour(adjustedTime.getHour());
-		rT.finishTime.setMinute(adjustedTime.getMinute());
-		rT.finishTime.setSecond(adjustedTime.getSecond());
-		rT.finishTime.setNano(adjustedTime.getNano());
-		
-		racerTimes.put(racerNumber, rT);
-	}
-	/**
-	 * This method gets the race duration of a racer.
-	 * @param racerNum
-	 * @return a Chrono Time String of a Racer in format hh:mm:ss.ns. 
-	 * If the racer has finished, returns the elapsed time. 
-	 * If the racer is still racing, returns elapsed time.
-	 */
-	public String getDurationAsString(int racerNum) {
-		setCurrentTimes();
-		findCurrentTimeRelativeToSetTimes();
-		
-		RacerTime rT = racerTimes.get(racerNum);
-		
-		ChronoTimeFormatWrapper durationTime = new ChronoTimeFormatWrapper();
-		
-		if(rT.finishTime.getHour() != NOT_YET_TIMED) {
-			durationTime.setHour(rT.finishTime.getHour()-rT.startTime.getHour());
-			durationTime.setMinute(rT.finishTime.getMinute()-rT.startTime.getMinute());
-			durationTime.setSecond(rT.finishTime.getSecond()-rT.startTime.getSecond());
-			durationTime.setNano(rT.finishTime.getNano()-rT.startTime.getNano());
+	public void time(String hhmmssn) {
+		if(hhmmssn.length() != 10) {
+			System.out.println("Error. Time not in format hh:mm:ss.n");
 		}
 		else {
-			durationTime.setHour(adjustedTime.getHour()-rT.startTime.getHour());
-			durationTime.setHour(adjustedTime.getMinute()-rT.startTime.getMinute());
-			durationTime.setHour(adjustedTime.getSecond()-rT.startTime.getSecond());
-			durationTime.setHour(adjustedTime.getNano()-rT.startTime.getNano());
+			StringTokenizer st = new StringTokenizer(hhmmssn, ":.");
+			try {
+			setStartChronoTime = setStartChronoTime.withHour(Integer.parseInt(st.nextToken()));
+			setStartChronoTime = setStartChronoTime.withMinute(Integer.parseInt(st.nextToken()));
+			setStartChronoTime = setStartChronoTime.withSecond(Integer.parseInt(st.nextToken()));
+			setStartChronoTime = setStartChronoTime.withNano(Integer.parseInt(st.nextToken())*100000000);
+			} catch (NumberFormatException e) {
+				System.out.println("Error. Time format not hh:mm:ss.n");
+			}
 		}
-		
-		return timeToString(durationTime);
 	}
+	
+	/**
+	 * getRunDuration takes two formatted chronoTime strings and returns the difference between them.
+	 * @param startTime
+	 * @param finishTime
+	 * @return the elapsed time formatted hh:mm:ss.ns between a start and finish time.
+	 */
+	public String getRunDuration(String startTime, String finishTime) {
+		StringTokenizer stStart = new StringTokenizer(startTime, ":.");
+		StringTokenizer stFinish = new StringTokenizer(finishTime, ":.");
+		//subtract start times from finish times
+		return String.format("%02d:%02d:%02d.%01d", 
+				(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
+				(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
+				(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
+				(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))));
+	}
+	
 	/**
 	 * Gets the current time based on the set system time of ChronoTimer. A timestamp for system commands.
 	 * If no Time has been set, it uses system time.
 	 * @return current ChronoTime String in hh:mm:ss.ns format.
 	 */
 	public String getCurrentChronoTime() {
-		//current system times - offsets
-		setCurrentTimes();
-		
-		findCurrentTimeRelativeToSetTimes();
-		
-		return adjustedTime.getHour() + ":" + adjustedTime.getMinute() + ":" +
-			adjustedTime.getSecond() + "." + adjustedTime.getNano();
-		
-	}
-	
-	private void findCurrentTimeRelativeToSetTimes() {
-		int carryout = findAndSetNanoseconds();
-		carryout = findAndSetSeconds(carryout);
-		carryout = findAndSetMinutes(carryout);
-		findAndSetHours(carryout);
-		
-	}
-	
-	private void findAndSetHours(int carryout) {
-		if(currentTime.getHour()-offsetTimeValues.getHour() < 0) {
-			adjustedTime.setHour(currentTime.getHour()-offsetTimeValues.getHour()+24+carryout);
+			Duration d = Duration.between(systemStartTime, LocalDateTime.now());
+			return timeToString (d.addTo(setStartChronoTime));
 			
-		}
-		else if(currentTime.getHour()-offsetTimeValues.getHour() >= 24) {
-			adjustedTime.setHour(currentTime.getHour()-offsetTimeValues.getHour()-24+carryout);
-			
-		}
-		else
-			adjustedTime.setMinute(currentTime.getHour()-offsetTimeValues.getHour()+carryout);
-		
-		
-	}
-
-	private int findAndSetMinutes(int carryout) {
-		if(currentTime.getMinute()-offsetTimeValues.getMinute() < 0) {
-			adjustedTime.setMinute(currentTime.getMinute()-offsetTimeValues.getMinute()+60+carryout);
-			return -1;
-		}
-		else if(currentTime.getMinute()-offsetTimeValues.getMinute() >= 60) {
-			adjustedTime.setMinute(currentTime.getMinute()-offsetTimeValues.getMinute()-60+carryout);
-			return 1;
-		}
-		else
-			adjustedTime.setMinute(currentTime.getMinute()-offsetTimeValues.getMinute()+carryout);
-		return 0;
-	}
-
-	private int findAndSetSeconds(int carryout) {
-		if(currentTime.getSecond()-offsetTimeValues.getSecond() < 0) {
-			adjustedTime.setSecond(currentTime.getSecond()-offsetTimeValues.getSecond()+60+carryout);
-			return -1;
-		}
-		else if(currentTime.getSecond()-offsetTimeValues.getSecond() >= 60) {
-			adjustedTime.setSecond(currentTime.getSecond()-offsetTimeValues.getSecond()-60+carryout);
-			return 1;
-		}
-		else
-			adjustedTime.setSecond(currentTime.getSecond()-offsetTimeValues.getSecond()+carryout);
-		return 0;
-	}
-
-	private int findAndSetNanoseconds() {
-		if(currentTime.getNano()-offsetTimeValues.getNano() < 0) {
-			adjustedTime.setNano(currentTime.getNano()-offsetTimeValues.getNano()+100);
-			return -1;
-		}
-		else if(currentTime.getNano()-offsetTimeValues.getNano() >= 100) {
-			adjustedTime.setNano(currentTime.getNano()-offsetTimeValues.getNano()-100);
-			return 1;
-		}
-		else
-			adjustedTime.setNano(currentTime.getNano()-offsetTimeValues.getNano());
-		return 0;
 	}	
-	
-	public String timeToString(ChronoTimeFormatWrapper timer) {
-		return timer.getHour() + ":" + timer.getMinute() + ":" +
-				timer.getSecond() + "." + timer.getNano()/10000000;
+	private String timeToString(Temporal t) {
+		int nano = ((LocalDateTime) t).getNano();
+		nano = getMostSignificantDigit(nano);//print only the most significant digit
+		return String.format("%02d:%02d:%02d.%01d", 
+				((LocalDateTime) t).getHour(),((LocalDateTime) t).getMinute(),
+				((LocalDateTime) t).getSecond(),nano);
 	}
-
-	public void storeEvent(String event) {
-		//TODO store all output in a file?
+	private int getMostSignificantDigit(int parseInt) {
+		if(parseInt < 10)
+			return parseInt;
+		else
+			return getMostSignificantDigit(parseInt/10);
 	}
-		
-	
-	@Test
-		public void testCorrectStringFormat() {
-			setCurrentTimes();
-			System.out.println(timeToString(currentTime));
+	//Internal Unit Tests
+		@Test
+			public void testCorrectStringFormat() {
+			setStartChronoTime = setStartChronoTime.withHour(12);
+			setStartChronoTime = setStartChronoTime.withMinute(11);
+			setStartChronoTime = setStartChronoTime.withSecond(10);
+			setStartChronoTime = setStartChronoTime.withNano(900000000);
+				assertEquals("12:11:10.9", timeToString(setStartChronoTime));
+			}
+		@Test
+		public void testTimeSet() {
+			time("02:04:45.5");
+			assertEquals("02:04:45.5", timeToString(setStartChronoTime));
 		}
-	@Test
-	public void testTimeSet() {
-		time("02:04:45.50");
-		System.out.println(timeToString(setTime));
-	}
-	@Test
-	public void testDuration() {
-		RacerTime rT = new RacerTime();
-		racerTimes.put(1, rT);
 		
-	}
+		@Test 
+		public void testGetChronoTime() {			
+			setStartChronoTime = setStartChronoTime.withHour(0);
+			setStartChronoTime = setStartChronoTime.withMinute(0);
+			setStartChronoTime = setStartChronoTime.withSecond(9);
+			setStartChronoTime = setStartChronoTime.withNano(0);
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println(getCurrentChronoTime());
+			assertEquals("00:00:1", getCurrentChronoTime().substring(0, 7));
+			
+			
+		}
+		@Test
+		public void testGetRunDuration() {
+			assertEquals("01:01:01.1", getRunDuration("02:02:02.2", "03:03:03.3"));
+		}
 }

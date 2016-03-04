@@ -4,21 +4,20 @@ import java.time.Instant;
 
 /**
  * Represents a racer who participates in a racing event.
- * A racer is assigned a number, and keeps track of a start time and finish time
- * in an event.
+ * A racer is assigned a number, and keeps track of its start time and finish time
+ * in an event, as well as other special conditions such as DNF.
  */
 public class Racer {
 	private int number;
-	private Instant startTime;
-	private Instant finishTime;
-	// duration can be calculated from start and finish time by passing a Racer object
-	// to the Timer class?
-	private String duration;
+	private String startTime; // timestamp of start time
+	private String finishTime; // timestamp of finish time
+	private boolean dnf; // whether the racer did not finish a race
 	
 	public Racer(int number) {
 		this.number = number;
-		this.startTime = null;
-		this.finishTime = null;
+		this.setStartTime("");
+		this.setFinishTime("");
+		this.dnf = false;
 	}
 	
 	public int getNumber() {
@@ -27,29 +26,28 @@ public class Racer {
 	public void setNumber(int number) {
 		this.number = number;
 	}
+	
+	public boolean getDNF() {
+		return this.dnf;
+	}
+	
+	public void setDNF(boolean dnf) {
+		this.dnf = dnf;
+	}
 
-	public Instant getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Instant startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
-	public Instant getFinishTime() {
+	public String getFinishTime() {
 		return finishTime;
 	}
 
-	public void setFinishTime(Instant finishTime) {
+	public void setFinishTime(String finishTime) {
 		this.finishTime = finishTime;
-	}
-	
-	public String getDuration() {
-		return this.duration;
-	}
-
-	public void setDuration(String durationAsString) {
-		this.duration = durationAsString;
-		
 	}
 }
