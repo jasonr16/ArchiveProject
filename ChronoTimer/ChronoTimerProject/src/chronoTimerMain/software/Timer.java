@@ -39,7 +39,6 @@ public class Timer {
 				System.out.println("Error. Time format not hh:mm:ss.n");
 			}
 		}
-		System.out.println("Time set");
 	}
 	
 	/**
@@ -69,8 +68,10 @@ public class Timer {
 				nano = nano-100;
 				carry = 1;
 			}
-			else
+			else {
 			carry = 0;
+			}
+			
 			if(second < 0) {
 				second = second+60+carry;
 				carry = -1;
@@ -79,9 +80,11 @@ public class Timer {
 				second = second-60+carry;
 				carry = 1;
 			}
-			else
+			else {
 				second = second+carry;
-			carry = 0;
+				carry = 0;
+			}
+			
 			if(minute < 0) {
 				minute = minute+60+carry;
 				carry = -1;
@@ -90,9 +93,10 @@ public class Timer {
 				minute = minute-60+carry;
 				carry = 1;
 			}
-			else
+			else {
 				minute = minute+carry;
-			carry = 0;
+				carry = 0;
+			}
 			if(hour < 0) {
 				hour = 24+carry;
 				
@@ -101,8 +105,9 @@ public class Timer {
 				hour = hour-24+carry;
 				
 			}
-			else
+			else {
 				hour = hour+carry;
+			}
 			
 				
 			s = String.format("%02d:%02d:%02d.%01d", hour, minute, second, nano);
