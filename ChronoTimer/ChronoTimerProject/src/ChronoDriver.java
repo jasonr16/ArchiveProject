@@ -17,7 +17,7 @@ public class ChronoDriver {
 		boolean actionSuccess=false;
 		Simulator Sim=new Simulator();
 		while(!actionSuccess){
-			System.out.print("File or Console input<C or F> :");
+			System.out.print("File or Console input <C or F> : ");
 			input=br.readLine().trim().toUpperCase();
 			if(!input.equals("C")&&!input.equals("F")) continue;
 			switch(input){

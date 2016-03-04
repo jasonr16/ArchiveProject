@@ -61,19 +61,19 @@ public class ChronoHardwareHandler {
 		
 		switch (command){
 		case "POWER":
-			System.out.println(timestamp + " Toggling power switch.");
+			System.out.println(timestamp + "Toggling power switch.");
 			power();
 			break;
 		case "ON":
-			System.out.println(timestamp + " Powering on.");
+			System.out.println(timestamp + "Powering on.");
 			ON();
 			break;
 		case "OFF":
-			System.out.println(timestamp + " Powering off");
+			System.out.println(timestamp + "Powering off");
 			OFF();
 			break;
 		case "EXIT":
-			System.out.println(timestamp + " Exiting Simulator. Have a nice day.");
+			System.out.println(timestamp + "Exiting Simulator. Have a nice day.");
 			exit();
 			break;
 		}
@@ -81,7 +81,7 @@ public class ChronoHardwareHandler {
 			//TODO add succeed/fail messages
 		switch(command) {
 			case "CONN":
-				System.out.println(timestamp + " Connecting sensor " + args[0] + " at channel " + args[1]);
+				System.out.println(timestamp +"Connecting sensor " + args[0] + " at channel " + args[1]);
 				try{
 					conn(args[0], Integer.parseInt(args[1]));
 				}catch (NumberFormatException e) {
@@ -89,7 +89,7 @@ public class ChronoHardwareHandler {
 				}
 				break;
 			case "DISC":
-				System.out.println(timestamp + " Disconnecting channel " + args[0]);
+				System.out.println(timestamp + "Disconnecting channel " + args[0]);
 				try{
 					disc(Integer.parseInt(args[0]));
 				}catch (NumberFormatException e) {
@@ -98,7 +98,7 @@ public class ChronoHardwareHandler {
 				break;
 			case "TOGGLE":
 			case "TOG":
-				System.out.println(timestamp + " Toggling channel " + args[0]);
+				System.out.println(timestamp + "Toggling channel " + args[0]);
 				try {
 					toggle(Integer.parseInt(args[0]));
 				}catch (NumberFormatException e) {
@@ -107,7 +107,7 @@ public class ChronoHardwareHandler {
 				break;
 				
 			case "RESET":
-				System.out.println(timestamp + " Resetting system.");
+				System.out.println(timestamp + "Resetting system.");
 				reset();
 				break;
 			default:

@@ -18,11 +18,11 @@ public class ChronoTimerEventHandler {
 	public void timeEvent(String s, String[] args, String timestamp){
 		
 		if(isTime(s)) {
-			System.out.println(timestamp + " Setting chrono time as " + args[0]);
+			System.out.println(timestamp + "Setting chrono time as " + args[0]);
 			timer.time(args[0]);
 		}
 		else if (isNum(s)) {
-			System.out.println(timestamp + " Adding racer number " +args[0]);
+			System.out.println(timestamp + "Adding racer number " +args[0]);
 			try {
 			race.addRacerToStart(Integer.parseInt(args[0]));	
 			} catch (NumberFormatException e) {
@@ -30,7 +30,7 @@ public class ChronoTimerEventHandler {
 			}
 		}
 		else if (isClr(s)) { 
-			System.out.println(timestamp + " Removing racer number " + args[0]);
+			System.out.println(timestamp + "Removing racer number " + args[0]);
 			try {
 				race.removeRacerFromStart((Integer.parseInt(args[0])));	
 				} catch (NumberFormatException e) {
@@ -38,47 +38,47 @@ public class ChronoTimerEventHandler {
 				}
 		}
 		else if (isSwap(s)) {
-			System.out.println(timestamp + " Swapping racers.");
+			System.out.println(timestamp + "Swapping racers.");
 			race.swapRunningRacers();
 		}
 		else if (isStart(s)) {
-			System.out.println(timestamp + " Start triggered");
+			System.out.println(timestamp + "Start triggered");
 			race.start(timestamp);
 		}
 		else if (isFinish(s)) {
-			System.out.println(timestamp + " Finish triggered");
+			System.out.println(timestamp + "Finish triggered");
 			race.finish(timestamp);
 		}
 		else if (isTrig(s)) {
-			System.out.println(timestamp + " Trigger event happened.");
+			System.out.println(timestamp + "Trigger event happened.");
 			try {
 			race.trig(Integer.parseInt(args[0]), timestamp);
 			}catch (NumberFormatException e) {
-				System.out.println(timestamp + " Error - invalid number.");
+				System.out.println(timestamp + "Error - invalid number.");
 			}
 		}
 		else if (isDNF(s)) {
-			System.out.println(timestamp + " Racer DNF");
+			System.out.println(timestamp + "Racer DNF");
 			race.handleRacerDNF();
 		}
 		else if (isNewRun(s)) {
-			System.out.println(timestamp + " New Run Started.");
+			System.out.println(timestamp + "New Run Started.");
 			this.newRun();
 		}
 		else if (isEndRun(s)) {
-			System.out.println(timestamp + " End Run Started.");
+			System.out.println(timestamp + "End Run Started.");
 			this.endRun();
 		}
 		else if (isEvent(s)) {
-			System.out.println(timestamp + " Setting event type " + args[0]);
+			System.out.println(timestamp + "Setting event type " + args[0]);
 			this.event(args[0]);
 		}
 		else if (isPrint(s)) {
-			System.out.println(timestamp + " Printing racer times to console\n");
+			System.out.println(timestamp + "Printing racer times to console\n");
 			this.print();
 		}
 		else if (s.equalsIgnoreCase("DISPLAY")) {
-			System.out.println(timestamp + " Printing display.");
+			System.out.println(timestamp + "Printing display.");
 			updateChronoDisplay(timestamp);
 			System.out.println(display);
 		}
