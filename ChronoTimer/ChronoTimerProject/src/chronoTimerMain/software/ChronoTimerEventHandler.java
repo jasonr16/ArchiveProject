@@ -90,7 +90,7 @@ public class ChronoTimerEventHandler {
 		ArrayList<Racer> runningList = race.getRunningList();
 		ArrayList<Racer> finishList = race.getFinishList();
 		for(int i = startList.size()-1; i >=0; i--) {
-			if(timestamp.equals(null)) {
+			if(timestamp.equals("")) {
 				display += startList.get(i).getNumber() + " " + timer.getCurrentChronoTime();
 			}
 			else
@@ -102,7 +102,7 @@ public class ChronoTimerEventHandler {
 		}
 		display += "\n\n";
 		for(int i = 0; i < runningList.size(); i++) {
-			if(timestamp.equals(null)) {
+			if(timestamp.equals("")) {
 				display += runningList.get(i).getNumber() + " " + 
 			timer.getRunDuration(runningList.get(i).getStartTime(), timer.getCurrentChronoTime());
 			}
@@ -114,7 +114,7 @@ public class ChronoTimerEventHandler {
 		}
 		display += "\n";
 		for(int i = 0; i < runningList.size(); i++) {
-			if(timestamp.equals(null)) {
+			if(timestamp.equals("")) {
 				display += runningList.get(i).getNumber() + " " + 
 			timer.getRunDuration(runningList.get(i).getStartTime(), runningList.get(i).getFinishTime());
 			}

@@ -106,7 +106,7 @@ public class RaceIND extends Race {
 		// into the running queue
 		if (channelNum == this.startChannel && startList.size() > 0) {
 			racer = startList.remove(0);
-			if (timeStamp == null)
+			if (timeStamp.equals(""))
 				racer.setStartTime(super.getTimer().getCurrentChronoTime());
 			else
 				racer.setStartTime(timeStamp);
@@ -118,7 +118,7 @@ public class RaceIND extends Race {
 		// queue into the finish queue
 		else if (channelNum == this.finishChannel && runningList.size() > 0) {
 			racer = runningList.remove(0);
-			if (timeStamp == null)
+			if (timeStamp.equals(""))
 				racer.setFinishTime(super.getTimer().getCurrentChronoTime());
 			else
 				racer.setFinishTime(timeStamp);
