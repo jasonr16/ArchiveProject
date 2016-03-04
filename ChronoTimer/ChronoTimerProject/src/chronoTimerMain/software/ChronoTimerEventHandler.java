@@ -72,6 +72,7 @@ public class ChronoTimerEventHandler {
 	};
 	
 	public void updateChronoDisplay(String timestamp) {
+		System.out.println("reached display");
 		ArrayList<Racer> startList = race.getStartList();
 		ArrayList<Racer> runningList = race.getRunningList();
 		ArrayList<Racer> finishList = race.getFinishList();

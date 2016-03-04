@@ -52,13 +52,16 @@ public class Timer {
 		StringTokenizer stStart = new StringTokenizer(startTime, ":.");
 		StringTokenizer stFinish = new StringTokenizer(finishTime, ":.");
 		String s;
+		int hour, minute, second, nano; 
 		try {
 			//subtract start times from finish times to get duration
 			 s = String.format("%02d:%02d:%02d.%01d", 
-					(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
-					(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
-					(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
-					(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))));
+				hour =	(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))));
+				minute =	(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken())));
+				second =	(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken())));
+				nano =	(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken())));
+			 
+				s = String.format("%02d:%02d:%02d.%01d", hour, minute, second, nano);
 		} catch (NoSuchElementException e) {
 			System.out.println("Error with time format parsing.");
 			return "00:00:00.0";
@@ -69,7 +72,7 @@ public class Timer {
 	
 		return s;
 	}
-	
+
 	/**
 	 * Gets the current time based on the set system time of ChronoTimer. A timestamp for system commands.
 	 * If no Time has been set, it uses system time.
