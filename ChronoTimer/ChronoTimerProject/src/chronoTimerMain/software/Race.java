@@ -41,6 +41,14 @@ public abstract class Race {
 	}
 	
 	/**
+	 * Gets the timer associated with the race
+	 * @return timer
+	 */
+	public Timer getTimer() {
+		return this.timer;
+	}
+	
+	/**
 	 * Gets the start queue for the race
 	 * @return startList
 	 */
@@ -142,7 +150,7 @@ public abstract class Race {
 	 * Corresponds to the NUM <NUMBER> command
 	 * @param racer
 	 */
-	public abstract boolean addRacerToStart(Racer racer);
+	public abstract boolean addRacerToStart(int racerNum);
 	
 	/**
 	 * Removes the next racer to start from the race
