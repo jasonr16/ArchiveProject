@@ -48,8 +48,8 @@ public class Timer {
 	 * @return the elapsed time formatted hh:mm:ss.ns between a start and finish time.
 	 */
 	public String getRunDuration(String startTime, String finishTime) {
-		StringTokenizer stStart = new StringTokenizer(startTime, ":.");
-		StringTokenizer stFinish = new StringTokenizer(finishTime, ":.");
+		StringTokenizer stStart = new StringTokenizer(startTime.trim(), ":.");
+		StringTokenizer stFinish = new StringTokenizer(finishTime.trim(), ":.");
 		String s;
 		int hour, minute, second, nano; //TODO Use Java 8 APIinstead of this following code
 		try {
