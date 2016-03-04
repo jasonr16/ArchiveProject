@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.*;
 
 import chronoTimerMain.simulator.ChronoHardwareHandler;
 import chronoTimerMain.simulator.Simulator;
@@ -8,6 +10,7 @@ import chronoTimerMain.simulator.Simulator;
 public class ChronoDriver {
 	public static void main (String [] args) throws IOException{
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		JFileChooser choose=new JFileChooser();
 		ChronoHardwareHandler hardware=new ChronoHardwareHandler();
 		String input="";
 		boolean actionSuccess=false;
@@ -21,16 +24,17 @@ public class ChronoDriver {
 		case "C":Sim = new Simulator();
 				 break;
 		case "F":
-			while(!actionSuccess){
-				try{
-					System.out.print("Input File path:");
-					input=br.readLine();
-					Sim=new Simulator(new File(input));
-					}catch(IOException e){
-						System.out.println("Incorrect file path");
-					}
-			}
-			default:Sim=new Simulator();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Text file", "txt");
+				choose.setFileFilter(filter);
+				int returnVal = choose.showOpenDialog(null);
+				if(returnVal == JFileChooser.APPROVE_OPTION) {
+					System.out.println("Running Simulator from file: " +
+					choose.getSelectedFile().getName()+ " ...");
+				}
+				Sim=new Simulator(choose.getSelectedFile());
+				break;
+			
+		default:Sim=new Simulator();
 		}
 		Timer listenTimer=new Timer();
 		listenTimer.scheduleAtFixedRate(new ListenTask(Sim,hardware),(long) 0, (long) 10);
@@ -70,6 +74,7 @@ public class ChronoDriver {
 		}
 		
 		public void execute(ChronoHardwareHandler hardware){
+			System.out.println(command);//for my testing only, can delete
 			hardware.inputFromSimulator(command, args);
 		}
 	}
