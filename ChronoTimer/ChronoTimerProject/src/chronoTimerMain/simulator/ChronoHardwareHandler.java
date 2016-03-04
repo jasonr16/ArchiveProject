@@ -52,7 +52,11 @@ public class ChronoHardwareHandler {
 	 * @param timestamp 
 	 **/
 	public void inputFromSimulator(String command, String[] args, String timestamp) {
-		eventLog.add(new SingleEvent(time.getCurrentChronoTime(), command, args));
+		if(timestamp == null) {
+			eventLog.add(new SingleEvent(time.getCurrentChronoTime(), command, args));
+		}
+		else
+			new SingleEvent(timestamp, command, args);
 		command = command.toUpperCase();
 		
 		switch (command){
@@ -99,7 +103,7 @@ public class ChronoHardwareHandler {
 				reset();
 				break;
 			default:
-				eventHandler.timeEvent(command, args);
+				eventHandler.timeEvent(command, args, timestamp);
 				ON();
 			}
 		}

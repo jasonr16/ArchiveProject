@@ -1,18 +1,20 @@
 package chronoTimerMain.software;
 
+import java.util.ArrayList;
 
 public class ChronoTimerEventHandler {
 	private Timer timer;
 	private Race race;
 	private int runNumber = 1;
 	private String raceType;
+	private String display;
 	
 	public ChronoTimerEventHandler(Timer timer) {
 		this.timer = timer;
 		race = new RaceIND(runNumber, timer);
 	}
 	
-	public void timeEvent(String s, String[] args){
+	public void timeEvent(String s, String[] args, String timestamp){
 		
 		if(isTime(s)) {
 			timer.time(args[0]);
@@ -35,14 +37,14 @@ public class ChronoTimerEventHandler {
 			race.swapRunningRacers();
 		}
 		else if (isStart(s)) {
-			race.start();
+			race.start(timestamp);
 		}
 		else if (isFinish(s)) {
-			race.finish();
+			race.finish(timestamp);
 		}
 		else if (isTrig(s)) {
 			try {
-			race.trig(Integer.parseInt(args[0]));
+			race.trig(Integer.parseInt(args[0]), timestamp);
 			}catch (NumberFormatException e) {
 				System.out.println("Error - invalid number.");
 			}
@@ -62,8 +64,53 @@ public class ChronoTimerEventHandler {
 		else if (isPrint(s)) {
 			this.print();
 		}
+		else if (s.equalsIgnoreCase("DISPLAY")) {
+			updateChronoDisplay(timestamp);
+			System.out.println(display);
+		}
+		
 	};
 	
+	public void updateChronoDisplay(String timestamp) {
+		ArrayList<Racer> startList = race.getStartList();
+		ArrayList<Racer> runningList = race.getRunningList();
+		ArrayList<Racer> finishList = race.getFinishList();
+		for(int i = startList.size()-1; i >=0; i--) {
+			if(timestamp.equals(null)) {
+				display += startList.get(i).getNumber() + " " + timer.getCurrentChronoTime();
+			}
+			else
+				display += startList.get(i).getNumber() + " " + timestamp;
+			if(i==0)
+				display += " <\n";
+			else
+				display += "\n";
+		}
+		display += "\n\n";
+		for(int i = 0; i < runningList.size(); i++) {
+			if(timestamp.equals(null)) {
+				display += runningList.get(i).getNumber() + " " + 
+			timer.getRunDuration(runningList.get(i).getStartTime(), timer.getCurrentChronoTime());
+			}
+			else
+				display += runningList.get(i).getNumber() + " " + 
+			timer.getRunDuration(runningList.get(i).getStartTime(), timestamp);
+			
+			display += " R<\n";
+		}
+		display += "\n";
+		for(int i = 0; i < runningList.size(); i++) {
+			if(timestamp.equals(null)) {
+				display += runningList.get(i).getNumber() + " " + 
+			timer.getRunDuration(runningList.get(i).getStartTime(), runningList.get(i).getFinishTime());
+			}
+			else
+				display += runningList.get(i).getNumber() + " " + timestamp;
+			
+			display += " F<\n";
+		}
+	}
+
 	public void event(String string){
 		System.out.println("Creating new event " + string);
 		raceType = string;
