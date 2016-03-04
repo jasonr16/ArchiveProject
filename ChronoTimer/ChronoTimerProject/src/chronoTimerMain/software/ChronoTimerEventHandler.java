@@ -12,7 +12,7 @@ public class ChronoTimerEventHandler {
 		race = new RaceIND(runNumber, timer);
 	}
 	
-	public void timeEvent(String s){
+	public void timeEvent(String s, String[] args){
 		StringTokenizer st = new StringTokenizer(s);
 		
 		parseCommand(st);

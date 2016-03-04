@@ -2,6 +2,7 @@ package chronoTimerMain.simulator;
 
 import java.util.ArrayList;
 
+import chronoTimerMain.software.ChronoTimerEventHandler;
 import chronoTimerMain.software.Timer;
 
 public class ChronoHardwareHandler {
@@ -39,22 +40,21 @@ public class ChronoHardwareHandler {
 	private ArrayList<? extends Sensor> sensors;
 	private ArrayList<SingleEvent> eventLog = new ArrayList<SingleEvent>();
 	private boolean power = false;
-	
+	private ChronoTimerEventHandler eventHandler = new ChronoTimerEventHandler(time);
 	/**
 	 * 
 	 * Interaction between simulator and rest of ChronoTimer
 	 * @param command
 	 **/
-	public void inputFromSimulator(String command) {
+	public void inputFromSimulator(String command, String[] args) {
+		eventLog.add(new SingleEvent(time.getCurrentChronoTime(), command, args));
 		if(!power){
 			return;
 		}
 		switch (command){
-			
+			default:
+				eventHandler.timeEvent(command, args);
 		}
-	}
-	public void inputFromSimulator(String command, String[] args) {
-		eventLog.add(new SingleEvent(time.getCurrentChronoTime(), command, args));
 	}
 	
 	/**
