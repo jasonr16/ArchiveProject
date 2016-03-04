@@ -192,4 +192,19 @@ public abstract class Race {
 					getRacerDuration(finishList.get(i).getNumber()));
 		}
 	}
+
+	protected void setStartList(ArrayList<Racer> startList2) {
+		startList = startList2;
+		
+	}
+
+	public void setRunningList(ArrayList<Racer> runningList2) {
+		runningList = runningList2;
+		
+	}
+
+	public void setFinishList(ArrayList<Racer> finishList2) {
+		finishList = finishList2;
+		
+	}
 }

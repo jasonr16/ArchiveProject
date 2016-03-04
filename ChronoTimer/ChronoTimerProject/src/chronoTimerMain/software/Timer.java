@@ -39,6 +39,7 @@ public class Timer {
 				System.out.println("Error. Time format not hh:mm:ss.n");
 			}
 		}
+		System.out.println("Time set");
 	}
 	
 	/**

@@ -36,6 +36,8 @@ public class RaceIND extends Race {
 			startList.add(racer);
 			result = true;
 		}
+		System.out.println("Adding racer to start");
+		super.setStartList(startList);
 		return result;
 	}
 	
@@ -53,6 +55,8 @@ public class RaceIND extends Race {
 			startList.remove(racer);
 			result = true;
 		}
+		System.out.println("Removing racer from start");
+		super.setStartList(startList);
 		return result;
 	}
 
@@ -72,6 +76,9 @@ public class RaceIND extends Race {
 			racer.setDNF(true);
 			finishList.add(racer);
 		}
+		System.out.println("racer DNF");
+		super.setRunningList(runningList);
+		super.setFinishList(finishList);
 		return result;
 	}
 
@@ -89,6 +96,9 @@ public class RaceIND extends Race {
 		Racer racer = runningList.remove(runningList.size()-1);
 		racer.setStartTime("");
 		startList.add(0, racer);
+		System.out.println("Cancel - false start");
+		super.setStartList(startList);
+		super.setRunningList(runningList);
 		return result;
 	}
 
@@ -105,7 +115,10 @@ public class RaceIND extends Race {
 			runningList.set(0, runningList.get(1));
 			runningList.set(1, tempRacer);
 		}
+		System.out.println("swapping racers");
+		super.setRunningList(runningList);
 		return result;
+		
 	}
 
 	/**
@@ -114,6 +127,7 @@ public class RaceIND extends Race {
 	 */
 	@Override
 	public boolean start() {
+		System.out.println("start triggered");
 		boolean result = false;
 		if (this.startChannel == 0)
 			result = trig(1);
@@ -128,6 +142,7 @@ public class RaceIND extends Race {
 	 */
 	@Override
 	public boolean finish() {
+		System.out.println("finish triggered");
 		boolean result = false;
 		if (this.finishChannel == 0)
 			result = trig(2);
@@ -142,6 +157,7 @@ public class RaceIND extends Race {
 	 */
 	@Override
 	public boolean trig(int channelNum) {
+		System.out.println("trigger event on channel " + channelNum);
 		boolean result = false;
 		ArrayList<Racer> startList = super.getStartList();
 		ArrayList<Racer> runningList = super.getRunningList();

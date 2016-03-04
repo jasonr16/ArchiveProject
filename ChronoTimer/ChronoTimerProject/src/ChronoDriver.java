@@ -74,7 +74,6 @@ public class ChronoDriver {
 		}
 		
 		public void execute(ChronoHardwareHandler hardware){
-			System.out.println(command);//for my testing only, can delete
 			hardware.inputFromSimulator(command, args);
 		}
 	}

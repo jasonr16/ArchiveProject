@@ -1,6 +1,5 @@
 package chronoTimerMain.software;
 
-import java.util.StringTokenizer;
 
 public class ChronoTimerEventHandler {
 	private Timer timer;
@@ -9,66 +8,61 @@ public class ChronoTimerEventHandler {
 	private String raceType;
 	
 	public ChronoTimerEventHandler(Timer timer) {
+		this.timer = timer;
 		race = new RaceIND(runNumber, timer);
 	}
 	
 	public void timeEvent(String s, String[] args){
-		StringTokenizer st = new StringTokenizer(s);
 		
-		parseCommand(st);
-	};
-	private void parseCommand(StringTokenizer st) {
-		String token = st.nextToken();
-		//find the correct command
-		if(isTime(token)) {
-			timer.time(st.nextToken());
+		if(isTime(s)) {
+			timer.time(args[0]);
 		}
-		else if (isNum(token)) {
+		else if (isNum(s)) {
 			try {
-			race.addRacerToStart(new Racer(Integer.parseInt(st.nextToken())));	
+			race.addRacerToStart(new Racer(Integer.parseInt(args[0])));	
 			} catch (NumberFormatException e) {
 				System.out.println("Error - invalid number.");
 			}
 		}
-		else if (isClr(token)) {
+		else if (isClr(s)) {
 			try {
-				race.removeRacerFromStart((Integer.parseInt(st.nextToken())));	
+				race.removeRacerFromStart((Integer.parseInt(args[0])));	
 				} catch (NumberFormatException e) {
 					System.out.println("Error - invalid number.");
 				}
 		}
-		else if (isSwap(token)) {
+		else if (isSwap(s)) {
 			race.swapRunningRacers();
 		}
-		else if (isStart(token)) {
+		else if (isStart(s)) {
 			race.start();
 		}
-		else if (isFinish(token)) {
+		else if (isFinish(s)) {
 			race.finish();
 		}
-		else if (isTrig(token)) {
+		else if (isTrig(s)) {
 			try {
-			race.trig(Integer.parseInt(st.nextToken()));
+			race.trig(Integer.parseInt(args[0]));
 			}catch (NumberFormatException e) {
 				System.out.println("Error - invalid number.");
 			}
 		}
-		else if (isDNF(token)) {
+		else if (isDNF(s)) {
 			race.handleRacerDNF();
 		}
-		else if (isNewRun(token)) {
+		else if (isNewRun(s)) {
 			this.newRun();
 		}
-		else if (isEndRun(token)) {
+		else if (isEndRun(s)) {
 			this.endRun();
 		}
-		else if (isEvent(token)) {
-			this.event(st.nextToken());
+		else if (isEvent(s)) {
+			this.event(args[0]);
 		}
-		else if (isPrint(token)) {
+		else if (isPrint(s)) {
 			this.print();
 		}
-	}
+	};
 	
 	public void event(String string){
 		System.out.println("Creating new event " + string);
@@ -77,10 +71,8 @@ public class ChronoTimerEventHandler {
 
 	public void newRun(){
 		race.setRunNumber(race.getRunNumber()+1);
-		switch (raceType) {//TODO add other race types
-			default:
-				race = new RaceIND(runNumber, timer);
-		}
+		//TODO add other race types
+		race = new RaceIND(runNumber, timer);
 		
 		System.out.println("A new race has begun.");
 	};
@@ -99,41 +91,41 @@ public class ChronoTimerEventHandler {
 	};
 	
 	//boolean helper methods
-	private boolean isPrint(String token) {
-		return token.equalsIgnoreCase("print");
+	private boolean isPrint(String s) {
+		return s.equalsIgnoreCase("print");
 	}
-	private boolean isEvent(String token) {
-		return token.equalsIgnoreCase("event");
+	private boolean isEvent(String s) {
+		return s.equalsIgnoreCase("event");
 	}
-	private boolean isEndRun(String token) {
-		return token.equalsIgnoreCase("endrun");
+	private boolean isEndRun(String s) {
+		return s.equalsIgnoreCase("endrun");
 	}
-	private boolean isNewRun(String token) {
-		return token.equalsIgnoreCase("newrun");
+	private boolean isNewRun(String s) {
+		return s.equalsIgnoreCase("newrun");
 	}
-	private boolean isDNF(String token) {
-		return token.equalsIgnoreCase("dnf");
+	private boolean isDNF(String s) {
+		return s.equalsIgnoreCase("dnf");
 	}
-	private boolean isTrig(String token) {
-		return token.equalsIgnoreCase("trig") || token.equalsIgnoreCase("trigger");
+	private boolean isTrig(String s) {
+		return s.equalsIgnoreCase("trig") || s.equalsIgnoreCase("trigger");
 	}
-	private boolean isFinish(String token) {
-		return token.equalsIgnoreCase("finish");
+	private boolean isFinish(String s) {
+		return s.equalsIgnoreCase("finish");
 	}
-	private boolean isStart(String token) {
-		return token.equalsIgnoreCase("start");
+	private boolean isStart(String s) {
+		return s.equalsIgnoreCase("start");
 	}
-	private boolean isSwap(String token) {
-		return token.equalsIgnoreCase("swap");
+	private boolean isSwap(String s) {
+		return s.equalsIgnoreCase("swap");
 	}
-	private boolean isClr(String token) {
-		return token.equalsIgnoreCase("clr");
+	private boolean isClr(String s) {
+		return s.equalsIgnoreCase("clr");
 	}
-	private boolean isNum(String token) {
-		return token.equalsIgnoreCase("num");
+	private boolean isNum(String s) {
+		return s.equalsIgnoreCase("num");
 	}
-	private boolean isTime(String token) {
-		return token.equalsIgnoreCase("time");
+	private boolean isTime(String s) {
+		return s.equalsIgnoreCase("time");
 	}
 	
 }

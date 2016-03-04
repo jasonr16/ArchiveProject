@@ -2,6 +2,9 @@ package chronoTimerMain.simulator;
 
 import java.util.ArrayList;
 
+import chronoTimerMain.simulator.sensor.SensorElectricEye;
+import chronoTimerMain.simulator.sensor.SensorGate;
+import chronoTimerMain.simulator.sensor.SensorPad;
 import chronoTimerMain.software.ChronoTimerEventHandler;
 import chronoTimerMain.software.Timer;
 
@@ -37,8 +40,9 @@ public class ChronoHardwareHandler {
 	}
 	
 	private Timer time = new Timer();
-	private ArrayList<? extends Sensor> sensors;
-	private ArrayList<SingleEvent> eventLog;
+	private Sensor[] sensors = new Sensor[13];//no sensor stored in index 0. 12 max
+	private boolean[] isEnabledSensor = new boolean[13];
+	private ArrayList<SingleEvent> eventLog = new ArrayList<SingleEvent>();
 	private boolean power = false;
 	private ChronoTimerEventHandler eventHandler;
 	
@@ -48,19 +52,61 @@ public class ChronoHardwareHandler {
 	 **/
 	public void inputFromSimulator(String command, String[] args) {
 		eventLog.add(new SingleEvent(time.getCurrentChronoTime(), command, args));
-		if(!power){
-			return;
-		}
+		command = command.toUpperCase();
+		
 		switch (command){
+		case "POWER":
+			power();
+			break;
+		case "ON":
+			ON();
+			break;
+		case "OFF":
+			OFF();
+			break;
+		case "EXIT":
+			exit();
+			break;
+		}
+		if(power){
+			
+		switch(command) {
+			case "CONN":
+				try{
+					conn(args[0], Integer.parseInt(args[1]));
+				}catch (NumberFormatException e) {
+					System.out.println("Error - Could not parse channel number");
+				}
+				break;
+			case "DISC":
+				try{
+					disc(Integer.parseInt(args[0]));
+				}catch (NumberFormatException e) {
+					System.out.println("Error - Could not parse channel number");
+				}
+				break;
+			case "TOGGLE":
+			case "TOG":
+				try {
+					toggle(Integer.parseInt(args[0]));
+				}catch (NumberFormatException e) {
+					System.out.println("Error - Could not parse channel number");
+				}
+				break;
+				
+			case "RESET":
+				reset();
+				break;
 			default:
 				eventHandler.timeEvent(command, args);
 				ON();
+			}
 		}
 	}
 	
 	/**
 	 * Toggles the interaction between Hardware and Software
-	 * "Its over 9,000!"
+	 * 
 	 * @return boolean representing the state of the machine
 	 */
 	public boolean power(){
@@ -77,8 +123,8 @@ public class ChronoHardwareHandler {
 	 */
 	public void ON(){
 		if(!this.power)
-			System.out.println("Powered up and ready to go!");
-		//initulize stuff
+			System.out.println("Power on.");
+		//initialize stuff
 		eventLog = new ArrayList<SingleEvent>();
 		eventHandler = new ChronoTimerEventHandler(time);
 		this.power = true;
@@ -91,24 +137,45 @@ public class ChronoHardwareHandler {
 		if(this.power)
 			System.out.println("Goodbye");
 		this.power = false;
+
 	}
 	
 	public void exit(){
 		OFF();
+		System.exit(0);
 	}
 	
 	public void reset() {
-		this.eventHandler = new ChronoTimerEventHandler(time);
-		this.eventLog = new ArrayList<SingleEvent>();
+		time = new Timer();
+		eventHandler = new ChronoTimerEventHandler(time);
+		eventLog = new ArrayList<SingleEvent>();
+	
 	};
 	
 	/**
 	 * turns channel on and off
 	 * @param channel
 	 */
-	public void toggle(int channel){
-		
+	public void toggle(int channel) {
+		isEnabledSensor[channel] = !isEnabledSensor[channel];
 	};
-	public void conn(Sensor type, int channel){};
-	public void disc(int channel){};
+	public void conn(String type, int channel){
+		switch(type) {
+			case "EYE":
+				sensors[channel] = new SensorElectricEye();
+				break;
+			case "PAD":
+				sensors[channel] = new SensorPad();
+				break;
+			case "GATE":
+				sensors[channel] = new SensorGate();
+				break;
+			default: 
+				System.out.println("Error. Invalid sensor type.");
+		}
+		sensors[channel] = new SensorElectricEye();
+	}
+	public void disc(int channel){
+		sensors[channel] = null;
+	};
 }
