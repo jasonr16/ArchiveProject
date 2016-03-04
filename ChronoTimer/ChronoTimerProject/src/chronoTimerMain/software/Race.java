@@ -198,6 +198,7 @@ public abstract class Race {
 			System.out.printf("\t%d\t%s\n", finishList.get(i).getNumber(),
 					getRacerDuration(finishList.get(i).getNumber()));
 		}
+		System.out.print("\n");
 	}
 
 	protected void setStartList(ArrayList<Racer> startList2) {
