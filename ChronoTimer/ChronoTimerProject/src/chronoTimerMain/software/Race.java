@@ -214,4 +214,25 @@ public abstract class Race {
 		finishList = finishList2;
 		
 	}
+	
+	/**
+	 * End the run, move all non-finished racers to the finish queue and mark those racers
+	 * as DNF.
+	 */
+	public void endRun() {
+		Racer racer = null;
+		// move remaining racers in start queue to finish queue and mark them as DNF
+		while(startList.size() > 0) {
+			racer = startList.remove(0);
+			racer.setDNF(true);
+			finishList.add(racer);
+		}
+		
+		// move remaining racers in running queue to finish queue and mark them as DNF
+		while(runningList.size() > 0) {
+			racer = runningList.remove(0);
+			racer.setDNF(true);
+			finishList.add(racer);
+		}
+	}
 }

@@ -1,7 +1,6 @@
 package chronoTimerMain.software;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import junit.framework.TestCase;
 
@@ -369,7 +368,6 @@ public class RaceIND extends Race {
 			assertEquals(2, race1.getFinishList().size());
 			assertEquals(234, race1.getFinishList().get(0).getNumber());
 			assertEquals(315, race1.getFinishList().get(1).getNumber());
-			race1.print();
 			
 			// trigger channels 1 and 2 (no more racers)
 			assertFalse(race1.trig(1, null));
@@ -399,13 +397,6 @@ public class RaceIND extends Race {
 			assertEquals(201, race2.getRunningList().get(3).getNumber());
 			assertEquals(0, race2.getFinishList().size());
 			
-//			// trigger multiple finishes
-//			try {
-//				TimeUnit.SECONDS.sleep(5);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
 			assertTrue(race2.trig(4, null));
 			assertTrue(race2.trig(4, null));
 			assertTrue(race2.trig(4, null));
@@ -419,7 +410,6 @@ public class RaceIND extends Race {
 			assertEquals(177, race2.getFinishList().get(1).getNumber());
 			assertEquals(200, race2.getFinishList().get(2).getNumber());
 			assertEquals(201, race2.getFinishList().get(3).getNumber());
-			race2.print();
 		}
 		
 		public void testStart() {
@@ -483,6 +473,27 @@ public class RaceIND extends Race {
 			assertEquals(167, race2.getFinishList().get(1).getNumber());
 		}
 		
+		public void testCancel() {
+			race1.addRacerToStart(234);
+			race1.addRacerToStart(315);
+			
+			// test cancel when no racers in running queue
+			assertFalse(race1.handleRacerCancel());
+			
+			// test normal cancel
+			assertTrue(race1.start(null));
+			assertTrue(race1.start(null));
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(2, race1.getRunningList().size());
+			assertEquals(234, race1.getRunningList().get(0).getNumber());
+			assertEquals(315, race1.getRunningList().get(1).getNumber());
+			assertTrue(race1.handleRacerCancel());
+			assertEquals(1, race1.getStartList().size());
+			assertEquals(1, race1.getRunningList().size());
+			assertEquals(234, race1.getRunningList().get(0).getNumber());
+			assertEquals(315, race1.getStartList().get(0).getNumber());
+		}
+		
 		public void testSwap() {
 			// test swap when no racers in running queue
 			assertFalse(race1.swapRunningRacers());
@@ -497,6 +508,28 @@ public class RaceIND extends Race {
 			assertEquals(2, race1.getRunningList().size());
 			assertEquals(315, race1.getRunningList().get(0).getNumber());
 			assertEquals(234, race1.getRunningList().get(1).getNumber());
+		}
+		
+		public void testDNF() {
+			race1.addRacerToStart(234);
+			race1.addRacerToStart(315);
+			
+			// test DNF when no racers in running queue
+			assertFalse(race1.handleRacerDNF());
+			
+			// test normal DNF
+			assertTrue(race1.start(null));
+			assertTrue(race1.start(null));
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(2, race1.getRunningList().size());
+			assertEquals(234, race1.getRunningList().get(0).getNumber());
+			assertEquals(315, race1.getRunningList().get(1).getNumber());
+			assertTrue(race1.handleRacerDNF());
+			assertEquals(1, race1.getRunningList().size());
+			assertEquals(1, race1.getFinishList().size());
+			assertEquals(315, race1.getRunningList().get(0).getNumber());
+			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertTrue(race1.getFinishList().get(0).getDNF());
 		}
 	}
 }
