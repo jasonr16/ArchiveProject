@@ -61,27 +61,22 @@ public class ChronoHardwareHandler {
 		
 		switch (command){
 		case "POWER":
-			System.out.println(timestamp + " Toggling power switch.");
 			power();
 			break;
 		case "ON":
-			System.out.println(timestamp + " Powering on.");
 			ON();
 			break;
 		case "OFF":
-			System.out.println(timestamp + " Powering off");
 			OFF();
 			break;
 		case "EXIT":
-			System.out.println(timestamp + " Exiting Simulator. Have a nice day.");
 			exit();
 			break;
 		}
 		if(power){
-			//TODO add succeed/fail messages
+			
 		switch(command) {
 			case "CONN":
-				System.out.println(timestamp + " Connecting sensor " + args[0] + " at channel " + args[1]);
 				try{
 					conn(args[0], Integer.parseInt(args[1]));
 				}catch (NumberFormatException e) {
@@ -89,16 +84,14 @@ public class ChronoHardwareHandler {
 				}
 				break;
 			case "DISC":
-				System.out.println(timestamp + " Disconnecting channel " + args[0]);
 				try{
 					disc(Integer.parseInt(args[0]));
 				}catch (NumberFormatException e) {
-					System.out.println(timestamp + "Error - Could not parse channel number");
+					System.out.println("Error - Could not parse channel number");
 				}
 				break;
 			case "TOGGLE":
 			case "TOG":
-				System.out.println(timestamp + " Toggling channel " + args[0]);
 				try {
 					toggle(Integer.parseInt(args[0]));
 				}catch (NumberFormatException e) {
@@ -107,11 +100,11 @@ public class ChronoHardwareHandler {
 				break;
 				
 			case "RESET":
-				System.out.println(timestamp + " Resetting system.");
 				reset();
 				break;
 			default:
 				eventHandler.timeEvent(command, args, timestamp);
+				ON();
 			}
 		}
 	}
@@ -134,6 +127,8 @@ public class ChronoHardwareHandler {
 	 * turns on
 	 */
 	public void ON(){
+		if(!this.power)
+			System.out.println("Power on.");
 		//initialize stuff
 		eventLog = new ArrayList<SingleEvent>();
 		eventHandler = new ChronoTimerEventHandler(time);
@@ -144,6 +139,8 @@ public class ChronoHardwareHandler {
 	 * same as ! ON()...
 	 */
 	public void OFF(){
+		if(this.power)
+			System.out.println("Goodbye");
 		this.power = false;
 
 	}
