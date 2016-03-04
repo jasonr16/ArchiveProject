@@ -6,12 +6,13 @@ public class ChronoTimerEventHandler {
 	private Timer timer;
 	private Race race;
 	private int runNumber = 1;
-	private String raceType;
+	private String raceType = "IND";
 	private String display = "";
 	
 	public ChronoTimerEventHandler(Timer timer) {
 		this.timer = timer;
 		race = new RaceIND(runNumber, timer);
+		this.runNumber = 1;
 	}
 	
 	public void timeEvent(String s, String[] args, String timestamp){
@@ -124,14 +125,15 @@ public class ChronoTimerEventHandler {
 		}
 	}
 
-	public void event(String string){
-		raceType = string;
+	public void event(String eventType){
+		raceType = eventType;
 	};
 
 	public void newRun(){
-		race.setRunNumber(race.getRunNumber()+1);
+		race.endRun(); // make sure previous run has ended
+		if (raceType.equals("IND")) 
+			race = new RaceIND(runNumber++, timer);
 		//TODO add other race types
-		race = new RaceIND(++runNumber, timer);
 	};
 	public void endRun(){
 		race.endRun();
