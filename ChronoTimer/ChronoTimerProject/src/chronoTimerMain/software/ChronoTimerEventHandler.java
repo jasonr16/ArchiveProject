@@ -19,7 +19,7 @@ public class ChronoTimerEventHandler {
 		}
 		else if (isNum(s)) {
 			try {
-			race.addRacerToStart(new Racer(Integer.parseInt(args[0])));	
+			race.addRacerToStart(Integer.parseInt(args[0]));	
 			} catch (NumberFormatException e) {
 				System.out.println("Error - invalid number.");
 			}
