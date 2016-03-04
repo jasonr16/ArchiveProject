@@ -3,9 +3,6 @@ package chronoTimerMain.software;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
-import org.junit.*;
-
 import junit.framework.TestCase;
 
 /**
@@ -81,10 +78,12 @@ public class RaceIND extends Race {
 	
 	/**
 	 * Trigger a channel and handle the resulting changes in the race
+	 * @param channel number of the triggered channel
+	 * @param time stamp from file input, null if console input used
 	 * @return true if a racer was moved from one queue to another, false if not
 	 */
 	@Override
-	public boolean trig(int channelNum) {
+	public boolean trig(int channelNum, String timeStamp) {
 		boolean result = false;
 		ArrayList<Racer> startList = super.getStartList();
 		ArrayList<Racer> runningList = super.getRunningList();
@@ -108,7 +107,11 @@ public class RaceIND extends Race {
 		// into the running queue
 		if (channelNum == this.startChannel && startList.size() > 0) {
 			racer = startList.remove(0);
-			racer.setStartTime(super.getTimer().getCurrentChronoTime());
+			if (timeStamp == null)
+				racer.setStartTime(super.getTimer().getCurrentChronoTime());
+			else
+				racer.setStartTime(timeStamp);
+			
 			runningList.add(racer);
 			result = true;
 		}
@@ -116,7 +119,10 @@ public class RaceIND extends Race {
 		// queue into the finish queue
 		else if (channelNum == this.finishChannel && runningList.size() > 0) {
 			racer = runningList.remove(0);
-			racer.setFinishTime(super.getTimer().getCurrentChronoTime());
+			if (timeStamp == null)
+				racer.setFinishTime(super.getTimer().getCurrentChronoTime());
+			else
+				racer.setFinishTime(timeStamp);
 			finishList.add(racer);
 			result = true;
 		}
@@ -125,29 +131,31 @@ public class RaceIND extends Race {
 	
 	/**
 	 * Trigger default start channel
+	 * @param time stamp from file input, null if console input
 	 * @return true if a racer was moved from one queue to another, false if not
 	 */
 	@Override
-	public boolean start() {
+	public boolean start(String timeStamp) {
 		boolean result = false;
 		if (this.startChannel == 0)
-			result = trig(1);
+			result = trig(1, timeStamp);
 		else
-			result = trig(this.startChannel);
+			result = trig(this.startChannel, timeStamp);
 		return result;
 	}
 
 	/**
 	 * Trigger default finish channel
+	 * @param time stamp from file input, null if console input
 	 * @return true if a racer was moved from one queue to another, false if not
 	 */
 	@Override
-	public boolean finish() {
+	public boolean finish(String timeStamp) {
 		boolean result = false;
 		if (this.finishChannel == 0)
-			result = trig(2);
+			result = trig(2, timeStamp);
 		else
-			result = trig(this.finishChannel);
+			result = trig(this.finishChannel, timeStamp);
 		return result;
 	}
 
@@ -162,9 +170,12 @@ public class RaceIND extends Race {
 		boolean result = false;
 		ArrayList<Racer> runningList = super.getRunningList();
 		ArrayList<Racer> startList = super.getStartList();
-		Racer racer = runningList.remove(runningList.size()-1);
-		racer.setStartTime("");
-		startList.add(0, racer);
+		if (runningList.size() > 0) {
+			Racer racer = runningList.remove(runningList.size()-1);
+			racer.setStartTime("00:00:00.0");
+			startList.add(0, racer);
+			result = true;
+		}
 		return result;
 	}
 
@@ -180,6 +191,7 @@ public class RaceIND extends Race {
 			Racer tempRacer = runningList.get(0);
 			runningList.set(0, runningList.get(1));
 			runningList.set(1, tempRacer);
+			result = true;
 		}
 		return result;
 	}
@@ -199,6 +211,7 @@ public class RaceIND extends Race {
 			racer = runningList.remove(0);
 			racer.setDNF(true);
 			finishList.add(racer);
+			result = true;
 		}
 		return result;
 	}
@@ -301,7 +314,7 @@ public class RaceIND extends Race {
 		
 		public void testTrig() {
 			// trigger when no racers in start queue
-			assertFalse(race1.trig(3));
+			assertFalse(race1.trig(3, null));
 			assertEquals(0, race1.getStartChannel());
 			assertEquals(0, race1.getFinishChannel());
 			assertEquals(0, race1.getStartList().size());
@@ -311,7 +324,7 @@ public class RaceIND extends Race {
 			// trigger channel 1 (first racer starts)
 			race1.addRacerToStart(234);
 			race1.addRacerToStart(315);
-			assertTrue(race1.trig(1));
+			assertTrue(race1.trig(1, null));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(1, race1.getStartList().size());
 			assertEquals(315, race1.getStartList().get(0).getNumber());
@@ -320,7 +333,7 @@ public class RaceIND extends Race {
 			assertEquals(0, race1.getFinishList().size());
 			
 			// trigger channel 2 (first racer finishes)
-			assertTrue(race1.trig(2));
+			assertTrue(race1.trig(2, null));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(2, race1.getFinishChannel());
 			assertEquals(1, race1.getStartList().size());
@@ -330,7 +343,7 @@ public class RaceIND extends Race {
 			assertEquals(234, race1.getFinishList().get(0).getNumber());
 			
 			// trigger channel 3 (not start or finish)
-			assertFalse(race1.trig(3));
+			assertFalse(race1.trig(3, null));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(2, race1.getFinishChannel());
 			assertEquals(1, race1.getStartList().size());
@@ -338,7 +351,7 @@ public class RaceIND extends Race {
 			assertEquals(1, race1.getFinishList().size());
 			
 			// trigger channel 1 (second racer starts)
-			assertTrue(race1.trig(1));
+			assertTrue(race1.trig(1, null));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(2, race1.getFinishChannel());
 			assertEquals(0, race1.getStartList().size());
@@ -348,7 +361,7 @@ public class RaceIND extends Race {
 			assertEquals(234, race1.getFinishList().get(0).getNumber());
 			
 			// trigger channel 2 (second racer finishes)
-			assertTrue(race1.trig(2));
+			assertTrue(race1.trig(2, null));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(2, race1.getFinishChannel());
 			assertEquals(0, race1.getStartList().size());
@@ -359,8 +372,8 @@ public class RaceIND extends Race {
 			race1.print();
 			
 			// trigger channels 1 and 2 (no more racers)
-			assertFalse(race1.trig(1));
-			assertFalse(race1.trig(2));
+			assertFalse(race1.trig(1, null));
+			assertFalse(race1.trig(2, null));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(2, race1.getFinishChannel());
 			assertEquals(0, race1.getStartList().size());
@@ -372,10 +385,10 @@ public class RaceIND extends Race {
 			race2.addRacerToStart(177);
 			race2.addRacerToStart(200);
 			race2.addRacerToStart(201);
-			assertTrue(race2.trig(3));
-			assertTrue(race2.trig(3));
-			assertTrue(race2.trig(3));
-			assertTrue(race2.trig(3));
+			assertTrue(race2.trig(3, null));
+			assertTrue(race2.trig(3, null));
+			assertTrue(race2.trig(3, null));
+			assertTrue(race2.trig(3, null));
 			assertEquals(3, race2.getStartChannel());
 			assertEquals(0, race2.getFinishChannel());
 			assertEquals(0, race2.getStartList().size());
@@ -386,11 +399,17 @@ public class RaceIND extends Race {
 			assertEquals(201, race2.getRunningList().get(3).getNumber());
 			assertEquals(0, race2.getFinishList().size());
 			
-			// trigger multiple finishes
-			assertTrue(race2.trig(4));
-			assertTrue(race2.trig(4));
-			assertTrue(race2.trig(4));
-			assertTrue(race2.trig(4));
+//			// trigger multiple finishes
+//			try {
+//				TimeUnit.SECONDS.sleep(5);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			assertTrue(race2.trig(4, null));
+			assertTrue(race2.trig(4, null));
+			assertTrue(race2.trig(4, null));
+			assertTrue(race2.trig(4, null));
 			assertEquals(3, race2.getStartChannel());
 			assertEquals(4, race2.getFinishChannel());
 			assertEquals(0, race2.getStartList().size());
@@ -403,13 +422,81 @@ public class RaceIND extends Race {
 			race2.print();
 		}
 		
-		public void testHandleRacerDNF() {
-			// no racers
-			assertFalse(race1.handleRacerDNF());
-			
-			// no racers running
+		public void testStart() {
 			race1.addRacerToStart(234);
-			assertFalse(race1.handleRacerDNF());
+			race1.addRacerToStart(315);
+			assertTrue(race1.start(null));
+			assertEquals(1, race1.getStartChannel());
+			assertEquals(1, race1.getStartList().size());
+			assertEquals(315, race1.getStartList().get(0).getNumber());
+			assertEquals(1, race1.getRunningList().size());
+			assertEquals(234, race1.getRunningList().get(0).getNumber());
+			assertEquals(0, race1.getFinishList().size());
+			assertTrue(race1.start(null));
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(2, race1.getRunningList().size());
+			assertEquals(234, race1.getRunningList().get(0).getNumber());
+			assertEquals(315, race1.getRunningList().get(1).getNumber());
+			assertEquals(0, race1.getFinishList().size());
+			
+			// test intermixing of trig and start commands
+			race2.addRacerToStart(166);
+			race2.addRacerToStart(167);
+			assertTrue(race2.trig(3, null));
+			assertTrue(race2.start(null));
+			assertEquals(0, race2.getStartList().size());
+			assertEquals(2, race2.getRunningList().size());
+			assertEquals(166, race2.getRunningList().get(0).getNumber());
+			assertEquals(167, race2.getRunningList().get(1).getNumber());
+			assertEquals(0, race2.getFinishList().size());
+		}
+		
+		public void testFinish() {
+			race1.addRacerToStart(234);
+			race1.addRacerToStart(315);
+			assertTrue(race1.start(null));
+			assertTrue(race1.start(null));
+			assertTrue(race1.finish(null));
+			assertTrue(race1.finish(null));
+			assertFalse(race1.finish(null));
+			assertEquals(1, race1.getStartChannel());
+			assertEquals(2, race1.getFinishChannel());
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(2, race1.getFinishList().size());
+			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals(315, race1.getFinishList().get(1).getNumber());
+			
+			// test intermixing of trig and finish commands
+			race2.addRacerToStart(166);
+			race2.addRacerToStart(167);
+			assertTrue(race2.start(null));
+			assertTrue(race2.start(null));
+			assertTrue(race2.trig(5, null));
+			assertTrue(race2.finish(null));
+			assertEquals(1, race2.getStartChannel());
+			assertEquals(5, race2.getFinishChannel());
+			assertEquals(0, race2.getStartList().size());
+			assertEquals(0, race2.getRunningList().size());
+			assertEquals(2, race2.getFinishList().size());
+			assertEquals(166, race2.getFinishList().get(0).getNumber());
+			assertEquals(167, race2.getFinishList().get(1).getNumber());
+		}
+		
+		public void testSwap() {
+			// test swap when no racers in running queue
+			assertFalse(race1.swapRunningRacers());
+			
+			// test normal swap
+			race1.addRacerToStart(234);
+			race1.addRacerToStart(315);
+			assertTrue(race1.start(null));
+			assertTrue(race1.start(null));
+			assertTrue(race1.swapRunningRacers());
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(2, race1.getRunningList().size());
+			assertEquals(315, race1.getRunningList().get(0).getNumber());
+			assertEquals(234, race1.getRunningList().get(1).getNumber());
 		}
 	}
 }

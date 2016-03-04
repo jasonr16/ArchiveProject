@@ -180,15 +180,14 @@ public abstract class Race {
 	/**
 	 * Moves a racer from the start queue to the running queue
 	 */
-	public abstract boolean start();
+	public abstract boolean start(String timeStamp);
 	
 	/**
 	 * Moves a racer from the running queue to the finish queue
 	 */
-	public abstract boolean finish();
+	public abstract boolean finish(String timeStamp);
 	
-	
-	public abstract boolean trig(int channelNum);
+	public abstract boolean trig(int channelNum, String timeStamp);
 
 	/**
 	 * Prints formatted results of the race
