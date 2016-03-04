@@ -8,6 +8,7 @@ import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.TimeUnit;
 
 public class Simulator {
 	private boolean fileinput=true;
@@ -60,6 +61,13 @@ public class Simulator {
 		String line="";
 		br = new BufferedReader(new InputStreamReader(System.in));
 		while(!line.equalsIgnoreCase("EXIT")){
+			try {
+				TimeUnit.MILLISECONDS.sleep(11);//purely for aeshetic purposes, 
+												//delays loop for driver to catch up
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.print("Enter Command<EXIT to quit>: ");
 			line=br.readLine();
 			events.add(line);
