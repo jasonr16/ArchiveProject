@@ -38,11 +38,11 @@ public class ChronoHardwareHandler {
 	
 	private Timer time = new Timer();
 	private ArrayList<? extends Sensor> sensors;
-	private ArrayList<SingleEvent> eventLog = new ArrayList<SingleEvent>();
+	private ArrayList<SingleEvent> eventLog;
 	private boolean power = false;
-	private ChronoTimerEventHandler eventHandler = new ChronoTimerEventHandler(time);
+	private ChronoTimerEventHandler eventHandler;
+	
 	/**
-	 * 
 	 * Interaction between simulator and rest of ChronoTimer
 	 * @param command
 	 **/
@@ -54,6 +54,7 @@ public class ChronoHardwareHandler {
 		switch (command){
 			default:
 				eventHandler.timeEvent(command, args);
+				ON();
 		}
 	}
 	
@@ -72,11 +73,14 @@ public class ChronoHardwareHandler {
 	}
 	
 	/**
-	 * does exactly what you think it will :P
+	 * turns on
 	 */
 	public void ON(){
 		if(!this.power)
 			System.out.println("Powered up and ready to go!");
+		//initulize stuff
+		eventLog = new ArrayList<SingleEvent>();
+		eventHandler = new ChronoTimerEventHandler(time);
 		this.power = true;
 	}
 	
@@ -92,11 +96,19 @@ public class ChronoHardwareHandler {
 	public void exit(){
 		OFF();
 	}
+	
 	public void reset() {
-		power();
-		power();
+		this.eventHandler = new ChronoTimerEventHandler(time);
+		this.eventLog = new ArrayList<SingleEvent>();
 	};
-	public void toggle(int channel){};
+	
+	/**
+	 * turns channel on and off
+	 * @param channel
+	 */
+	public void toggle(int channel){
+		
+	};
 	public void conn(Sensor type, int channel){};
 	public void disc(int channel){};
 }
