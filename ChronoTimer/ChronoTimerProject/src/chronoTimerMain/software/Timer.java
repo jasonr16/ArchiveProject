@@ -5,19 +5,18 @@ import static org.junit.Assert.assertEquals;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 
 public class Timer {
-	// TODO: what if time is set again? Wouldn't the system start time also have to reset 
-	// so the correct durations are calculated?
-	LocalDateTime setStartChronoTime;
-	LocalDateTime systemStartTime; 
+	LocalDateTime synchronizedChronoStartTime;
+	LocalDateTime synchronizedSystemStartTime; 
 	public Timer() {
-		setStartChronoTime = LocalDateTime.now();
-		systemStartTime = LocalDateTime.now();
+		synchronizedChronoStartTime = LocalDateTime.now();
+		synchronizedSystemStartTime = LocalDateTime.now();
 	}
 	
 	/**
@@ -29,12 +28,13 @@ public class Timer {
 			System.out.println("Error. Time not in format hh:mm:ss.n");
 		}
 		else {
+			synchronizedSystemStartTime = LocalDateTime.now();//synchronize start time betweeen system and chrono
 			StringTokenizer st = new StringTokenizer(hhmmssn, ":.");
 			try {
-			setStartChronoTime = setStartChronoTime.withHour(Integer.parseInt(st.nextToken()));
-			setStartChronoTime = setStartChronoTime.withMinute(Integer.parseInt(st.nextToken()));
-			setStartChronoTime = setStartChronoTime.withSecond(Integer.parseInt(st.nextToken()));
-			setStartChronoTime = setStartChronoTime.withNano(Integer.parseInt(st.nextToken())*100000000);
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withHour(Integer.parseInt(st.nextToken()));
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withMinute(Integer.parseInt(st.nextToken()));
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withSecond(Integer.parseInt(st.nextToken()));
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withNano(Integer.parseInt(st.nextToken())*100000000);
 			} catch (NumberFormatException e) {
 				System.out.println("Error. Time format not hh:mm:ss.n");
 			}
@@ -50,12 +50,23 @@ public class Timer {
 	public String getRunDuration(String startTime, String finishTime) {
 		StringTokenizer stStart = new StringTokenizer(startTime, ":.");
 		StringTokenizer stFinish = new StringTokenizer(finishTime, ":.");
-		//subtract start times from finish times
-		return String.format("%02d:%02d:%02d.%01d", 
-				(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
-				(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
-				(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
-				(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))));
+		String s;
+		try {
+			//subtract start times from finish times to get duration
+			 s = String.format("%02d:%02d:%02d.%01d", 
+					(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
+					(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
+					(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))),
+					(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken()))));
+		} catch (NoSuchElementException e) {
+			System.out.println("Error with time format parsing.");
+			return "00:00:00.0";
+		} catch (NumberFormatException e) {
+			System.out.println("Error. Time number(s) not valid.");
+			return "00:00:00.0";
+		}
+	
+		return s;
 	}
 	
 	/**
@@ -64,8 +75,8 @@ public class Timer {
 	 * @return current ChronoTime String in hh:mm:ss.ns format.
 	 */
 	public String getCurrentChronoTime() {
-			Duration d = Duration.between(systemStartTime, LocalDateTime.now());
-			return timeToString (d.addTo(setStartChronoTime));
+			Duration d = Duration.between(synchronizedSystemStartTime, LocalDateTime.now());
+			return timeToString (d.addTo(synchronizedChronoStartTime));
 			
 	}	
 	private String timeToString(Temporal t) {
@@ -84,28 +95,27 @@ public class Timer {
 	//Internal Unit Tests
 		@Test
 			public void testCorrectStringFormat() {
-			setStartChronoTime = setStartChronoTime.withHour(12);
-			setStartChronoTime = setStartChronoTime.withMinute(11);
-			setStartChronoTime = setStartChronoTime.withSecond(10);
-			setStartChronoTime = setStartChronoTime.withNano(900000000);
-				assertEquals("12:11:10.9", timeToString(setStartChronoTime));
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withHour(12);
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withMinute(11);
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withSecond(10);
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withNano(900000000);
+				assertEquals("12:11:10.9", timeToString(synchronizedChronoStartTime));
 			}
 		@Test
 		public void testTimeSet() {
 			time("02:04:45.5");
-			assertEquals("02:04:45.5", timeToString(setStartChronoTime));
+			assertEquals("02:04:45.5", timeToString(synchronizedChronoStartTime));
 		}
 		
 		@Test 
 		public void testGetChronoTime() {			
-			setStartChronoTime = setStartChronoTime.withHour(0);
-			setStartChronoTime = setStartChronoTime.withMinute(0);
-			setStartChronoTime = setStartChronoTime.withSecond(9);
-			setStartChronoTime = setStartChronoTime.withNano(0);
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withHour(0);
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withMinute(0);
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withSecond(9);
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withNano(0);
 			try {
 				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			System.out.println(getCurrentChronoTime());

@@ -4,8 +4,13 @@ import java.util.StringTokenizer;
 
 public class ChronoTimerEventHandler {
 	private Timer timer;
-	private Race race; // TODO: array or list of races?
-	private int runNumber = 1; // TODO: need to increment with each new race
+	private Race race;
+	private int runNumber = 1;
+	private String raceType;
+	
+	public ChronoTimerEventHandler(Timer timer) {
+		race = new RaceIND(runNumber, timer);
+	}
 	
 	public void timeEvent(String s){
 		StringTokenizer st = new StringTokenizer(s);
@@ -67,16 +72,16 @@ public class ChronoTimerEventHandler {
 	
 	public void event(String string){
 		System.out.println("Creating new event " + string);
-		if(string.equalsIgnoreCase("IND")) {
-			race = new RaceIND(runNumber, timer);
-		}
-		//TODO add other races in upcoming sprints.
+		raceType = string;
 	};
-	
-	// TODO: default event type of new run is IND, so new run without event command should also
-	// create a new race?
+
 	public void newRun(){
 		race.setRunNumber(race.getRunNumber()+1);
+		switch (raceType) {//TODO add other race types
+			default:
+				race = new RaceIND(runNumber, timer);
+		}
+		
 		System.out.println("A new race has begun.");
 	};
 	public void endRun(){

@@ -15,8 +15,8 @@ public class Racer {
 	
 	public Racer(int number) {
 		this.number = number;
-		this.setStartTime("");
-		this.setFinishTime("");
+		this.setStartTime("00:00:00.0");
+		this.setFinishTime("00:00:00.0");
 		this.dnf = false;
 	}
 	
