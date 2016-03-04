@@ -16,7 +16,7 @@ public class Simulator {
 	private ConcurrentLinkedQueue<Long> eventTimes;//used for file input
 	private Timer t;//used to create events at correct times for file input
 	private long lastTime;private long currentTime;
-	private final int FFmultiplier=500;
+	private final int FFmultiplier=360;//TODO faster debugging
 
 	public Simulator(){
 		fileinput=false;

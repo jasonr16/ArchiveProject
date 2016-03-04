@@ -173,7 +173,6 @@ public class ChronoHardwareHandler {
 			default: 
 				System.out.println("Error. Invalid sensor type.");
 		}
-		sensors[channel] = new SensorElectricEye();
 	}
 	public void disc(int channel){
 		sensors[channel] = null;
