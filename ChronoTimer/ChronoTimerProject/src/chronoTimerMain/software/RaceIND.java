@@ -8,18 +8,15 @@ import java.util.Queue;
  * Represents a single race of the individual event type.
  * Is the default race type when the NEWRUN command is entered.
  * Contains a queue (FIFO) of racers that will be running individually.
- * @author yangxie
  *
  */
-
 public class RaceIND extends Race {
-	
-	/*TODO (from Jason) I put these Queues in Race because my Timer duration methods need access to them.
-	 * I made them LinkedLists because I need to access indexes, but Java LinkedLists implement Queue methods too.
-		 **/
-	
-	public RaceIND(Timer timer) {
-		super(timer);
+	/**
+	 * Constructor
+	 * @param timer
+	 */
+	public RaceIND(int runNumber, Timer timer) {
+		super(runNumber, timer);
 	}
 
 	/**
@@ -55,14 +52,15 @@ public class RaceIND extends Race {
 	
 	/**
 	 * Remove a racer from the start queue
-	 * @param racer to be removed
+	 * @param racer number of racer to be removed
 	 * @return true if remove was successful, else false
 	 */
 	@Override
-	public boolean removeRacerFromStart(Racer racer) {
+	public boolean removeRacerFromStart(int racerNum) {
 		boolean result = false;
 		ArrayList<Racer> startList = super.getStartList();
-		if (startList.contains(racer)) {
+		Racer racer = super.getCorrectRacer(racerNum);
+		if (racer != null && startList.contains(racer)) {
 			startList.remove(racer);
 			result = true;
 		}
@@ -89,39 +87,66 @@ public class RaceIND extends Race {
 	}
 
 	/**
-	 * Remove the racer at the end of the running queue (latest racer to start) and add him
+	 * Remove the racer at the end of the running queue (latest racer to start running) and add him
 	 * back to the head of the start queue.
 	 * Reset the racer's start time field.
 	 * @return true if a racer was handled, else false
 	 */
 	@Override
 	public boolean handleRacerCancel() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		ArrayList<Racer> runningList = super.getRunningList();
+		ArrayList<Racer> startList = super.getStartList();
+		Racer racer = runningList.remove(runningList.size()-1);
+		racer.setStartTime("");
+		startList.add(0, racer);
+		return result;
 	}
 
+	/**
+	 * Swap the two racers who are at the head of the running queue.
+	 * @return true if the swap was successful, else false
+	 */
 	@Override
 	public boolean swapRunningRacers() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		ArrayList<Racer> runningList = super.getRunningList();
+		if (runningList.size() >= 2) {
+			Racer tempRacer = runningList.get(0);
+			runningList.set(0, runningList.get(1));
+			runningList.set(1, tempRacer);
+		}
+		return result;
 	}
 
+	/**
+	 * Trigger channel 1
+	 */
 	@Override
-	public boolean moveRacerToRunning() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean start() {
+		return trig(1);
 	}
 
+	/**
+	 * Trigger channel 2
+	 */
 	@Override
-	public boolean moveRacerToFinish() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean finish() {
+		return trig(2);
 	}
 
+	/**
+	 * Trigger a channel and handle the resulting changes in the race
+	 */
 	@Override
-	public void trig(int channel) {
-		// TODO Auto-generated method stub
+	public boolean trig(int channelNum) {
+		boolean result = false;
+		// for individual races, there should only be 2 connected channels
+		// if this was the first trigger and there are racers in the start queue, 
+		// then it must be a start event
 		
+		// a later trigger on a different channel must be a finish event
+		return result;
 	}
 	
 }

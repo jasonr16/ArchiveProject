@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 public class ChronoTimerEventHandler {
 	private Timer timer;
 	private Race race; // TODO: array or list of races?
-	private int runNumber = 1;
+	private int runNumber = 1; // TODO: need to increment with each new race
 	
 	public void timeEvent(String s){
 		StringTokenizer st = new StringTokenizer(s);
@@ -27,7 +27,7 @@ public class ChronoTimerEventHandler {
 		}
 		else if (isClr(token)) {
 			try {
-				race.removeRacerFromStart(race.getCorrectRacer(Integer.parseInt(st.nextToken())));	
+				race.removeRacerFromStart((Integer.parseInt(st.nextToken())));	
 				} catch (NumberFormatException e) {
 					System.out.println("Error - invalid number.");
 				}
@@ -36,10 +36,10 @@ public class ChronoTimerEventHandler {
 			race.swapRunningRacers();
 		}
 		else if (isStart(token)) {
-			race.moveRacerToRunning();
+			race.start();
 		}
 		else if (isFinish(token)) {
-			race.moveRacerToFinish();
+			race.finish();
 		}
 		else if (isTrig(token)) {
 			try {
@@ -68,7 +68,7 @@ public class ChronoTimerEventHandler {
 	public void event(String string){
 		System.out.println("Creating new event " + string);
 		if(string.equalsIgnoreCase("IND")) {
-			race = new RaceIND(timer);
+			race = new RaceIND(runNumber, timer);
 		}
 		//TODO add other races in upcoming sprints.
 	};

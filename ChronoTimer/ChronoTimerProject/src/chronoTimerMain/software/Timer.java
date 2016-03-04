@@ -11,8 +11,10 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 
 public class Timer {
+	// TODO: what if time is set again? Wouldn't the system start time also have to reset 
+	// so the correct durations are calculated?
 	LocalDateTime setStartChronoTime;
-	LocalDateTime systemStartTime;
+	LocalDateTime systemStartTime; 
 	public Timer() {
 		setStartChronoTime = LocalDateTime.now();
 		systemStartTime = LocalDateTime.now();

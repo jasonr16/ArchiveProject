@@ -1,41 +1,47 @@
 package chronoTimerMain.software;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * Represents a single generic race event with multiple participating racers.
  * A race is created via the NEWRUN command in ChronoTimer, or by default when the system
  * is first powered on.
  * Always contains a Timer object that is associated with ChronoTimer's internal clock.
- * Racer queues are implemented by concrete classes that extend Race.
- *
  */
 
 public abstract class Race {
-	private int runNumber = 1;
+	private int runNumber;
 	private Timer timer;
-	private ArrayList<Racer> startList;
-	private ArrayList<Racer> runningList;
-	private ArrayList<Racer> finishList;
+	private ArrayList<Racer> startList; // queue of racers who are about to start
+	private ArrayList<Racer> runningList; // queue of racers who are running
+	private ArrayList<Racer> finishList; // queue of racers who have finished
 	
-	protected Race(Timer timer){
+	protected Race(int runNumber, Timer timer){
+		this.runNumber = runNumber;
 		this.timer = timer;
 		this.startList = new ArrayList<Racer>();
 		this.runningList = new ArrayList<Racer>();
 		this.finishList = new ArrayList<Racer>();
 	};
-
-	/**
-	 * Duration is stored in racerList-obtain with racerList[i].getDuration(). 
-	 * IMPORTANT: Call updateDuration() on each Racer in the list to get the most current duration value.
-	 * getRacerDuration is used by ChronoTimerEventHandler's print() method to print racer times.
-	 * @param racerNumber
-	 * @return racerNumber's time as String in format hh:mm:ss.ss
-	 */
 	
 	/**
-	 * Getter method for startList
+	 * Gets the run number of the race
+	 * @return run number
+	 */
+	public int getRunNumber() {
+		return runNumber;
+	}
+
+	/**
+	 * Sets the run number of the race
+	 * @param run number
+	 */
+	public void setRunNumber(int runNumber) {
+		this.runNumber = runNumber;
+	}
+	
+	/**
+	 * Gets the start queue for the race
 	 * @return startList
 	 */
 	protected ArrayList<Racer> getStartList() {
@@ -43,7 +49,7 @@ public abstract class Race {
 	}
 	
 	/**
-	 * Getter method for runningList
+	 * Gets the running queue for the race
 	 * @return runningList
 	 */
 	protected ArrayList<Racer> getRunningList() {
@@ -51,51 +57,85 @@ public abstract class Race {
 	}
 	
 	/**
-	 * Getter method for finishList
+	 * Gets the finish queue for the race
 	 * @return finishList
 	 */
 	protected ArrayList<Racer> getFinishList() {
 		return this.finishList;
 	}
 	
-	public String getRacerDuration(int racerNumber) {
-		updateDuration(racerNumber);
-		return getCorrectRacer(racerNumber).getDuration();
-	}
 	/**
-	 * Method for finding the correct Racer in racerlists.
-	 * @param racerNumber
+	 * Calculates the run duration of a racer who is running or finished a race
+	 * @param racerNum
+	 * @return the formatted time duration of a racer's run. If the racer did not start yet,
+	 * returns a duration of zero.
+	 */
+	public String getRacerDuration(int racerNum) {
+		String result = "";
+		Racer racer = null;
+		// if racer is in start queue, return zero duration
+		for(int i = 0; i < startList.size(); i++) {
+			if (startList.get(i).getNumber() == racerNum) {
+				racer = startList.get(i);
+				result = timer.getRunDuration(racer.getStartTime(), racer.getStartTime());
+			}
+		}
+		
+		// if racer is in running queue, return duration between current time and start time
+		if (racer == null) {
+			for(int i = 0; i < runningList.size(); i++) {
+				if (runningList.get(i).getNumber() == racerNum) {
+					racer = startList.get(i);
+					result = timer.getRunDuration(racer.getStartTime(), timer.getCurrentChronoTime());
+				}
+			}
+		}
+		
+		// if racer is in finish queue and actually finished, return duration between
+		// finish time and start time
+		if (racer == null) {
+			for(int i = 0; i < finishList.size(); i++) {
+				if (finishList.get(i).getNumber() == racerNum) {
+					racer = finishList.get(i);
+					// if racer did not finish, return "DNF"
+					if (racer.getDNF())
+						result = "DNF";
+					else
+						result = timer.getRunDuration(racer.getStartTime(), racer.getFinishTime());
+				}
+			}
+		}
+		
+		// if racer not found in any queue, return "Racer not found"
+		if (racer == null) {
+			result = "Racer " + racerNum + " not found";
+		}
+		return result;
+	}
+	
+	/**
+	 * Method for finding the correct Racer in the race queues.
+	 * @param racerNum
 	 * @return Racer with number raceNumber, or null if does not exist
 	 */
-	public Racer getCorrectRacer(int racerNumber) {
+	public Racer getCorrectRacer(int racerNum) {
 		for(int i = 0; i < startList.size(); i++) {
-			if (startList.get(i).getNumber() == racerNumber) {
+			if (startList.get(i).getNumber() == racerNum) {
 				return startList.get(i);
 			}
 		}
 		for(int i = 0; i < runningList.size(); i++) {
-			if (runningList.get(i).getNumber() == racerNumber) {
+			if (runningList.get(i).getNumber() == racerNum) {
 				return runningList.get(i);
 			}
 		}
 		for(int i = 0; i < finishList.size(); i++) {
-			if (finishList.get(i).getNumber() == racerNumber) {
+			if (finishList.get(i).getNumber() == racerNum) {
 				return finishList.get(i);
 			}
 		}
 		return null;
 	}
-	
-	/** 
-	 * updateDuration updates the duration field in racerList's racers.
-	 *  It uses the timer's getDurationAsString(int racernum) 
-	 *  to update racerNumber racer with setDuration(String duration) for Racers.
-	 * @param racerNumber
-	 */
-	public void updateDuration(int racerNumber) {
-		getCorrectRacer(racerNumber).setDuration(timer.getDurationAsString(racerNumber));
-	}
-
 	
 	/**
 	 * Adds a racer as the next racer to start in race
@@ -107,36 +147,49 @@ public abstract class Race {
 	/**
 	 * Removes the next racer to start from the race
 	 * Corresponds to the CLR <NUMBER> command
-	 * @param racerNumber
+	 * @param racerNum
 	 */
-	public abstract boolean removeRacerFromStart(Racer racer);
+	public abstract boolean removeRacerFromStart(int racerNum);
 
 	/**
 	 * Marks the next racer to finish as DNF
-	 * Corresponds to the DNF
+	 * Corresponds to the DNF command
 	 */
 	public abstract boolean handleRacerDNF();
+	
+	/**
+	 * Cancels the last racer who started to run
+	 * Corresponds to the CANCEL command
+	 */
 	public abstract boolean handleRacerCancel();
+	
+	/**
+	 * Swaps the next two racers expected to finish
+	 * Corresponds to the SWAP command
+	 */
 	public abstract boolean swapRunningRacers();
-	public abstract boolean moveRacerToRunning();
-	public abstract boolean moveRacerToFinish();
+	
+	/**
+	 * Moves a racer from the start queue to the running queue
+	 */
+	public abstract boolean start();
+	
+	/**
+	 * Moves a racer from the running queue to the finish queue
+	 */
+	public abstract boolean finish();
+	
+	
+	public abstract boolean trig(int channelNum);
 
-	public abstract void trig(int channel);
-
-	public int getRunNumber() {
-		return runNumber;
-	}
-
-	public void setRunNumber(int runNumber) {
-		this.runNumber = runNumber;
-	}
-
-	// TODO: also have to handle specific run parameter
+	/**
+	 * Prints formatted results of the race
+	 */
 	public void print() {
-		System.out.println("Race " + runNumber);
+		System.out.println("Race " + this.runNumber);
 		for(int i = 0; i < finishList.size(); i++) {
-			System.out.println(finishList.get(i).getNumber() + "     "
-					+ getRacerDuration(finishList.get(i).getNumber()));
+			System.out.printf("\t%d\t%s", finishList.get(i).getNumber(),
+					getRacerDuration(finishList.get(i).getNumber()));
 		}
 	}
 }
