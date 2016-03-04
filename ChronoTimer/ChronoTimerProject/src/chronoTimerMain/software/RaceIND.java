@@ -1,6 +1,7 @@
 package chronoTimerMain.software;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 import org.junit.*;
@@ -114,7 +115,9 @@ public class RaceIND extends Race {
 		// if there are racers in the running queue, a finish event should move the racer at the head of the running
 		// queue into the finish queue
 		else if (channelNum == this.finishChannel && runningList.size() > 0) {
-			finishList.add(runningList.remove(0));
+			racer = runningList.remove(0);
+			racer.setFinishTime(super.getTimer().getCurrentChronoTime());
+			finishList.add(racer);
 			result = true;
 		}
 		return result;
@@ -353,6 +356,7 @@ public class RaceIND extends Race {
 			assertEquals(2, race1.getFinishList().size());
 			assertEquals(234, race1.getFinishList().get(0).getNumber());
 			assertEquals(315, race1.getFinishList().get(1).getNumber());
+			race1.print();
 			
 			// trigger channels 1 and 2 (no more racers)
 			assertFalse(race1.trig(1));
@@ -396,6 +400,7 @@ public class RaceIND extends Race {
 			assertEquals(177, race2.getFinishList().get(1).getNumber());
 			assertEquals(200, race2.getFinishList().get(2).getNumber());
 			assertEquals(201, race2.getFinishList().get(3).getNumber());
+			race2.print();
 		}
 		
 		public void testHandleRacerDNF() {
