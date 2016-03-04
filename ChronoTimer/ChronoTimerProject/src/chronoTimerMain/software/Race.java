@@ -188,7 +188,7 @@ public abstract class Race {
 	public void print() {
 		System.out.println("Race " + this.runNumber);
 		for(int i = 0; i < finishList.size(); i++) {
-			System.out.printf("\t%d\t%s", finishList.get(i).getNumber(),
+			System.out.printf("\t%d\t%s\n", finishList.get(i).getNumber(),
 					getRacerDuration(finishList.get(i).getNumber()));
 		}
 	}

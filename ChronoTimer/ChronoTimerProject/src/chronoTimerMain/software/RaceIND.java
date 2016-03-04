@@ -1,38 +1,27 @@
 package chronoTimerMain.software;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Represents a single race of the individual event type.
  * Is the default race type when the NEWRUN command is entered.
- * Contains a queue (FIFO) of racers that will be running individually.
- *
  */
 public class RaceIND extends Race {
+	// for individual races, there should only be 2 connected channels
+	private int startChannel; 
+	private int finishChannel;
+	
 	/**
-	 * Constructor
-	 * @param timer
+	 * Creates an individual race
+	 * @param run number for the race
+	 * @param Timer object used for the race
 	 */
 	public RaceIND(int runNumber, Timer timer) {
 		super(runNumber, timer);
+		this.startChannel = 0;
+		this.finishChannel = 0;
 	}
 
-	/**
-	 * Swap the next two racers that will finish
-	 * @return true if swap was successful, else false
-	 */
-	public boolean swap() {
-		boolean result = false;
-		ArrayList<Racer> runningList = super.getRunningList();
-		if (runningList.size() >= 2) {
-			Racer temp = runningList.remove(0);
-			runningList.add(1, temp);
-			result = true;
-		}
-		return result;
-	}
 	
 	/**
 	 * Add a new racer to the end of the start queue
@@ -120,32 +109,65 @@ public class RaceIND extends Race {
 	}
 
 	/**
-	 * Trigger channel 1
+	 * Trigger default start channel
+	 * @return true if a racer was moved from one queue to another, false if not
 	 */
 	@Override
 	public boolean start() {
-		return trig(1);
+		boolean result = false;
+		if (this.startChannel == 0)
+			result = trig(1);
+		else
+			result = trig(this.startChannel);
+		return result;
 	}
 
 	/**
-	 * Trigger channel 2
+	 * Trigger default finish channel
+	 * @return true if a racer was moved from one queue to another, false if not
 	 */
 	@Override
 	public boolean finish() {
-		return trig(2);
+		boolean result = false;
+		if (this.finishChannel == 0)
+			result = trig(2);
+		else
+			result = trig(this.finishChannel);
+		return result;
 	}
 
 	/**
 	 * Trigger a channel and handle the resulting changes in the race
+	 * @return true if a racer was moved from one queue to another, false if not
 	 */
 	@Override
 	public boolean trig(int channelNum) {
 		boolean result = false;
-		// for individual races, there should only be 2 connected channels
-		// if this was the first trigger and there are racers in the start queue, 
-		// then it must be a start event
+		ArrayList<Racer> startList = super.getStartList();
+		ArrayList<Racer> runningList = super.getRunningList();
+		ArrayList<Racer> finishList = super.getFinishList();
+		// if the event was the first trigger of the race, it must be a start event, and we set the start channel to that 
+		// channel number
+		if (this.startChannel == 0) {
+			this.startChannel = channelNum;
+		}
+		// a later trigger on a different channel must be a finish event, so we set the finish channel to that number
+		else if (this.startChannel != channelNum && this.finishChannel == 0) {
+			this.finishChannel = channelNum;
+		}
 		
-		// a later trigger on a different channel must be a finish event
+		// if there are racers in the start queue, a start event should move the racer at the head of the start queue
+		// into the running queue
+		if (channelNum == this.startChannel && startList.size() > 0) {
+			runningList.add(startList.remove(0));
+			result = true;
+		}
+		// if there are racers in the running queue, a finish event should move the racer at the head of the running
+		// queue into the finish queue
+		else if (channelNum == this.finishChannel) {
+			finishList.add(runningList.remove(0));
+			result = true;
+		}
 		return result;
 	}
 	
