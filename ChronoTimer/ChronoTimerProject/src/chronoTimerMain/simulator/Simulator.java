@@ -17,7 +17,7 @@ public class Simulator {
 	private ConcurrentLinkedQueue<String> timesInFileQueue=new ConcurrentLinkedQueue<String>();//this is to store timestamps from file
 	private Timer t;//used to create events at correct times for file input
 	private long lastTime;private long currentTime;
-	private final int FFmultiplier=360;//TODO faster debugging
+	private final int FFmultiplier=36000;//TODO faster debugging
 
 	public Simulator(){
 		fileinput=false;

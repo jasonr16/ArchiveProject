@@ -104,7 +104,6 @@ public class ChronoHardwareHandler {
 				break;
 			default:
 				eventHandler.timeEvent(command, args, timestamp);
-				ON();
 			}
 		}
 	}
