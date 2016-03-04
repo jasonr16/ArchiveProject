@@ -2,6 +2,7 @@ package chronoTimerMain.simulator;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.io.*;
 import java.sql.Time;
 import java.util.Timer;
@@ -58,7 +59,7 @@ public class Simulator {
 	private void captureInputLoop() throws IOException {
 		String line="";
 		br = new BufferedReader(new InputStreamReader(System.in));
-		while(!line.equals("EXIT")){
+		while(!line.equalsIgnoreCase("EXIT")){
 			System.out.print("Enter Command<EXIT to quit>: ");
 			line=br.readLine();
 			events.add(line);
@@ -90,7 +91,11 @@ public class Simulator {
 		return(!events.isEmpty());
 	}
 	public String getEventTimestamp(){
-		return(timesInFileQueue.remove());
+		try{
+			return(timesInFileQueue.remove()+" ");
+		}catch(NoSuchElementException e){
+			return("");
+		}
 	}
 	public String getEvent(){
 		if(listen()){
