@@ -82,6 +82,10 @@ public class ChronoTimerEventHandler {
 			updateChronoDisplay(timestamp);
 			System.out.println(display);
 		}
+		else if(isCancel(s)){
+			System.out.println(timestamp+"Cancel.");
+			race.handleRacerCancel();
+		}
 		
 	};
 	
@@ -184,6 +188,9 @@ public class ChronoTimerEventHandler {
 	}
 	private boolean isTime(String s) {
 		return s.equalsIgnoreCase("time");
+	}
+	private boolean isCancel(String s){
+		return s.equalsIgnoreCase("Cancel");
 	}
 	
 }
