@@ -1,7 +1,13 @@
 package chronoTimerMain.software;
 
 import java.util.ArrayList;
-
+/**
+ * ChronoTimerEventHandler parses the commands that are not hardware related. 
+ * This class passes commands specific to a raceType to that specific Race object to be properly implemented.
+ * Commands that are applicable to any race type are implemented here
+ * @author Jason
+ *
+ */
 public class ChronoTimerEventHandler {
 	private Timer timer;
 	private ArrayList<Race> raceList = new ArrayList<Race>();
@@ -15,7 +21,12 @@ public class ChronoTimerEventHandler {
 		race = new RaceIND(runNumber, timer);
 		raceList.add(race);
 	}
-	
+	/**
+	 * timeEvent processes the commands obtained from the ChronoHardwareHandler class
+	 * @param s the command
+	 * @param args command parameters
+	 * @param timestamp time from file, if file input
+	 */
 	public void timeEvent(String s, String[] args, String timestamp){
 		
 		if(isTime(s)) {
@@ -67,7 +78,7 @@ public class ChronoTimerEventHandler {
 			this.newRun();
 		}
 		else if (isEndRun(s)) {
-			System.out.println(timestamp + "End Run Started.");
+			System.out.println(timestamp + "Run ended.");
 			this.endRun();
 		}
 		else if (isEvent(s)) {
@@ -97,12 +108,15 @@ public class ChronoTimerEventHandler {
 		}
 		
 	};
-	
+	/**
+	 * used for gui display text showing start, running, finished racer number and times.
+	 * @param timestamp timestamp from file, if file input
+	 */
 	public void updateChronoDisplay(String timestamp) {
 		ArrayList<Racer> startList = race.getStartList();
 		ArrayList<Racer> runningList = race.getRunningList();
 		ArrayList<Racer> finishList = race.getFinishList();
-		for(int i = startList.size()-1; i >=0; i--) {
+		for(int i = startList.size()-1; i >=0; i--) {//display queued racers
 			if(timestamp.equals("")) {
 				display += startList.get(i).getNumber() + " " + timer.getCurrentChronoTime();
 			}
@@ -114,7 +128,7 @@ public class ChronoTimerEventHandler {
 				display += "\n";
 		}
 		display += "\n\n";
-		for(int i = 0; i < runningList.size(); i++) {
+		for(int i = 0; i < runningList.size(); i++) {//display running racers
 			if(timestamp.equals("")) {
 				display += runningList.get(i).getNumber() + " " + 
 			timer.getRunDuration(runningList.get(i).getStartTime(), timer.getCurrentChronoTime());
@@ -126,22 +140,27 @@ public class ChronoTimerEventHandler {
 			display += " R\n";
 		}
 		display += "\n";
-		for(int i = 0; i < runningList.size(); i++) {
+		for(int i = 0; i < finishList.size(); i++) {//display finished racers
 			if(timestamp.equals("")) {
-				display += runningList.get(i).getNumber() + " " + 
-			timer.getRunDuration(runningList.get(i).getStartTime(), runningList.get(i).getFinishTime());
+				display += finishList.get(i).getNumber() + " " + 
+			timer.getRunDuration(finishList.get(i).getStartTime(), finishList.get(i).getFinishTime());
 			}
 			else
-				display += runningList.get(i).getNumber() + " " + timestamp;
+				display += finishList.get(i).getNumber() + " " + timestamp;
 			
 			display += " F\n";
 		}
 	}
-
+	/**
+	 * sets the Race type
+	 * @param eventType
+	 */
 	public void event(String eventType){
 		raceType = eventType;
 	};
-
+	/**
+	 * creates a newRun, ending the previous run first
+	 */
 	public void newRun(){
 		race.endRun(); // make sure previous run has ended
 		if (raceType.equals("IND")){
@@ -150,6 +169,9 @@ public class ChronoTimerEventHandler {
 		}
 		//TODO add other race types
 	};
+	/**
+	 * ends the current run by marking all non-finished racers as DNF.
+	 */
 	public void endRun(){
 		race.endRun();
 	};
@@ -162,8 +184,11 @@ public class ChronoTimerEventHandler {
 	public void print(){
 		race.print();
 	};
-	
-	public void print(int number){
+	/**
+	 * prints the race number details, including previously completed races still stored in system.
+	 * @param number the number associated with a race, initially one and incremented every new run.
+	 */
+	public void print(int number){//number has already been decremented in timeEvent
 		raceList.get(number).print();
 	}
 	

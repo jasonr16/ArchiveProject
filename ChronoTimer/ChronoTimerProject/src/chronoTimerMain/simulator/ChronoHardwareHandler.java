@@ -7,9 +7,21 @@ import chronoTimerMain.simulator.sensor.SensorGate;
 import chronoTimerMain.simulator.sensor.SensorPad;
 import chronoTimerMain.software.ChronoTimerEventHandler;
 import chronoTimerMain.software.Timer;
-
+/**
+ * ChronoHardwareHandler is an adapter between the simulator and the rest of chronotimer.
+ * This class implements all hardware-related commands that represent physical processes, such as turning the power on.
+ * All non-hardware commands are sent to ChronoTimerEventHandler to be parsed and implemented there.
+ * @author Jason
+ *
+ */
 public class ChronoHardwareHandler {
 	
+	/**
+	 * SingleEvent class is used to store all events entered into the system.
+	 * It will eventually be implemented to export to XML.
+	 * @author Jason
+	 *
+	 */
 	private class SingleEvent {
 		private String timeStamp;
 		private String command;
@@ -56,7 +68,7 @@ public class ChronoHardwareHandler {
 			eventLog.add(new SingleEvent(time.getCurrentChronoTime(), command, args));
 		}
 		else
-			new SingleEvent(timestamp, command, args);
+			new SingleEvent(timestamp, command, args);//save the input to eventlog
 		command = command.toUpperCase();
 		
 		switch (command){
@@ -131,7 +143,7 @@ public class ChronoHardwareHandler {
 	}
 	
 	/**
-	 * turns on
+	 * turns on power
 	 */
 	public void ON(){
 		//initialize stuff
@@ -141,18 +153,22 @@ public class ChronoHardwareHandler {
 	}
 	
 	/**
-	 * same as ! ON()...
+	 * turns off power
 	 */
 	public void OFF(){
 		this.power = false;
 
 	}
-	
+	/**
+	 * exits the program.
+	 */
 	public void exit(){
 		OFF();
 		System.exit(0);
 	}
-	
+	/**
+	 * resets chronotimer to initial states.
+	 */
 	public void reset() {
 		time = new Timer();
 		eventHandler = new ChronoTimerEventHandler(time);
@@ -167,7 +183,13 @@ public class ChronoHardwareHandler {
 	public void toggle(int channel) {
 		isEnabledSensor[channel] = !isEnabledSensor[channel];
 	};
+	/**
+	 * adds a sensor to specified channel
+	 * @param type the type of sensor
+	 * @param channel the channel associated with the sensor, 1-12
+	 */
 	public void conn(String type, int channel){
+		type = type.toUpperCase();
 		switch(type) {
 			case "EYE":
 				sensors[channel] = new SensorElectricEye();
@@ -182,6 +204,10 @@ public class ChronoHardwareHandler {
 				System.out.println("Error. Invalid sensor type.");
 		}
 	}
+	/**
+	 * removes a sensor from channel
+	 * @param channel the channel number to disconnect the sensor
+	 */
 	public void disc(int channel){
 		sensors[channel] = null;
 	};
