@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ChronoTimerEventHandler {
 	private Timer timer;
-	private ArrayList<Race> raceList=new ArrayList<Race>();
+	private ArrayList<Race> raceList = new ArrayList<Race>();
 	private Race race;
 	private int runNumber = 1;
 	private String raceType = "IND";
@@ -12,9 +12,8 @@ public class ChronoTimerEventHandler {
 	
 	public ChronoTimerEventHandler(Timer timer) {
 		this.timer = timer;
-		raceList.add(new RaceIND(runNumber, timer));
-		race=raceList.get(runNumber-1);
-		this.runNumber = 1;
+		race = new RaceIND(runNumber, timer);
+		raceList.add(race);
 	}
 	
 	public void timeEvent(String s, String[] args, String timestamp){
@@ -146,9 +145,8 @@ public class ChronoTimerEventHandler {
 	public void newRun(){
 		race.endRun(); // make sure previous run has ended
 		if (raceType.equals("IND")){
-			raceList.add(new RaceIND(++runNumber, timer));
-			race=raceList.get(runNumber-1);
-		
+			race = new RaceIND(++runNumber, timer);
+			raceList.add(race);
 		}
 		//TODO add other race types
 	};

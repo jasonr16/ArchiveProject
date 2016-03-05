@@ -98,6 +98,7 @@ public class Simulator {
 	public boolean listen(){//is there an event?
 		return(!events.isEmpty());
 	}
+	// TODO: find a better fix for display issue than appending space to timestamp?
 	public String getEventTimestamp(){
 		try{
 			return(timesInFileQueue.remove()+" ");
@@ -112,6 +113,4 @@ public class Simulator {
 			return("No command waiting");
 		}
 	}
-
 }
-
