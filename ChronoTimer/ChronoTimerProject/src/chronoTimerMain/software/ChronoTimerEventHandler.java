@@ -81,7 +81,7 @@ public class ChronoTimerEventHandler {
 				this.print();
 			}else{
 				try{
-					this.print(Integer.parseInt(args[0]));
+					this.print(Integer.parseInt(args[0])-1);
 				}catch(NumberFormatException e){		  
 					e.printStackTrace();
 				}
@@ -146,7 +146,7 @@ public class ChronoTimerEventHandler {
 	public void newRun(){
 		race.endRun(); // make sure previous run has ended
 		if (raceType.equals("IND")){
-			raceList.add(new RaceIND(runNumber++, timer));
+			raceList.add(new RaceIND(++runNumber, timer));
 			race=raceList.get(runNumber-1);
 		
 		}
