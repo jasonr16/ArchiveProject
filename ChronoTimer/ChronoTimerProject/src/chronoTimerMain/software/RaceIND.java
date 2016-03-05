@@ -89,6 +89,9 @@ public class RaceIND extends Race {
 		ArrayList<Racer> finishList = super.getFinishList();
 		Racer racer = null;
 		
+		if (channelNum > 12)
+			return false;
+		
 		// if the event was the first trigger of the race, it must be a start event, and we set
 		// the start channel to that number
 		if (this.startChannel == 0 && startList.size() > 0) {
