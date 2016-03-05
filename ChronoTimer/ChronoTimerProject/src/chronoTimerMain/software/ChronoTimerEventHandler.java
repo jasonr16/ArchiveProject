@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class ChronoTimerEventHandler {
 	private Timer timer;
+	private ArrayList<Race> raceList=new ArrayList<Race>();
 	private Race race;
 	private int runNumber = 1;
 	private String raceType = "IND";
@@ -11,7 +12,8 @@ public class ChronoTimerEventHandler {
 	
 	public ChronoTimerEventHandler(Timer timer) {
 		this.timer = timer;
-		race = new RaceIND(runNumber, timer);
+		raceList.add(new RaceIND(runNumber, timer));
+		race=raceList.get(runNumber-1);
 		this.runNumber = 1;
 	}
 	
@@ -75,7 +77,15 @@ public class ChronoTimerEventHandler {
 		}
 		else if (isPrint(s)) {
 			System.out.println(timestamp + "Printing racer times to console\n");
-			this.print();
+			if(args[0]==null){
+				this.print();
+			}else{
+				try{
+					this.print(Integer.parseInt(args[0]));
+				}catch(NumberFormatException e){		  
+					e.printStackTrace();
+				}
+			}
 		}
 		else if (s.equalsIgnoreCase("DISPLAY")) {
 			System.out.println(timestamp + "Printing display.");
@@ -135,8 +145,11 @@ public class ChronoTimerEventHandler {
 
 	public void newRun(){
 		race.endRun(); // make sure previous run has ended
-		if (raceType.equals("IND")) 
-			race = new RaceIND(runNumber++, timer);
+		if (raceType.equals("IND")){
+			raceList.add(new RaceIND(runNumber++, timer));
+			race=raceList.get(runNumber-1);
+		
+		}
 		//TODO add other race types
 	};
 	public void endRun(){
@@ -151,6 +164,10 @@ public class ChronoTimerEventHandler {
 	public void print(){
 		race.print();
 	};
+	
+	public void print(int number){
+		raceList.get(number).print();
+	}
 	
 	//boolean helper methods
 	private boolean isPrint(String s) {
