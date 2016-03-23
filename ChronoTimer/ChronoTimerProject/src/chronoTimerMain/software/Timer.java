@@ -58,15 +58,13 @@ public class Timer {
 			Duration duration = Duration.between(startT, finishT);
 			LocalTime elapsedTime = (LocalTime) duration.addTo(LocalTime.parse("00:00:00.0"));
 			s = String.format("%02d:%02d:%02d.%01d", elapsedTime.getHour(),elapsedTime.getMinute(),
-					elapsedTime.getSecond(), elapsedTime.getNano()/100000000);
+					elapsedTime.getSecond(), elapsedTime.getNano());
 		} catch (NoSuchElementException e) {
 			System.out.println("Error with time format parsing.");
 			return "00:00:00.0";
 		} catch (NumberFormatException e) {
 			System.out.println("Error. Time number(s) not valid.");
 			return "00:00:00.0";
-		} catch (Exception e) {
-			System.out.println("Unknown Error.");
 		}
 		return s;
 	}
@@ -74,11 +72,11 @@ public class Timer {
 	/**
 	 * Gets the current time based on the set system time of ChronoTimer. A timestamp for system commands.
 	 * If no Time has been set, it uses system time.
-	 * @return current ChronoTime String in hh:mm:ss.ns format.
+	 * @return current ChronoTime String in hh:mm:ss.S format.
 	 */
 	public String getCurrentChronoTime() {
 			Duration d = Duration.between(synchronizedSystemStartTime, LocalDateTime.now());
-			return timeToString (d.addTo(synchronizedChronoStartTime));
+			return timeToString ((LocalDateTime) d.addTo(synchronizedChronoStartTime));
 			
 	}	
 	private String timeToString(Temporal t) {
@@ -102,7 +100,8 @@ public class Timer {
 		}
 		
 		@Test 
-		public void testGetChronoTime() {			
+		public void testGetChronoTime() {	
+			//test for delayed time
 			synchronizedChronoStartTime = synchronizedChronoStartTime.withHour(0);
 			synchronizedChronoStartTime = synchronizedChronoStartTime.withMinute(0);
 			synchronizedChronoStartTime = synchronizedChronoStartTime.withSecond(9);
@@ -115,10 +114,11 @@ public class Timer {
 			System.out.println(getCurrentChronoTime());
 			assertEquals("00:00:1", getCurrentChronoTime().substring(0, 7));
 			
-			
 		}
 		@Test
 		public void testGetRunDuration() {
 			assertEquals("01:01:01.0", getRunDuration("02:02:02.2", "03:03:03.2"));
+			//test zero nanoseconds
+			assertEquals("01:01:01.0", getRunDuration("02:02:02.0", "03:03:03.0"));
 		}
 }
