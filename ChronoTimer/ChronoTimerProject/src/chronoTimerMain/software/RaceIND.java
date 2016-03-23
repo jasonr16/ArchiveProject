@@ -89,6 +89,9 @@ public class RaceIND extends Race {
 		ArrayList<Racer> finishList = super.getFinishList();
 		Racer racer = null;
 		
+		if (channelNum > 12)
+			return false;
+		
 		// if the event was the first trigger of the race, it must be a start event, and we set
 		// the start channel to that number
 		if (this.startChannel == 0 && startList.size() > 0) {
@@ -313,7 +316,7 @@ public class RaceIND extends Race {
 		
 		public void testTrig() {
 			// trigger when no racers in start queue
-			assertFalse(race1.trig(3, null));
+			assertFalse(race1.trig(3, ""));
 			assertEquals(0, race1.getStartChannel());
 			assertEquals(0, race1.getFinishChannel());
 			assertEquals(0, race1.getStartList().size());
@@ -323,7 +326,7 @@ public class RaceIND extends Race {
 			// trigger channel 1 (first racer starts)
 			race1.addRacerToStart(234);
 			race1.addRacerToStart(315);
-			assertTrue(race1.trig(1, null));
+			assertTrue(race1.trig(1, ""));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(1, race1.getStartList().size());
 			assertEquals(315, race1.getStartList().get(0).getNumber());
@@ -332,7 +335,7 @@ public class RaceIND extends Race {
 			assertEquals(0, race1.getFinishList().size());
 			
 			// trigger channel 2 (first racer finishes)
-			assertTrue(race1.trig(2, null));
+			assertTrue(race1.trig(2, ""));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(2, race1.getFinishChannel());
 			assertEquals(1, race1.getStartList().size());
@@ -342,7 +345,7 @@ public class RaceIND extends Race {
 			assertEquals(234, race1.getFinishList().get(0).getNumber());
 			
 			// trigger channel 3 (not start or finish)
-			assertFalse(race1.trig(3, null));
+			assertFalse(race1.trig(3, ""));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(2, race1.getFinishChannel());
 			assertEquals(1, race1.getStartList().size());
@@ -350,7 +353,7 @@ public class RaceIND extends Race {
 			assertEquals(1, race1.getFinishList().size());
 			
 			// trigger channel 1 (second racer starts)
-			assertTrue(race1.trig(1, null));
+			assertTrue(race1.trig(1, ""));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(2, race1.getFinishChannel());
 			assertEquals(0, race1.getStartList().size());
@@ -360,7 +363,7 @@ public class RaceIND extends Race {
 			assertEquals(234, race1.getFinishList().get(0).getNumber());
 			
 			// trigger channel 2 (second racer finishes)
-			assertTrue(race1.trig(2, null));
+			assertTrue(race1.trig(2, ""));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(2, race1.getFinishChannel());
 			assertEquals(0, race1.getStartList().size());
@@ -370,8 +373,8 @@ public class RaceIND extends Race {
 			assertEquals(315, race1.getFinishList().get(1).getNumber());
 			
 			// trigger channels 1 and 2 (no more racers)
-			assertFalse(race1.trig(1, null));
-			assertFalse(race1.trig(2, null));
+			assertFalse(race1.trig(1, ""));
+			assertFalse(race1.trig(2, ""));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(2, race1.getFinishChannel());
 			assertEquals(0, race1.getStartList().size());
@@ -383,10 +386,10 @@ public class RaceIND extends Race {
 			race2.addRacerToStart(177);
 			race2.addRacerToStart(200);
 			race2.addRacerToStart(201);
-			assertTrue(race2.trig(3, null));
-			assertTrue(race2.trig(3, null));
-			assertTrue(race2.trig(3, null));
-			assertTrue(race2.trig(3, null));
+			assertTrue(race2.trig(3, ""));
+			assertTrue(race2.trig(3, ""));
+			assertTrue(race2.trig(3, ""));
+			assertTrue(race2.trig(3, ""));
 			assertEquals(3, race2.getStartChannel());
 			assertEquals(0, race2.getFinishChannel());
 			assertEquals(0, race2.getStartList().size());
@@ -397,10 +400,10 @@ public class RaceIND extends Race {
 			assertEquals(201, race2.getRunningList().get(3).getNumber());
 			assertEquals(0, race2.getFinishList().size());
 			
-			assertTrue(race2.trig(4, null));
-			assertTrue(race2.trig(4, null));
-			assertTrue(race2.trig(4, null));
-			assertTrue(race2.trig(4, null));
+			assertTrue(race2.trig(4, ""));
+			assertTrue(race2.trig(4, ""));
+			assertTrue(race2.trig(4, ""));
+			assertTrue(race2.trig(4, ""));
 			assertEquals(3, race2.getStartChannel());
 			assertEquals(4, race2.getFinishChannel());
 			assertEquals(0, race2.getStartList().size());
@@ -415,14 +418,14 @@ public class RaceIND extends Race {
 		public void testStart() {
 			race1.addRacerToStart(234);
 			race1.addRacerToStart(315);
-			assertTrue(race1.start(null));
+			assertTrue(race1.start(""));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(1, race1.getStartList().size());
 			assertEquals(315, race1.getStartList().get(0).getNumber());
 			assertEquals(1, race1.getRunningList().size());
 			assertEquals(234, race1.getRunningList().get(0).getNumber());
 			assertEquals(0, race1.getFinishList().size());
-			assertTrue(race1.start(null));
+			assertTrue(race1.start(""));
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(2, race1.getRunningList().size());
 			assertEquals(234, race1.getRunningList().get(0).getNumber());
@@ -432,8 +435,8 @@ public class RaceIND extends Race {
 			// test intermixing of trig and start commands
 			race2.addRacerToStart(166);
 			race2.addRacerToStart(167);
-			assertTrue(race2.trig(3, null));
-			assertTrue(race2.start(null));
+			assertTrue(race2.trig(3, ""));
+			assertTrue(race2.start(""));
 			assertEquals(0, race2.getStartList().size());
 			assertEquals(2, race2.getRunningList().size());
 			assertEquals(166, race2.getRunningList().get(0).getNumber());
@@ -444,11 +447,11 @@ public class RaceIND extends Race {
 		public void testFinish() {
 			race1.addRacerToStart(234);
 			race1.addRacerToStart(315);
-			assertTrue(race1.start(null));
-			assertTrue(race1.start(null));
-			assertTrue(race1.finish(null));
-			assertTrue(race1.finish(null));
-			assertFalse(race1.finish(null));
+			assertTrue(race1.start(""));
+			assertTrue(race1.start(""));
+			assertTrue(race1.finish(""));
+			assertTrue(race1.finish(""));
+			assertFalse(race1.finish(""));
 			assertEquals(1, race1.getStartChannel());
 			assertEquals(2, race1.getFinishChannel());
 			assertEquals(0, race1.getStartList().size());
@@ -460,10 +463,10 @@ public class RaceIND extends Race {
 			// test intermixing of trig and finish commands
 			race2.addRacerToStart(166);
 			race2.addRacerToStart(167);
-			assertTrue(race2.start(null));
-			assertTrue(race2.start(null));
-			assertTrue(race2.trig(5, null));
-			assertTrue(race2.finish(null));
+			assertTrue(race2.start(""));
+			assertTrue(race2.start(""));
+			assertTrue(race2.trig(5, ""));
+			assertTrue(race2.finish(""));
 			assertEquals(1, race2.getStartChannel());
 			assertEquals(5, race2.getFinishChannel());
 			assertEquals(0, race2.getStartList().size());
@@ -481,8 +484,8 @@ public class RaceIND extends Race {
 			assertFalse(race1.handleRacerCancel());
 			
 			// test normal cancel
-			assertTrue(race1.start(null));
-			assertTrue(race1.start(null));
+			assertTrue(race1.start(""));
+			assertTrue(race1.start(""));
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(2, race1.getRunningList().size());
 			assertEquals(234, race1.getRunningList().get(0).getNumber());
@@ -501,8 +504,8 @@ public class RaceIND extends Race {
 			// test normal swap
 			race1.addRacerToStart(234);
 			race1.addRacerToStart(315);
-			assertTrue(race1.start(null));
-			assertTrue(race1.start(null));
+			assertTrue(race1.start(""));
+			assertTrue(race1.start(""));
 			assertTrue(race1.swapRunningRacers());
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(2, race1.getRunningList().size());
@@ -518,8 +521,8 @@ public class RaceIND extends Race {
 			assertFalse(race1.handleRacerDNF());
 			
 			// test normal DNF
-			assertTrue(race1.start(null));
-			assertTrue(race1.start(null));
+			assertTrue(race1.start(""));
+			assertTrue(race1.start(""));
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(2, race1.getRunningList().size());
 			assertEquals(234, race1.getRunningList().get(0).getNumber());
