@@ -172,7 +172,7 @@ public class ChronoTimerEventHandler {
 	/**
 	 * ends the current run by marking all non-finished racers as DNF.
 	 */
-	public void endRun(){
+	public void endRun(){ //TODO prevent new racers from being entered until new run is created.
 		race.endRun();
 	};
 	/**

@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -48,146 +51,25 @@ public class Timer {
 	 * @return the elapsed time formatted hh:mm:ss.ns between a start and finish time.
 	 */
 	public String getRunDuration(String startTime, String finishTime) {
-		StringTokenizer stStart = new StringTokenizer(startTime.trim(), ":.");
-		StringTokenizer stFinish = new StringTokenizer(finishTime.trim(), ":.");
-		String s;
-		int hour, minute, second, nano; //TODO Use Java 8 APIinstead of this following code
+		String s="";
 		try {
-			//subtract start times from finish times to get duration 
-			hour =	(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken())));
-			minute =	(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken())));
-			second =	(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken())));
-			nano =	(Integer.parseInt(stFinish.nextToken())-(Integer.parseInt(stStart.nextToken())));
-
-			int carry = 0;
-			if(nano < 0) {
-				nano = nano+100;
-				carry = -1;
-			}
-			else if(nano >= 100) {
-				nano = nano-100;
-				carry = 1;
-			}
-			else {
-			carry = 0;
-			}
-			
-			if(second < 0) {
-				second = second+60+carry;
-				carry = -1;
-			}
-			else if(second >= 60) {
-				second = second-60+carry;
-				carry = 1;
-			}
-			else {
-				second = second+carry;
-				carry = 0;
-			}
-			
-			if(minute < 0) {
-				minute = minute+60+carry;
-				carry = -1;
-			}
-			else if(minute >= 60) {
-				minute = minute-60+carry;
-				carry = 1;
-			}
-			else {
-				minute = minute+carry;
-				carry = 0;
-			}
-			if(hour < 0) {
-				hour = 24+carry;
-				
-			}
-			else if(hour >= 24) {
-				hour = hour-24+carry;
-				
-			}
-			else {
-				hour = hour+carry;
-			}
-			
-				
-			s = String.format("%02d:%02d:%02d.%01d", hour, minute, second, nano);
+			LocalTime startT = LocalTime.parse(startTime, DateTimeFormatter.ISO_LOCAL_TIME);
+			LocalTime finishT = LocalTime.parse(finishTime, DateTimeFormatter.ISO_LOCAL_TIME);
+			Duration duration = Duration.between(startT, finishT);
+			LocalTime elapsedTime = (LocalTime) duration.addTo(LocalTime.parse("00:00:00.0"));
+			s = String.format("%02d:%02d:%02d.%01d", elapsedTime.getHour(),elapsedTime.getMinute(),
+					elapsedTime.getSecond(), elapsedTime.getNano()/100000000);
 		} catch (NoSuchElementException e) {
 			System.out.println("Error with time format parsing.");
 			return "00:00:00.0";
 		} catch (NumberFormatException e) {
 			System.out.println("Error. Time number(s) not valid.");
 			return "00:00:00.0";
+		} catch (Exception e) {
+			System.out.println("Unknown Error.");
 		}
-	
 		return s;
 	}
-	
-	/**
-	 * sets the adjustedChronoTime based on system time and the chrono set time
-	 */
-	private void adjustForCarryOver(int hour, int minute, int second, int nano) {
-		int carryout = findAndSetNanoseconds(nano);
-		carryout = findAndSetSeconds(carryout, second);
-		carryout = findAndSetMinutes(carryout, minute);
-		findAndSetHours(carryout, hour);
-		
-	}
-	
-	private void findAndSetHours(int carryout, int hour) {//need to account for round over
-		if(hour < 0) {
-			hour = 24+carryout;
-			
-		}
-		else if(hour >= 24) {
-			hour = hour-24+carryout;
-			
-		}
-		else
-			hour = hour+carryout;
-		
-		
-	}
-
-	private int findAndSetMinutes(int carryout, int minute) {//need to subtract or add one hour if round over occurs
-		if(minute < 0) {
-			minute = minute+60+carryout;
-			return -1;
-		}
-		else if(minute >= 60) {
-			minute = minute-60+carryout;
-			return 1;
-		}
-		else
-			minute = minute+carryout;
-		return 0;
-	}
-
-	private int findAndSetSeconds(int carryout, int second) {//need to subtract or add one minute if round over occurs
-		if(second < 0) {
-			second = second+60+carryout;
-			return -1;
-		}
-		else if(second >= 60) {
-			second = second-60+carryout;
-			return 1;
-		}
-		else
-			second = second+carryout;
-		return 0;
-	}
-
-	private int findAndSetNanoseconds(int nano) {//need to subtract or add one second if round over occurs
-		if(nano < 0) {
-			nano = nano+100;
-			return -1;
-		}
-		else if(nano >= 100) {
-			nano = nano-100;
-			return 1;
-		}
-		else
-		return 0;
-	}	
 
 	/**
 	 * Gets the current time based on the set system time of ChronoTimer. A timestamp for system commands.
@@ -200,18 +82,10 @@ public class Timer {
 			
 	}	
 	private String timeToString(Temporal t) {
-		int nano = ((LocalDateTime) t).getNano();
-		nano = getMostSignificantDigit(nano);//print only the most significant digit
-		return String.format("%02d:%02d:%02d.%01d", 
-				((LocalDateTime) t).getHour(),((LocalDateTime) t).getMinute(),
-				((LocalDateTime) t).getSecond(),nano);
+		return String.format("%02d:%02d:%02d.%01d", ((LocalDateTime) t).getHour(),((LocalDateTime) t).getMinute(),
+				((LocalDateTime) t).getSecond(),((LocalDateTime) t).getNano()/100000000);
 	}
-	private int getMostSignificantDigit(int parseInt) {
-		if(parseInt < 10)
-			return parseInt;
-		else
-			return getMostSignificantDigit(parseInt/10);
-	}
+	
 	//Internal Unit Tests
 		@Test
 			public void testCorrectStringFormat() {
@@ -245,6 +119,6 @@ public class Timer {
 		}
 		@Test
 		public void testGetRunDuration() {
-			assertEquals("01:01:01.1", getRunDuration("02:02:02.2", "03:03:03.3"));
+			assertEquals("01:01:01.0", getRunDuration("02:02:02.2", "03:03:03.2"));
 		}
 }
