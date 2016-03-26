@@ -16,7 +16,9 @@ public abstract class Race {
 	private ArrayList<Racer> runningList; // queue of racers who are running
 	private ArrayList<Racer> finishList; // queue of racers who have finished
 	
-	protected Race(int runNumber, Timer timer){
+	public Race() {
+	}
+	public Race(int runNumber, Timer timer){
 		this.runNumber = runNumber;
 		this.timer = timer;
 		this.startList = new ArrayList<Racer>();

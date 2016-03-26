@@ -1,6 +1,25 @@
 package chronoTimerMain.software;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Scanner;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
+import junit.framework.TestCase;
 /**
  * ChronoTimerEventHandler parses the commands that are not hardware related. 
  * This class passes commands specific to a raceType to that specific Race object to be properly implemented.
@@ -106,8 +125,28 @@ public class ChronoTimerEventHandler {
 			System.out.println(timestamp+" Cancel.");
 			race.handleRacerCancel();
 		}
+		else if(isExport(s)) {
+			System.out.println(timestamp+" Exporting to USB.");
+			export(timestamp, args[0]);
+		}
 		
 	};
+	
+	private void export(String timestamp, String args) {
+		System.out.println(timestamp + " Exporting run " + args);
+		Gson gson = new Gson();
+		String raceJsonString = gson.toJson(race);
+		File runFile = new File("Race " + runNumber);
+		try {
+			FileWriter fW = new FileWriter(runFile, false);
+			fW.write(raceJsonString);
+			fW.close();
+		} catch (IOException e) {
+			System.out.println("Error exporting run " + runNumber + " to file.");
+			e.printStackTrace();
+		}
+		
+	}
 	/**
 	 * used for gui display text showing start, running, finished racer number and times.
 	 * @param timestamp timestamp from file, if file input
@@ -192,7 +231,7 @@ public class ChronoTimerEventHandler {
 		raceList.get(number).print();
 	}
 	
-	//boolean helper methods
+	//boolean helper methods list
 	private boolean isPrint(String s) {
 		return s.equalsIgnoreCase("print");
 	}
@@ -232,5 +271,44 @@ public class ChronoTimerEventHandler {
 	private boolean isCancel(String s){
 		return s.equalsIgnoreCase("Cancel");
 	}
+	private boolean isExport(String s) {
+		return s.equalsIgnoreCase("export");
+	}	
 	
+	
+	//Internal Unit Tests
+	public static class EventTester {
+		Timer timer;
+		Race race;
+		int runNumber;
+		ChronoTimerEventHandler cTEV;
+		
+		@Before
+		public void initialize() {
+			timer = new Timer();
+			cTEV = new ChronoTimerEventHandler(timer);
+			runNumber = 1;
+		}
+		
+		@Test
+		public void testExport() {
+			cTEV.timeEvent("num", new String[] {"123"}, "");
+			cTEV.export(timer.getCurrentChronoTime(), Integer.toString(runNumber));
+			//rebuild exported object
+			Gson gson = new Gson();
+			try {
+				race = gson.fromJson(new FileReader("Race " + runNumber), RaceIND.class);
+			} catch (JsonSyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonIOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			assertTrue(race.getCorrectRacer(123) != null);
+		}
+	}
 }
