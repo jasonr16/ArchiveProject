@@ -24,6 +24,7 @@ import junit.framework.TestCase;
  * ChronoTimerEventHandler parses the commands that are not hardware related. 
  * This class passes commands specific to a raceType to that specific Race object to be properly implemented.
  * Commands that are applicable to any race type are implemented here
+ * TODO: implement a COMMAND interface?
  * @author Jason
  *
  */

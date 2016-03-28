@@ -8,12 +8,13 @@ import chronoTimerMain.simulator.ChronoHardwareHandler;
 
 /**
  * Represents a single race of the parallel individual event type.
+ * TODO: refactor to use more RaceIND methods once the channel ambiguity is cleared up
  */
 public class RacePARIND extends Race {
 	// a parallel individual race can be considered as two separate individual races,
 	// each with their own start and finish channels
-	private RaceIND race1;
-	private RaceIND race2;
+	private RaceIND raceA;
+	private RaceIND raceB;
 	
 	/**
 	 * Creates a parallel individual race
@@ -22,66 +23,66 @@ public class RacePARIND extends Race {
 	 */
 	public RacePARIND(int runNumber, Timer timer) {
 		super(runNumber, timer);
-		this.race1 = new RaceIND(runNumber, timer);
-		this.race2 = new RaceIND(runNumber, timer);
+		this.raceA = new RaceIND(runNumber, timer);
+		this.raceB = new RaceIND(runNumber, timer);
 		// TODO: unconventional?
-		race1.setStartChannel(1);
-		race1.setFinishChannel(3);
-		race2.setStartChannel(2);
-		race2.setFinishChannel(4);
+		raceA.setStartChannel(1);
+		raceA.setFinishChannel(3);
+		raceB.setStartChannel(2);
+		raceB.setFinishChannel(4);
 	}
 	
 	/**
-	 * Gets race 1 of the two parallel races
+	 * Gets race A of the two parallel races
 	 * @return race 1 object
 	 */
-	public RaceIND getRace1() {
-		return this.race1;
+	public RaceIND getRaceA() {
+		return this.raceA;
 	}
 	
 	/**
-	 * Gets race 2 of the two parallel races
+	 * Gets race B of the two parallel races
 	 * @return race 2 object
 	 */
-	public RaceIND getRace2() {
-		return this.race2;
+	public RaceIND getRaceB() {
+		return this.raceB;
 	}
 
 	/**
-	 * Gets the start channel associated with race 1
+	 * Gets the start channel associated with race A
 	 * @return start channel number
 	 */
-	public int getStartChannel1() {
-		return race1.getStartChannel();
+	public int getStartChannelA() {
+		return raceA.getStartChannel();
 	}
 	
 	/**
-	 * Gets the start channel associated with race 2
+	 * Gets the start channel associated with race B
 	 * @return start channel number
 	 */
-	public int getStartChannel2() {
-		return race2.getStartChannel();
+	public int getStartChannelB() {
+		return raceB.getStartChannel();
 	}
 	
 	/**
-	 * Gets the finish channel associated with race 1
+	 * Gets the finish channel associated with race A
 	 * @return finish channel number
 	 */
-	public int getFinishChannel1() {
-		return race1.getFinishChannel();
+	public int getFinishChannelA() {
+		return raceA.getFinishChannel();
 	}
 	
 	/**
-	 * Gets the finish channel associated with race 2
+	 * Gets the finish channel associated with race B
 	 * @return finish channel number
 	 */
-	public int getFinishChannel2() {
-		return race2.getFinishChannel();
+	public int getFinishChannelB() {
+		return raceB.getFinishChannel();
 	}
 	
 	/**
 	 * Add a new racer to the end of the start queue
-	 * Alternate between adding racers to race 1 and race 2
+	 * Alternate between adding racers to race A and race B
 	 * @param racer number of racer to be added
 	 * @return true if add was successful, else false
 	 */
@@ -93,11 +94,11 @@ public class RacePARIND extends Race {
 		if (super.getCorrectRacer(racerNum) == null) { // check if racer is already in start queue
 			racer = new Racer(racerNum);
 			startList.add(racer);
-			// first racer gets added to race 1, second racer gets added to race 2, etc.
+			// first racer gets added to race A, second racer gets added to race B, etc.
 			if ((startList.size() % 2) != 0)
-				this.race1.getStartList().add(racer);
+				this.raceA.getStartList().add(racer);
 			else
-				this.race2.getStartList().add(racer);
+				this.raceB.getStartList().add(racer);
 			result = true;
 		}
 		return result;
@@ -116,13 +117,13 @@ public class RacePARIND extends Race {
 		Racer racer = super.getCorrectRacer(racerNum);
 		if (racer != null && startList.contains(racer)) {
 			startList.remove(racer);
-			ArrayList<Racer>startList1 = this.race1.getStartList();
-			ArrayList<Racer>startList2 = this.race2.getStartList();
+			ArrayList<Racer>startListA = this.raceA.getStartList();
+			ArrayList<Racer>startListB = this.raceB.getStartList();
 			// also remove racer from race 1 or race 2 start queue
-			if (startList1.contains(racer))
-				startList1.remove(racer);
+			if (startListA.contains(racer))
+				startListA.remove(racer);
 			else
-				startList2.remove(racer);
+				startListB.remove(racer);
 			result = true;
 		}
 		return result;
@@ -140,12 +141,12 @@ public class RacePARIND extends Race {
 		ArrayList<Racer> startList = super.getStartList();
 		ArrayList<Racer> runningList = super.getRunningList();
 		ArrayList<Racer> finishList = super.getFinishList();
-		ArrayList<Racer> startList1 = this.race1.getStartList();
-		ArrayList<Racer> runningList1 = this.race1.getRunningList();
-		ArrayList<Racer> finishList1 = this.race1.getFinishList();
-		ArrayList<Racer> startList2 = this.race2.getStartList();
-		ArrayList<Racer> runningList2 = this.race2.getRunningList();
-		ArrayList<Racer> finishList2 = this.race2.getFinishList();
+		ArrayList<Racer> startListA = this.raceA.getStartList();
+		ArrayList<Racer> runningListA = this.raceA.getRunningList();
+		ArrayList<Racer> finishListA = this.raceA.getFinishList();
+		ArrayList<Racer> startListB = this.raceB.getStartList();
+		ArrayList<Racer> runningListB = this.raceB.getRunningList();
+		ArrayList<Racer> finishListB = this.raceB.getFinishList();
 		Racer racer = null;
 		
 		if (channelNum > 12)
@@ -178,50 +179,50 @@ public class RacePARIND extends Race {
 		
 		// if there are racers in the start queue, a start event should move the racer at the head of the start queue
 		// into the running queue
-		if (channelNum == this.race1.getStartChannel() && startList1.size() > 0) {
-			racer = startList1.remove(0);
+		if (channelNum == this.raceA.getStartChannel() && startListA.size() > 0) {
+			racer = startListA.remove(0);
 			startList.remove(racer);
 			if (timeStamp.equals(""))
 				racer.setStartTime(super.getTimer().getCurrentChronoTime());
 			else
 				racer.setStartTime(timeStamp);
 			runningList.add(racer);
-			runningList1.add(racer);
+			runningListA.add(racer);
 			result = true;
 		}
-		if (channelNum == this.race2.getStartChannel() && startList2.size() > 0) {
-			racer = startList2.remove(0);
+		if (channelNum == this.raceB.getStartChannel() && startListB.size() > 0) {
+			racer = startListB.remove(0);
 			startList.remove(racer);
 			if (timeStamp.equals(""))
 				racer.setStartTime(super.getTimer().getCurrentChronoTime());
 			else
 				racer.setStartTime(timeStamp);
 			runningList.add(racer);
-			runningList2.add(racer);
+			runningListB.add(racer);
 			result = true;
 		}
 		// if there are racers in the running queue, a finish event should move the racer at the head of the running
 		// queue into the finish queue
-		if (channelNum == this.race1.getFinishChannel() && runningList1.size() > 0) {
-			racer = runningList1.remove(0);
+		if (channelNum == this.raceA.getFinishChannel() && runningListA.size() > 0) {
+			racer = runningListA.remove(0);
 			runningList.remove(racer);
 			if (timeStamp.equals(""))
 				racer.setFinishTime(super.getTimer().getCurrentChronoTime());
 			else
 				racer.setFinishTime(timeStamp);
 			finishList.add(racer);
-			finishList1.add(racer);
+			finishListA.add(racer);
 			result = true;
 		}
-		if (channelNum == this.race2.getFinishChannel() && runningList2.size() > 0) {
-			racer = runningList2.remove(0);
+		if (channelNum == this.raceB.getFinishChannel() && runningListB.size() > 0) {
+			racer = runningListB.remove(0);
 			runningList.remove(racer);
 			if (timeStamp.equals(""))
 				racer.setFinishTime(super.getTimer().getCurrentChronoTime());
 			else
 				racer.setFinishTime(timeStamp);
 			finishList.add(racer);
-			finishList2.add(racer);
+			finishListB.add(racer);
 			result = true;
 		}
 		return result;
@@ -237,17 +238,17 @@ public class RacePARIND extends Race {
 		boolean result = false;
 		Racer racer;
 		ArrayList<Racer> startList = super.getStartList();
-		ArrayList<Racer> startList1 = this.race1.getStartList();
-		ArrayList<Racer> startList2 = this.race2.getStartList();
+		ArrayList<Racer> startListA = this.raceA.getStartList();
+		ArrayList<Racer> startListB = this.raceB.getStartList();
 		// the next person to start is the person at the head of the
 		// overall start queue
 		if (startList.size() > 0) {
 			racer = startList.get(0);
-			if (startList1.contains(racer)) {
-				result = trig(this.race1.getStartChannel(), timeStamp);
+			if (startListA.contains(racer)) {
+				result = trig(this.raceA.getStartChannel(), timeStamp);
 			}
-			else if (startList2.contains(racer)) {
-				result = trig(this.race2.getStartChannel(), timeStamp);
+			else if (startListB.contains(racer)) {
+				result = trig(this.raceB.getStartChannel(), timeStamp);
 			}
 		}
 		return result;
@@ -263,17 +264,17 @@ public class RacePARIND extends Race {
 		boolean result = false;
 		Racer racer;
 		ArrayList<Racer> runningList = super.getRunningList();
-		ArrayList<Racer> runningList1 = this.race1.getRunningList();
-		ArrayList<Racer> runningList2 = this.race2.getRunningList();
+		ArrayList<Racer> runningListA = this.raceA.getRunningList();
+		ArrayList<Racer> runningListB = this.raceB.getRunningList();
 		// the next person to finish is the person at the head of the
 		// overall running queue
 		if (runningList.size() > 0) {
 			racer = runningList.get(0);
-			if (runningList1.contains(racer)) {
-				result = trig(this.race1.getFinishChannel(), timeStamp);
+			if (runningListA.contains(racer)) {
+				result = trig(this.raceA.getFinishChannel(), timeStamp);
 			}
-			else if (runningList2.contains(racer)) {
-				result = trig(this.race2.getFinishChannel(), timeStamp);
+			else if (runningListB.contains(racer)) {
+				result = trig(this.raceB.getFinishChannel(), timeStamp);
 			}
 		}
 		return result;
@@ -289,22 +290,22 @@ public class RacePARIND extends Race {
 	public boolean handleRacerCancel() {
 		boolean result = false;
 		ArrayList<Racer> runningList = super.getRunningList();
-		ArrayList<Racer> runningList1 = this.race1.getRunningList();
-		ArrayList<Racer> runningList2 = this.race2.getRunningList();
+		ArrayList<Racer> runningListA = this.raceA.getRunningList();
+		ArrayList<Racer> runningListB = this.raceB.getRunningList();
 		ArrayList<Racer> startList = super.getStartList();
-		ArrayList<Racer> startList1 = this.race1.getStartList();
-		ArrayList<Racer> startList2 = this.race2.getStartList();
+		ArrayList<Racer> startListA = this.raceA.getStartList();
+		ArrayList<Racer> startListB = this.raceB.getStartList();
 		if (runningList.size() > 0) {
 			Racer racer = runningList.remove(runningList.size()-1);
 			racer.setStartTime("00:00:00.0");
 			startList.add(0, racer);
-			if (runningList1.contains(racer)) {
-				runningList1.remove(racer);
-				startList1.add(0, racer);
+			if (runningListA.contains(racer)) {
+				runningListA.remove(racer);
+				startListA.add(0, racer);
 			}
-			else if (runningList2.contains(racer)) {
-				runningList2.remove(racer);
-				startList2.add(0, racer);
+			else if (runningListB.contains(racer)) {
+				runningListB.remove(racer);
+				startListB.add(0, racer);
 			}
 			result = true;
 		}
@@ -330,26 +331,465 @@ public class RacePARIND extends Race {
 	public boolean handleRacerDNF() {
 		boolean result = false;
 		ArrayList<Racer> runningList = super.getRunningList();
-		ArrayList<Racer> runningList1 = this.race1.getRunningList();
-		ArrayList<Racer> runningList2 = this.race2.getRunningList();
+		ArrayList<Racer> runningListA = this.raceA.getRunningList();
+		ArrayList<Racer> runningListB = this.raceB.getRunningList();
 		ArrayList<Racer> finishList = super.getFinishList();
-		ArrayList<Racer> finishList1 = this.race1.getFinishList();
-		ArrayList<Racer> finishList2 = this.race2.getFinishList();
+		ArrayList<Racer> finishListA = this.raceA.getFinishList();
+		ArrayList<Racer> finishListB = this.raceB.getFinishList();
 		Racer racer = null;
 		if (runningList.size() > 0) {
 			racer = runningList.remove(0);
 			racer.setDNF(true);
 			finishList.add(racer);
-			if (runningList1.contains(racer)) {
-				runningList1.remove(racer);
-				finishList1.add(racer);
+			if (runningListA.contains(racer)) {
+				runningListA.remove(racer);
+				finishListA.add(racer);
 			}
-			else if (runningList2.contains(racer)) {
-				runningList2.remove(racer);
-				finishList2.add(racer);
+			else if (runningListB.contains(racer)) {
+				runningListB.remove(racer);
+				finishListB.add(racer);
 			}
 			result = true;
 		}
 		return result;
+	}
+	
+	public static class racePARINDTester extends TestCase{
+		RacePARIND race1, race2;
+		Timer timer;
+		
+		@Override
+		protected void setUp() {
+			timer = new Timer();
+			race1 = new RacePARIND(1,timer);
+			race2 = new RacePARIND(2,timer);
+		}
+		
+		public void testAddRacerToStart() {
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(0, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			
+			assertTrue(race1.addRacerToStart(234));
+			assertEquals(1, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(1, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(0, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(234, race1.getStartList().get(0).getNumber());
+			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
+			
+			assertTrue(race1.addRacerToStart(315));
+			assertEquals(2, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(1, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(1, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(234, race1.getStartList().get(0).getNumber());
+			assertEquals(315, race1.getStartList().get(1).getNumber());
+			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
+			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			
+			assertTrue(race1.addRacerToStart(361));
+			assertEquals(3, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(2, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(1, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(234, race1.getStartList().get(0).getNumber());
+			assertEquals(315, race1.getStartList().get(1).getNumber());
+			assertEquals(361, race1.getStartList().get(2).getNumber());
+			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
+			assertEquals(361, race1.getRaceA().getStartList().get(1).getNumber());
+			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			
+			assertTrue(race1.addRacerToStart(431));
+			assertEquals(4, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(2, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(2, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(234, race1.getStartList().get(0).getNumber());
+			assertEquals(315, race1.getStartList().get(1).getNumber());
+			assertEquals(361, race1.getStartList().get(2).getNumber());
+			assertEquals(431, race1.getStartList().get(3).getNumber());
+			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
+			assertEquals(361, race1.getRaceA().getStartList().get(1).getNumber());
+			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals(431, race1.getRaceB().getStartList().get(1).getNumber());
+			
+			// add duplicate racer
+			assertFalse(race1.addRacerToStart(234));
+			assertEquals(4, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(2, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(2, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(234, race1.getStartList().get(0).getNumber());
+			assertEquals(315, race1.getStartList().get(1).getNumber());
+			assertEquals(361, race1.getStartList().get(2).getNumber());
+			assertEquals(431, race1.getStartList().get(3).getNumber());
+			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
+			assertEquals(361, race1.getRaceA().getStartList().get(1).getNumber());
+			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals(431, race1.getRaceB().getStartList().get(1).getNumber());
+		}
+
+		public void testRemoveRacerFromStart() {
+			race1.addRacerToStart(234);
+			race1.addRacerToStart(315);
+			
+			// remove non-existent racer
+			assertFalse(race1.removeRacerFromStart(111));
+			assertEquals(2, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(234, race1.getStartList().get(0).getNumber());
+			assertEquals(315, race1.getStartList().get(1).getNumber());
+			assertEquals(1, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(1, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
+			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			
+			// valid remove
+			assertTrue(race1.removeRacerFromStart(234));
+			assertEquals(1, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(315, race1.getStartList().get(0).getNumber());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(1, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			
+			assertTrue(race1.removeRacerFromStart(315));
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(0, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+		}
+
+		public void testTrig() {
+			// test conventional start/finish channel setup
+			assertEquals(1, race1.getRaceA().getStartChannel());
+			assertEquals(3, race1.getRaceA().getFinishChannel());
+			assertEquals(2, race1.getRaceB().getStartChannel());
+			assertEquals(4, race1.getRaceB().getFinishChannel());
+			
+			// trigger when no racers in start queue
+			assertFalse(race1.trig(1, ""));
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(0, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			
+			// add racers
+			race1.addRacerToStart(234);
+			race1.addRacerToStart(315);
+			// trigger channel 1 (racer starts in race A)
+			assertTrue(race1.trig(1, ""));
+			assertEquals(1, race1.getStartList().size());
+			assertEquals(315, race1.getStartList().get(0).getNumber());
+			assertEquals(1, race1.getRunningList().size());
+			assertEquals(234, race1.getRunningList().get(0).getNumber());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(1, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getRunningList().get(0).getNumber());
+			assertEquals(1, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			
+			// trigger channel 3 (racer finishes in race A)
+			assertTrue(race1.trig(3, ""));
+			assertEquals(1, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(1, race1.getFinishList().size());
+			assertEquals(315, race1.getStartList().get(0).getNumber());
+			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(1, race1.getRaceA().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals(1, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			
+			// trigger channel 5 (not start or finish)
+			assertFalse(race1.trig(5, ""));
+			assertEquals(1, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(1, race1.getFinishList().size());
+			assertEquals(315, race1.getStartList().get(0).getNumber());
+			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(1, race1.getRaceA().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals(1, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			
+			// trigger channel 2 (racer starts in race B)
+			assertTrue(race1.trig(2, ""));
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(1, race1.getRunningList().size());
+			assertEquals(1, race1.getFinishList().size());
+			assertEquals(315, race1.getRunningList().get(0).getNumber());
+			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(1, race1.getRaceA().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals(0, race1.getRaceB().getStartList().size());
+			assertEquals(1, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getRunningList().get(0).getNumber());
+			
+			// trigger channel 4 (racer finishes in race B)
+			assertTrue(race1.trig(4, ""));
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(2, race1.getFinishList().size());
+			assertEquals(315, race1.getFinishList().get(1).getNumber());
+			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(1, race1.getRaceA().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals(0, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(1, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getFinishList().get(0).getNumber());
+			
+			// trigger channels 1 and 3 (no more racers to start and finish)
+			assertFalse(race1.trig(1, ""));
+			assertFalse(race1.trig(3, ""));
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(2, race1.getFinishList().size());
+			assertEquals(315, race1.getFinishList().get(1).getNumber());
+			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(1, race1.getRaceA().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals(0, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(1, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getFinishList().get(0).getNumber());
+			
+			race2.addRacerToStart(167);
+			race2.addRacerToStart(177);
+			race2.addRacerToStart(200);
+			race2.addRacerToStart(201);
+			
+			// trigger multiple consecutive starts
+			assertTrue(race2.trig(1, ""));
+			assertTrue(race2.trig(2, ""));
+			assertTrue(race2.trig(1, ""));
+			assertTrue(race2.trig(2, ""));
+			assertEquals(0, race2.getStartList().size());
+			assertEquals(4, race2.getRunningList().size());
+			assertEquals(0, race2.getFinishList().size());
+			assertEquals(167, race2.getRunningList().get(0).getNumber());
+			assertEquals(177, race2.getRunningList().get(1).getNumber());
+			assertEquals(200, race2.getRunningList().get(2).getNumber());
+			assertEquals(201, race2.getRunningList().get(3).getNumber());
+			assertEquals(0, race2.getRaceA().getStartList().size());
+			assertEquals(2, race2.getRaceA().getRunningList().size());
+			assertEquals(0, race2.getRaceA().getFinishList().size());
+			assertEquals(167, race2.getRaceA().getRunningList().get(0).getNumber());
+			assertEquals(200, race2.getRaceA().getRunningList().get(1).getNumber());
+			assertEquals(0, race2.getRaceB().getStartList().size());
+			assertEquals(2, race2.getRaceB().getRunningList().size());
+			assertEquals(0, race2.getRaceB().getFinishList().size());
+			assertEquals(177, race2.getRaceB().getRunningList().get(0).getNumber());
+			assertEquals(201, race2.getRaceB().getRunningList().get(1).getNumber());
+			
+			// trigger multiple consecutive finishes
+			assertTrue(race2.trig(3, ""));
+			assertTrue(race2.trig(4, ""));
+			assertTrue(race2.trig(3, ""));
+			assertTrue(race2.trig(4, ""));
+			assertEquals(0, race2.getStartList().size());
+			assertEquals(0, race2.getRunningList().size());
+			assertEquals(4, race2.getFinishList().size());
+			assertEquals(167, race2.getFinishList().get(0).getNumber());
+			assertEquals(177, race2.getFinishList().get(1).getNumber());
+			assertEquals(200, race2.getFinishList().get(2).getNumber());
+			assertEquals(201, race2.getFinishList().get(3).getNumber());
+			assertEquals(0, race2.getRaceA().getStartList().size());
+			assertEquals(0, race2.getRaceA().getRunningList().size());
+			assertEquals(2, race2.getRaceA().getFinishList().size());
+			assertEquals(167, race2.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals(200, race2.getRaceA().getFinishList().get(1).getNumber());
+			assertEquals(0, race2.getRaceB().getStartList().size());
+			assertEquals(0, race2.getRaceB().getRunningList().size());
+			assertEquals(2, race2.getRaceB().getFinishList().size());
+			assertEquals(177, race2.getRaceB().getFinishList().get(0).getNumber());
+			assertEquals(201, race2.getRaceB().getFinishList().get(1).getNumber());
+		}
+
+		public void testStart() {
+			race1.addRacerToStart(234);
+			race1.addRacerToStart(315);
+			assertTrue(race1.start(""));
+			assertEquals(1, race1.getStartList().size());
+			assertEquals(315, race1.getStartList().get(0).getNumber());
+			assertEquals(1, race1.getRunningList().size());
+			assertEquals(234, race1.getRunningList().get(0).getNumber());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(1, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getRunningList().get(0).getNumber());
+			assertEquals(1, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			
+			assertTrue(race1.start(""));
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(2, race1.getRunningList().size());
+			assertEquals(234, race1.getRunningList().get(0).getNumber());
+			assertEquals(315, race1.getRunningList().get(1).getNumber());
+			assertEquals(0, race1.getFinishList().size());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(1, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getRunningList().get(0).getNumber());
+			assertEquals(0, race1.getRaceB().getStartList().size());
+			assertEquals(1, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getRunningList().get(0).getNumber());
+		}
+
+		public void testFinish() {
+			race1.addRacerToStart(234);
+			race1.addRacerToStart(315);
+			assertTrue(race1.start(""));
+			assertTrue(race1.start(""));
+			assertTrue(race1.finish(""));
+			assertTrue(race1.finish(""));
+			assertFalse(race1.finish(""));
+			assertEquals(0, race1.getStartList().size());
+			assertEquals(0, race1.getRunningList().size());
+			assertEquals(2, race1.getFinishList().size());
+			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals(315, race1.getFinishList().get(1).getNumber());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(1, race1.getRaceA().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals(0, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(1, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getFinishList().get(0).getNumber());
+		}
+
+		public void testCancel() {
+			race1.addRacerToStart(234);
+			race1.addRacerToStart(315);
+			
+			// test cancel when no racers in running queue
+			assertFalse(race1.handleRacerCancel());
+			
+			// test normal cancel
+			assertTrue(race1.start(""));
+			assertTrue(race1.start(""));
+			assertTrue(race1.handleRacerCancel());
+			assertEquals(1, race1.getStartList().size());
+			assertEquals(1, race1.getRunningList().size());
+			assertEquals(234, race1.getRunningList().get(0).getNumber());
+			assertEquals(315, race1.getStartList().get(0).getNumber());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(1, race1.getRaceA().getRunningList().size());
+			assertEquals(0, race1.getRaceA().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getRunningList().get(0).getNumber());
+			assertEquals(1, race1.getRaceB().getStartList().size());
+			assertEquals(0, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("00:00:00.0", race1.getRaceB().getStartList().get(0).getStartTime());
+		}
+		
+		public void testSwap() {
+			assertFalse(race1.swapRunningRacers());
+		}
+
+		public void testDNF() {
+			race1.addRacerToStart(234);
+			race1.addRacerToStart(315);
+			
+			// test DNF when no racers in running queue
+			assertFalse(race1.handleRacerDNF());
+			
+			// test normal DNF
+			assertTrue(race1.start(""));
+			assertTrue(race1.start(""));
+			assertTrue(race1.handleRacerDNF());
+			assertEquals(1, race1.getRunningList().size());
+			assertEquals(1, race1.getFinishList().size());
+			assertEquals(315, race1.getRunningList().get(0).getNumber());
+			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertTrue(race1.getFinishList().get(0).getDNF());
+			assertEquals(0, race1.getRaceA().getStartList().size());
+			assertEquals(0, race1.getRaceA().getRunningList().size());
+			assertEquals(1, race1.getRaceA().getFinishList().size());
+			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertTrue(race1.getRaceA().getFinishList().get(0).getDNF());
+			assertEquals(0, race1.getRaceB().getStartList().size());
+			assertEquals(1, race1.getRaceB().getRunningList().size());
+			assertEquals(0, race1.getRaceB().getFinishList().size());
+			assertEquals(315, race1.getRaceB().getRunningList().get(0).getNumber());
+		}
 	}
 }
