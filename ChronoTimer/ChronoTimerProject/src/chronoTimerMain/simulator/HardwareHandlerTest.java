@@ -33,6 +33,8 @@ public class HardwareHandlerTest {
 	/**
 	 * testNoPower() tests that things that shouldn't work when power is
 	 * off doesn't work ()
+	 *
+	 *so far this isn't extensive
 	 */
 	@Test public void testNoPower(){
 		test = new ChronoHardwareHandler();
@@ -79,4 +81,7 @@ public class HardwareHandlerTest {
 		test.inputFromSimulator("ON", null, null);
 		assertTrue(!test.power());
 	}
+	
+	
+	
 }
