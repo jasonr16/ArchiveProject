@@ -138,7 +138,7 @@ public class ChronoTimerEventHandler {
 			export(timestamp, args[0]);
 		}
 		else if(s.equalsIgnoreCase("import")) {
-			System.out.println(timestamp+" Importing race # " + args + ".");
+			System.out.println(timestamp+" Importing race # " + args[0] + ".");
 			importRace(timestamp, args[0]);
 		}
 		
@@ -148,7 +148,7 @@ public class ChronoTimerEventHandler {
 		System.out.println(timestamp + " Exporting run " + args);
 		Gson gson = new Gson();
 		String raceJsonString = gson.toJson(race);
-		File runFile = new File("Race " + runNumber);
+		File runFile = new File("Race " + args);
 		try {
 			FileWriter fW = new FileWriter(runFile, false);
 			fW.write(raceJsonString);
@@ -164,9 +164,9 @@ public class ChronoTimerEventHandler {
 		Gson gson = new Gson();
 		try {
 			if(raceType.equalsIgnoreCase("IND")) 
-				race = gson.fromJson(new FileReader("Race " + runNumber), RaceIND.class);
+				race = gson.fromJson(new FileReader("Race " + args), RaceIND.class);
 			else if(raceType.equalsIgnoreCase("PARIND"))
-				race = gson.fromJson(new FileReader("Race " + runNumber), RacePARIND.class);
+				race = gson.fromJson(new FileReader("Race " + args), RacePARIND.class);
 		} catch (JsonSyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
