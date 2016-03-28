@@ -54,7 +54,7 @@ public abstract class Race {
 	 * Gets the start queue for the race
 	 * @return startList
 	 */
-	protected ArrayList<Racer> getStartList() {
+	public ArrayList<Racer> getStartList() {
 		return this.startList;
 	}
 	
@@ -62,7 +62,7 @@ public abstract class Race {
 	 * Gets the running queue for the race
 	 * @return runningList
 	 */
-	protected ArrayList<Racer> getRunningList() {
+	public ArrayList<Racer> getRunningList() {
 		return this.runningList;
 	}
 	
@@ -70,7 +70,7 @@ public abstract class Race {
 	 * Gets the finish queue for the race
 	 * @return finishList
 	 */
-	protected ArrayList<Racer> getFinishList() {
+	public ArrayList<Racer> getFinishList() {
 		return this.finishList;
 	}
 	

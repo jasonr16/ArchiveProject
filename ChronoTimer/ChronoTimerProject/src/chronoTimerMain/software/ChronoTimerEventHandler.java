@@ -1,7 +1,6 @@
 package chronoTimerMain.software;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -129,6 +128,10 @@ public class ChronoTimerEventHandler {
 			System.out.println(timestamp+" Exporting to USB.");
 			export(timestamp, args[0]);
 		}
+		else if(s.equalsIgnoreCase("import")) {
+			System.out.println(timestamp+" Importing race # " + args + ".");
+			importRace(timestamp, args[0]);
+		}
 		
 	};
 	
@@ -146,6 +149,25 @@ public class ChronoTimerEventHandler {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private void importRace(String timestamp, String args) {
+		Gson gson = new Gson();
+		try {
+			if(raceType.equalsIgnoreCase("IND")) 
+				race = gson.fromJson(new FileReader("Race " + runNumber), RaceIND.class);
+			else if(raceType.equalsIgnoreCase("PARIND"))
+				race = gson.fromJson(new FileReader("Race " + runNumber), RacePARIND.class);
+		} catch (JsonSyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonIOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * used for gui display text showing start, running, finished racer number and times.
@@ -195,7 +217,8 @@ public class ChronoTimerEventHandler {
 	 * @param eventType
 	 */
 	public void event(String eventType){
-		raceType = eventType;
+		if(eventType.equalsIgnoreCase("IND") || eventType.equalsIgnoreCase("PARIND"))
+			raceType = eventType;
 	};
 	/**
 	 * creates a newRun, ending the previous run first
@@ -204,6 +227,10 @@ public class ChronoTimerEventHandler {
 		race.endRun(); // make sure previous run has ended
 		if (raceType.equals("IND")){
 			race = new RaceIND(++runNumber, timer);
+			raceList.add(race);
+		}
+		else if (raceType.equals("PARIND")){
+			race = new RacePARIND(++runNumber, timer);
 			raceList.add(race);
 		}
 		//TODO add other race types
@@ -282,33 +309,56 @@ public class ChronoTimerEventHandler {
 		Race race;
 		int runNumber;
 		ChronoTimerEventHandler cTEV;
+		private ArrayList<Race> raceList = new ArrayList<Race>();
+		
 		
 		@Before
 		public void initialize() {
 			timer = new Timer();
 			cTEV = new ChronoTimerEventHandler(timer);
 			runNumber = 1;
+			cTEV.race = new RaceIND(runNumber, timer);
+			raceList.add(race);
+			
 		}
 		
 		@Test
+		//Tests that json export and retrieval restores the race class
 		public void testExport() {
 			cTEV.timeEvent("num", new String[] {"123"}, "");
 			cTEV.export(timer.getCurrentChronoTime(), Integer.toString(runNumber));
 			//rebuild exported object
-			Gson gson = new Gson();
-			try {
-				race = gson.fromJson(new FileReader("Race " + runNumber), RaceIND.class);
-			} catch (JsonSyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JsonIOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			assertTrue(race.getCorrectRacer(123) != null);
+			cTEV.importRace("", "1");
+			assertTrue(cTEV.race.getCorrectRacer(123) != null);
+		}
+		
+		@Test
+		public void testRaceINDType() {
+			assertTrue(cTEV.race instanceof RaceIND); 
+			cTEV.timeEvent("event", new String[] {"IND"}, "");
+			cTEV.newRun();
+			assertTrue(cTEV.race instanceof RaceIND); 
+			cTEV.timeEvent("event", new String[] {"PARIND"}, "");
+			cTEV.newRun();
+			assertTrue(cTEV.race instanceof RacePARIND); 
+			cTEV.timeEvent("event", new String[] {"INVALID"}, "");
+			cTEV.newRun();
+			assertTrue(cTEV.race instanceof RacePARIND); 
+			//TODO other race types
+		}
+		
+		@Test
+		public void testNewRunCreated() {
+			race = cTEV.race;
+			cTEV.newRun();
+			assertFalse(race == cTEV.race);
+		}
+		
+		@Test
+		public void testRemainingDNF() {
+			cTEV.timeEvent("num", new String[] {"123"}, "");
+			cTEV.endRun();
+			assertTrue(cTEV.race.getFinishList().size() != 0);
 		}
 	}
 }

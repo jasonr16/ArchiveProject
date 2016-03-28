@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 
 public class Timer {
-	LocalDateTime synchronizedChronoStartTime;
-	LocalDateTime synchronizedSystemStartTime; 
+	LocalDateTime synchronizedChronoStartTime; //Chrono time
+	LocalDateTime synchronizedSystemStartTime; //System time
 	public Timer() {
 		synchronizedChronoStartTime = LocalDateTime.now();
 		synchronizedSystemStartTime = LocalDateTime.now();
@@ -31,16 +31,34 @@ public class Timer {
 			System.out.println("Error. Time not in format hh:mm:ss.n");
 		}
 		else {
-			synchronizedSystemStartTime = LocalDateTime.now();//synchronize start time betweeen system and chrono
+			
 			StringTokenizer st = new StringTokenizer(hhmmssn, ":.");
+			if(st.countTokens() != 4) {
+				return;
+			}
+			
+			int h = 0,m = 0,s = 0,n = 0;
 			try {
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withHour(Integer.parseInt(st.nextToken()));
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withMinute(Integer.parseInt(st.nextToken()));
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withSecond(Integer.parseInt(st.nextToken()));
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withNano(Integer.parseInt(st.nextToken())*100000000);
+				 h = Integer.parseInt(st.nextToken());
+				 m = Integer.parseInt(st.nextToken());
+				 s = Integer.parseInt(st.nextToken());
+				 n = Integer.parseInt(st.nextToken());
 			} catch (NumberFormatException e) {
 				System.out.println("Error. Time format not hh:mm:ss.n");
 			}
+			if(h > 23 || h < 0) {
+				System.out.println("Error. Hour value not a valid number");
+				return;
+			}
+			else if(m > 59 || m < 0 || s > 59 || s < 0 ||n > 59 || n < 0) {
+				System.out.println("Error. Time value(s) not a valid number");
+				return;
+			}
+			synchronizedSystemStartTime = LocalDateTime.now();//synchronize start time betweeen system and chrono
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withHour(h);
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withMinute(m);
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withSecond(s);
+			synchronizedChronoStartTime = synchronizedChronoStartTime.withNano(n*100000000);
 		}
 	}
 	
@@ -120,5 +138,27 @@ public class Timer {
 			assertEquals("01:01:01.0", getRunDuration("02:02:02.2", "03:03:03.2"));
 			//test zero nanoseconds
 			assertEquals("01:01:01.0", getRunDuration("02:02:02.0", "03:03:03.0"));
+		}
+		@Test
+		public void test0Time() {
+			assertEquals(0, synchronizedChronoStartTime.compareTo(synchronizedSystemStartTime));
+		}
+		@Test
+		public void testInvalidTimeFormat() {
+			LocalDateTime saveSTime = synchronizedSystemStartTime;
+			LocalDateTime saveCTime = synchronizedChronoStartTime;
+			
+			time("0000000000");
+			assertEquals(0, saveSTime.compareTo(synchronizedSystemStartTime));
+			assertEquals(0, saveCTime.compareTo(synchronizedSystemStartTime));
+		}
+		@Test
+		public void TestNotNumberValue() {
+			LocalDateTime saveSTime = synchronizedSystemStartTime;
+			LocalDateTime saveCTime = synchronizedChronoStartTime;
+			
+			time("c0:0f:0w.x");
+			assertEquals(0, saveSTime.compareTo(synchronizedSystemStartTime));
+			assertEquals(0, saveCTime.compareTo(synchronizedSystemStartTime));
 		}
 }
