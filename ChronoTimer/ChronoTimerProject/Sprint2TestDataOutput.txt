@@ -1,0 +1,74 @@
+File or Console input <C or F> : F
+Running Simulator from file: Sprint2TestData.txt ...
+Error with file time format 13:06.13.0 at line 41. Ignoring command TOGGLE 2.
+
+Error with file time format 13:06.15.1 at line 42. Ignoring command TRIG 1.
+
+Error with file time format 13:26.11.0 at line 43. Ignoring command TRIG 2.
+
+Error with file time format 13:26.17.0 at line 44. Ignoring command TRIG 2.
+
+Error with file time format 13:26.31.3 at line 45. Ignoring command TRIG 2.
+
+Error with file time format 13:26.33.0 at line 46. Ignoring command TRIG 2.
+
+Error with file time format 13:26.30.0 at line 47. Ignoring command TRIG 2.
+
+12:01:02.0  Powering on.
+12:01:04.0  Powering off
+12:01:06.0  Powering on.
+12:01:08.0  Powering on.
+12:01:12.0  Connecting sensor GATE at channel 1
+12:01:15.0  Connecting sensor EYE at channel 2
+12:01:12.0  Connecting sensor GATE at channel 3
+12:01:15.0  Connecting sensor EYE at channel 4
+12:01:09.0 Setting event type PARIND
+12:02:00.0  Toggling channel 1
+12:02:04.0  Toggling channel 2
+12:02:05.0  Toggling channel 3
+12:02:06.0  Toggling channel 4
+12:02:10.0 Adding racer number 234
+12:02:25.0 Adding racer number 315
+12:02:50.0 Trigger event happened.
+12:02:52.0 Trigger event happened.
+12:03:35.0 Trigger event happened.
+12:03:55.0 Trigger event happened.
+12:04:25.0 Exporting to USB.
+12:04:25.0 Exporting run 1
+12:04:50.0 Printing racer times to console
+
+Race 1
+	234	00:00:02.0
+
+12:06:00.0 Run ended.
+12:06:10.0 New Run Started.
+13:01:00.0 Setting event type PARIND
+13:02:10.0 Adding racer number 167
+13:02:15.0 Adding racer number 166
+13:02:20.0 Adding racer number 200
+13:02:25.0 Adding racer number 201
+13:04:30.0 Trigger event happened.
+13:04:30.1 Trigger event happened.
+13:05:02.0 Trigger event happened.
+13:05:05.0 Trigger event happened.
+13:05:18.0 Trigger event happened.
+13:05:20.0 Exporting to USB.
+13:05:20.0 Exporting run 2
+13:05:25.3 Run ended.
+13:05:26.3 Printing racer times to console
+
+Race 2
+	167	00:00:00.100000000
+	166	00:00:03.0
+	200	DNF
+	201	DNF
+
+13:06:00.0 New Run Started.
+13:06:12.4  Toggling channel 1
+13:06.13.0 Run ended.
+13:06.15.1 Printing racer times to console
+
+Race 3
+
+13:26.11.0  Powering off
+13:26.17.0  Exiting Simulator. Have a nice day.
