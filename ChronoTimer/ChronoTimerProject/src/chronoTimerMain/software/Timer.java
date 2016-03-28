@@ -141,7 +141,8 @@ public class Timer {
 		}
 		@Test
 		public void test0Time() {
-			assertEquals(0, synchronizedChronoStartTime.compareTo(synchronizedSystemStartTime));
+			assertEquals(0, synchronizedChronoStartTime.withNano(0).withSecond(0).compareTo(
+					synchronizedSystemStartTime.withNano(0).withSecond(0)));
 		}
 		@Test
 		public void testInvalidTimeFormat() {
@@ -149,8 +150,8 @@ public class Timer {
 			LocalDateTime saveCTime = synchronizedChronoStartTime;
 			
 			time("0000000000");
-			assertEquals(0, saveSTime.compareTo(synchronizedSystemStartTime));
-			assertEquals(0, saveCTime.compareTo(synchronizedSystemStartTime));
+			assertEquals(0, saveSTime.withNano(0).withSecond(0).compareTo(synchronizedSystemStartTime.withNano(0).withSecond(0)));
+			assertEquals(0, saveCTime.withNano(0).withSecond(0).compareTo(synchronizedSystemStartTime.withNano(0).withSecond(0)));
 		}
 		@Test
 		public void TestNotNumberValue() {
@@ -158,7 +159,7 @@ public class Timer {
 			LocalDateTime saveCTime = synchronizedChronoStartTime;
 			
 			time("c0:0f:0w.x");
-			assertEquals(0, saveSTime.compareTo(synchronizedSystemStartTime));
-			assertEquals(0, saveCTime.compareTo(synchronizedSystemStartTime));
+			assertEquals(0, saveSTime.withNano(0).withSecond(0).compareTo(synchronizedSystemStartTime.withNano(0).withSecond(0)));
+			assertEquals(0, saveCTime.withNano(0).withSecond(0).compareTo(synchronizedSystemStartTime.withNano(0).withSecond(0)));
 		}
 }

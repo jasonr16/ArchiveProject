@@ -13,16 +13,20 @@ import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite.SuiteClasses;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 import junit.framework.TestCase;
+@SuiteClasses({ ChronoTimerEventHandler.EventTester.class})
 /**
  * ChronoTimerEventHandler parses the commands that are not hardware related. 
  * This class passes commands specific to a raceType to that specific Race object to be properly implemented.
  * Commands that are applicable to any race type are implemented here
+ * TODO: implement a COMMAND interface?
  * @author Jason
  *
  */
@@ -34,6 +38,11 @@ public class ChronoTimerEventHandler {
 	private String raceType = "IND";
 	private String display = "";
 	
+	public ChronoTimerEventHandler() {
+		timer = new Timer();
+		race = new RaceIND(runNumber, timer);
+		raceList.add(race);
+	}
 	public ChronoTimerEventHandler(Timer timer) {
 		this.timer = timer;
 		race = new RaceIND(runNumber, timer);
