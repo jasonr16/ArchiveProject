@@ -21,7 +21,9 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 import junit.framework.TestCase;
-@SuiteClasses({ ChronoTimerEventHandler.EventTester.class})
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
+
 /**
  * ChronoTimerEventHandler parses the commands that are not hardware related. 
  * This class passes commands specific to a raceType to that specific Race object to be properly implemented.
