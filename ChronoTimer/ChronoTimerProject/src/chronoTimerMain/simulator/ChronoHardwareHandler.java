@@ -299,74 +299,74 @@ public class ChronoHardwareHandler {
 
 			//test power from off
 			hh.OFF();
-			hh.inputFromSimulator("POWER", null, null);
+			hh.inputFromSimulator("POWER", null, "");
 			assertTrue(!hh.power());
 			
 			//test power from on
 			hh.ON();
-			hh.inputFromSimulator("POWER", null, null);
+			hh.inputFromSimulator("POWER", null,"");
 			assertTrue(hh.power());
 			
 			//test ON from off
 			hh.OFF();
-			hh.inputFromSimulator("ON", null, null);
+			hh.inputFromSimulator("ON", null,"");
 			assertTrue(!hh.power());
 					
 			//test ON from on
 			hh.ON();
-			hh.inputFromSimulator("ON", null, null);
+			hh.inputFromSimulator("ON", null, "");
 			assertTrue(!hh.power());
 			
 			//test OFF from off
 			hh.OFF();
-			hh.inputFromSimulator("OFF", null, null);
+			hh.inputFromSimulator("OFF", null, "");
 			assertTrue(hh.power());
 			//test OFF from on
 			hh.ON();
-			hh.inputFromSimulator("OFF", null, null);
+			hh.inputFromSimulator("OFF", null, "");
 			assertTrue(hh.power());
 			
 			//test ON from off
 			hh.OFF();
-			hh.inputFromSimulator("ON", null, null);
+			hh.inputFromSimulator("ON", null, "");
 			assertTrue(!hh.power());
 							
 			//test ON from on
 			hh.ON();
-			hh.inputFromSimulator("ON", null, null);
+			hh.inputFromSimulator("ON", null,"");
 			assertTrue(!hh.power());
 			
 			//test toggle when power of OFF
 			hh.OFF();
 			String[] test = {"1"};
-			String[] test2 = {"2"};
+			String[] test2 = {"EYE","2"};
 			hh.conn("GATE", 1);
-			hh.inputFromSimulator("TOGGLE", test , null);
+			hh.inputFromSimulator("TOGGLE", test , "");
 			assertFalse(hh.isEnabledSensor[1]);
 			//test toggle when power is ON
 			hh.ON();
-			hh.inputFromSimulator("TOGGLE", test , null);
+			hh.inputFromSimulator("TOGGLE", test , "");
 			assertTrue(hh.isEnabledSensor[1]);
 			// toggle when channel is not connected
-			hh.inputFromSimulator("TOGGLE", test2 , null);
+			hh.inputFromSimulator("TOGGLE", test2 , "");
 			assertFalse(hh.isEnabledSensor[2]);
 			
 			// disconnect connected channel when off
 			hh.OFF();
-			hh.inputFromSimulator("DISC", test, null);
+			hh.inputFromSimulator("DISC", test, "");
 			assertFalse(hh.sensors[1] == null);
 			// disconnect connected channel when on
 			hh.ON();
-			hh.inputFromSimulator("DISC", test, null);
+			hh.inputFromSimulator("DISC", test, "");
 			assertTrue(hh.sensors[1] == null);
 			
 			//test conn when off
 			hh.OFF();
-			hh.inputFromSimulator("CONN", test2, null);
+			hh.inputFromSimulator("CONN", test2, "");
 			assertEquals(null, hh.sensors[2]);
 			//test conn when on
 			hh.ON();
-			hh.inputFromSimulator("CONN", test2, null);
+			hh.inputFromSimulator("CONN", test2,"");
 			assertTrue(hh.sensors[2] != null);
 		}	
 	}	
