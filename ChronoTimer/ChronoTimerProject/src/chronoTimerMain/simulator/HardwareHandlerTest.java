@@ -37,6 +37,46 @@ public class HardwareHandlerTest {
 	@Test public void testNoPower(){
 		test = new ChronoHardwareHandler();
 		test.OFF();
+		for( int i = 0; i < 3; i ++){
+			
+		}
+		//test power from off
+		test.OFF();
+		test.inputFromSimulator("POWER", null, null);
+		assertTrue(!test.power());
 		
+		//test power from on
+		test.ON();
+		test.inputFromSimulator("POWER", null, null);
+		assertTrue(test.power());
+		
+		//test ON from off
+		test.OFF();
+		test.inputFromSimulator("ON", null, null);
+		assertTrue(!test.power());
+				
+		//test ON from on
+		test.ON();
+		test.inputFromSimulator("ON", null, null);
+		assertTrue(!test.power());
+		
+		//test OFF from off
+		test.OFF();
+		test.inputFromSimulator("OFF", null, null);
+		assertTrue(test.power());
+		//test OFF from on
+		test.ON();
+		test.inputFromSimulator("OFF", null, null);
+		assertTrue(test.power());
+		
+		//test ON from off
+		test.OFF();
+		test.inputFromSimulator("ON", null, null);
+		assertTrue(!test.power());
+						
+		//test ON from on
+		test.ON();
+		test.inputFromSimulator("ON", null, null);
+		assertTrue(!test.power());
 	}
 }
