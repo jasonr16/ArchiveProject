@@ -42,41 +42,41 @@ public class HardwareHandlerTest {
 		}
 		//test power from off
 		test.OFF();
-		test.inputFromSimulator("POWER", null, null);
+		test.inputFromSimulator("POWER", null, "");
 		assertTrue(!test.power());
 		
 		//test power from on
 		test.ON();
-		test.inputFromSimulator("POWER", null, null);
+		test.inputFromSimulator("POWER", null, "");
 		assertTrue(test.power());
 		
 		//test ON from off
 		test.OFF();
-		test.inputFromSimulator("ON", null, null);
+		test.inputFromSimulator("ON", null, "");
 		assertTrue(!test.power());
 				
 		//test ON from on
 		test.ON();
-		test.inputFromSimulator("ON", null, null);
+		test.inputFromSimulator("ON", null, "");
 		assertTrue(!test.power());
 		
 		//test OFF from off
 		test.OFF();
-		test.inputFromSimulator("OFF", null, null);
+		test.inputFromSimulator("OFF", null, "");
 		assertTrue(test.power());
 		//test OFF from on
 		test.ON();
-		test.inputFromSimulator("OFF", null, null);
+		test.inputFromSimulator("OFF", null,"");
 		assertTrue(test.power());
 		
 		//test ON from off
 		test.OFF();
-		test.inputFromSimulator("ON", null, null);
+		test.inputFromSimulator("ON", null, "");
 		assertTrue(!test.power());
 						
 		//test ON from on
 		test.ON();
-		test.inputFromSimulator("ON", null, null);
+		test.inputFromSimulator("ON", null, "");
 		assertTrue(!test.power());
 	}
 }
