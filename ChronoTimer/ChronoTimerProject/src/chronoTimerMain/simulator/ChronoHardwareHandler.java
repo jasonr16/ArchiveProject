@@ -187,28 +187,34 @@ public class ChronoHardwareHandler {
 	 * adds a sensor to specified channel
 	 * @param type the type of sensor
 	 * @param channel the channel associated with the sensor, 1-12
+	 * @return int of channel added to or -10 (outside range) on failure
 	 */
-	public void conn(String type, int channel){
+	public int conn(String type, int channel){
 		type = type.toUpperCase();
 		switch(type) {
 			case "EYE":
 				sensors[channel] = new SensorElectricEye();
-				break;
+				return channel;
+				//break;
 			case "PAD":
 				sensors[channel] = new SensorPad();
-				break;
+				return channel;
+				//break;
 			case "GATE":
 				sensors[channel] = new SensorGate();
-				break;
+				return channel;
+				//break;
 			default: 
 				System.out.println("Error. Invalid sensor type.");
+				return -10;
 		}
 	}
 	/**
 	 * removes a sensor from channel
 	 * @param channel the channel number to disconnect the sensor
 	 */
-	public void disc(int channel){
+	public int disc(int channel){
 		sensors[channel] = null;
+		return channel;
 	};
 }
