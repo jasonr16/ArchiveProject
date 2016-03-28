@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  */
 public class RaceIND extends Race {
 	// for individual races, there should only be 2 connected channels
-	private int startChannel; 
+	private int startChannel;
 	private int finishChannel;
 	
 	/**
@@ -33,11 +33,27 @@ public class RaceIND extends Race {
 	}
 	
 	/**
+	 * Set the start channel
+	 * @param num - start channel number
+	 */
+	public void setStartChannel(int num) {
+		this.startChannel = num;
+	}
+	
+	/**
 	 * Gets the finish channel associated with the race
 	 * @return finish channel number
 	 */
 	public int getFinishChannel() {
 		return this.finishChannel;
+	}
+	
+	/**
+	 * Set the finish channel
+	 * @param num - finish channel number
+	 */
+	public void setFinishChannel(int num) {
+		this.finishChannel = num;
 	}
 	
 	/**
@@ -50,7 +66,7 @@ public class RaceIND extends Race {
 		boolean result = false;
 		Racer racer = null;
 		ArrayList<Racer> startList = super.getStartList();
-		if (super.getCorrectRacer(racerNum) == null) {
+		if (super.getCorrectRacer(racerNum) == null) { // check if racer is already in start queue
 			racer = new Racer(racerNum);
 			startList.add(racer);
 			result = true;
