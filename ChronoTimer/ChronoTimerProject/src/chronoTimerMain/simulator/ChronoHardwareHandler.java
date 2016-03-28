@@ -90,27 +90,27 @@ public class ChronoHardwareHandler {
 			System.out.println(timestamp + " Exiting Simulator. Have a nice day.");
 			exit();
 			break;
+		case "CONN":
+			System.out.println(timestamp +" Connecting sensor " + args[0] + " at channel " + args[1]);
+			try{
+				conn(args[0], Integer.parseInt(args[1]));
+			}catch (NumberFormatException e) {
+				System.out.println("Error - Could not parse channel number");
+			}
+			break;
+		case "DISC":
+			System.out.println(timestamp + " Disconnecting channel " + args[0]);
+			try{
+				disc(Integer.parseInt(args[0]));
+			}catch (NumberFormatException e) {
+				System.out.println(timestamp + " Error - Could not parse channel number");
+			}
+			break;
 		}
 		if(power){
 			//TODO add succeed/fail messages
 			//TODO move CONN out of power method
 		switch(command) {
-			case "CONN":
-				System.out.println(timestamp +" Connecting sensor " + args[0] + " at channel " + args[1]);
-				try{
-					conn(args[0], Integer.parseInt(args[1]));
-				}catch (NumberFormatException e) {
-					System.out.println("Error - Could not parse channel number");
-				}
-				break;
-			case "DISC":
-				System.out.println(timestamp + " Disconnecting channel " + args[0]);
-				try{
-					disc(Integer.parseInt(args[0]));
-				}catch (NumberFormatException e) {
-					System.out.println(timestamp + " Error - Could not parse channel number");
-				}
-				break;
 			case "TOGGLE":
 			case "TOG":
 				System.out.println(timestamp + " Toggling channel " + args[0]);
