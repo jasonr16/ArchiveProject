@@ -91,6 +91,7 @@ public class ChronoHardwareHandler {
 		}
 		if(power){
 			//TODO add succeed/fail messages
+			//TODO move CONN out of power method
 		switch(command) {
 			case "CONN":
 				System.out.println(timestamp +" Connecting sensor " + args[0] + " at channel " + args[1]);
