@@ -39,17 +39,25 @@ public class Simulator {
 		String[] temp=null;
 		String[] temp2=new String[2];
 		String line = null;
-		
+		int linecount = 1;
 		while ((line = br.readLine()) != null) {
+			linecount++;
 			//parse time and add to queue
 			temp=line.split("\t");
 			line=temp[0];
 			timesInFileQueue.add(line);
 			temp2[0]=line.substring(0,8);
 			temp2[1]=line.substring(9);
-			long t=Time.valueOf(temp2[0]).getTime();
-			t+=Long.parseLong(temp2[1]);
-			eventTimes.add(t);
+			try {
+				long t=Time.valueOf(temp2[0]).getTime();
+				t+=Long.parseLong(temp2[1]);
+				eventTimes.add(t);
+			} catch (IllegalArgumentException e) {
+				System.out.println("Error with file time format " +line+" at line " + linecount +". Ignoring command " + temp[1] + ".\n");
+				continue;
+			}
+			
+			
 			//add command to queue to be parsed by driver
 			eventsInFileQueue.add(temp[1]);
 		}
