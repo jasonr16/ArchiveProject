@@ -6,7 +6,9 @@ import chronoTimerMain.simulator.sensor.SensorElectricEye;
 import chronoTimerMain.simulator.sensor.SensorGate;
 import chronoTimerMain.simulator.sensor.SensorPad;
 import chronoTimerMain.software.ChronoTimerEventHandler;
+import chronoTimerMain.software.RacePARIND;
 import chronoTimerMain.software.Timer;
+import junit.framework.TestCase;
 /**
  * ChronoHardwareHandler is an adapter between the simulator and the rest of chronotimer.
  * This class implements all hardware-related commands that represent physical processes, such as turning the power on.
@@ -161,7 +163,7 @@ public class ChronoHardwareHandler {
 
 	}
 	/**
-	 * exits the program.
+	 * exits the program
 	 */
 	public void exit(){
 		OFF();
@@ -174,16 +176,22 @@ public class ChronoHardwareHandler {
 		time = new Timer();
 		eventHandler = new ChronoTimerEventHandler(time);
 		eventLog = new ArrayList<SingleEvent>();
-	
-	};
+	}
 	
 	/**
 	 * turns channel on and off
 	 * @param channel
 	 */
-	public void toggle(int channel) {
-		isEnabledSensor[channel] = !isEnabledSensor[channel];
-	};
+	public boolean toggle(int channel) {
+		boolean result = false;
+		// check if power is on and channel is connected before toggling it
+		if (power && channel <= 12 && channel > 0 && sensors[channel] != null) {
+			isEnabledSensor[channel] = !isEnabledSensor[channel];
+			result = true;
+		}
+		return result;
+	}
+	
 	/**
 	 * adds a sensor to specified channel
 	 * @param type the type of sensor
@@ -191,31 +199,94 @@ public class ChronoHardwareHandler {
 	 * @return int of channel added to or -10 (outside range) on failure
 	 */
 	public int conn(String type, int channel){
-		type = type.toUpperCase();
-		switch(type) {
-			case "EYE":
-				sensors[channel] = new SensorElectricEye();
-				return channel;
-				//break;
-			case "PAD":
-				sensors[channel] = new SensorPad();
-				return channel;
-				//break;
-			case "GATE":
-				sensors[channel] = new SensorGate();
-				return channel;
-				//break;
-			default: 
-				System.out.println("Error. Invalid sensor type.");
-				return -10;
+		int result = -10;
+		if (channel <= 12 && channel > 0) {
+			type = type.toUpperCase();
+			switch(type) {
+				case "EYE":
+					sensors[channel] = new SensorElectricEye();
+					result = channel;
+					break;
+				case "PAD":
+					sensors[channel] = new SensorPad();
+					result = channel;
+					break;
+				case "GATE":
+					sensors[channel] = new SensorGate();
+					result = channel;
+					break;
+				default: 
+					System.out.println("Error. Invalid sensor type.");
+					break;
+			}
 		}
+		return result;
 	}
 	/**
 	 * removes a sensor from channel
 	 * @param channel the channel number to disconnect the sensor
 	 */
 	public int disc(int channel){
-		sensors[channel] = null;
-		return channel;
-	};
+		int result = -10;
+		if (channel <= 12 && channel > 0 && sensors[channel] != null) {
+			sensors[channel] = null;
+			result = channel;
+		}
+		return result;
+	}
+	
+	public static class ChronoHardwareHandlerUnitTester extends TestCase {
+		ChronoHardwareHandler hh;
+		
+		@Override
+		protected void setUp() {
+			hh = new ChronoHardwareHandler();
+		}
+		
+		public void testConn() {
+			// check all channels are null
+			Sensor[] sensors = hh.sensors;
+			assertEquals(13, sensors.length);
+			for(int i = 0; i < sensors.length; ++i) {
+				assertEquals(null, sensors[i]);
+			}
+			
+			// connect normal channel
+			hh.conn("GATE", 1);
+			assertEquals(null, hh.sensors[0]);
+			assertTrue(hh.sensors[1] != null);
+			
+			// connect out-of-range channel
+			assertEquals(-10, hh.conn("GATE", 15));
+		}
+		
+		public void testDisc() {
+			// disconnect connected channel
+			hh.conn("EYE", 1);
+			assertEquals(1, hh.disc(1));
+			assertTrue(hh.sensors[1] == null);
+			
+			// disconnect unconnected channel
+			assertEquals(-10, hh.disc(1));
+			assertTrue(hh.sensors[1] == null);
+			
+			// disconnect out-of-range channel
+			assertEquals(-10, hh.disc(13));
+		}
+		
+		public void testToggle() {
+			// toggle when power is off
+			assertFalse(hh.toggle(1));
+			// toggle when channel is connected
+			hh.ON();
+			hh.conn("GATE", 1);
+			assertTrue(hh.toggle(1));
+			assertTrue(hh.isEnabledSensor[1]);
+			// toggle when channel is not connected
+			assertFalse(hh.toggle(2));
+			assertFalse(hh.isEnabledSensor[2]);
+			// toggle out-of-range channel
+			assertFalse(hh.toggle(-1));
+		}
+	}
 }
