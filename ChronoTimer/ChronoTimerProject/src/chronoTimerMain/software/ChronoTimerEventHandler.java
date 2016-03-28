@@ -21,8 +21,6 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 import junit.framework.TestCase;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
 
 /**
  * ChronoTimerEventHandler parses the commands that are not hardware related. 
@@ -322,6 +320,13 @@ public class ChronoTimerEventHandler {
 		ChronoTimerEventHandler cTEV;
 		private ArrayList<Race> raceList = new ArrayList<Race>();
 		
+		public EventTester() {
+			timer = new Timer();
+			cTEV = new ChronoTimerEventHandler(timer);
+			runNumber = 1;
+			cTEV.race = new RaceIND(runNumber, timer);
+			raceList.add(race);
+		}
 		
 		@Before
 		public void initialize() {

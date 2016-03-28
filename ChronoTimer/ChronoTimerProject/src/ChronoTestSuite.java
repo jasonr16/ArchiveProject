@@ -10,9 +10,9 @@ import chronoTimerMain.software.Timer;
 @Suite.SuiteClasses({
    HardwareHandlerTest.class,
    Timer.class,
-   ChronoTimerEventHandler.class,
-   RacePARIND.class,
-   RaceIND.class
+   ChronoTimerEventHandler.class, //Will not run automated! Run test class by itself.
+   RacePARIND.class, //Will not run automated! Run test class by itself.
+   RaceIND.class //Will not run automated! Run test class by itself.
 })
 // ChronoTimerEventHandler, RacePARIND, and RaceIND Tests must be run individually from each class - they aren't currently runnable through test suite
 public class ChronoTestSuite {
