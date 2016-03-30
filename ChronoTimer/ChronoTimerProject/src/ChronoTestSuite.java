@@ -1,7 +1,7 @@
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import chronoTimerMain.simulator.HardwareHandlerTest;
+import chronoTimerMain.simulator.hardwareHandler.HardwareHandlerTest;
 import chronoTimerMain.software.RaceIND;
 import chronoTimerMain.software.RacePARIND;
 import chronoTimerMain.software.Timer.Timer;

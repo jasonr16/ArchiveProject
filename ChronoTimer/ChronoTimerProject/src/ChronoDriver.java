@@ -10,8 +10,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.*;
 
-import chronoTimerMain.simulator.ChronoHardwareHandler;
 import chronoTimerMain.simulator.Simulator;
+import chronoTimerMain.simulator.hardwareHandler.ChronoHardwareHandler;
 
 public class ChronoDriver {
 	public static void main (String [] args) throws IOException{

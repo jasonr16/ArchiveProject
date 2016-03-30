@@ -3,8 +3,7 @@ package chronoTimerMain.software;
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
-
-import chronoTimerMain.simulator.ChronoHardwareHandler;
+import chronoTimerMain.simulator.hardwareHandler.ChronoHardwareHandler;
 import chronoTimerMain.software.Timer.Timer;
 
 /**
