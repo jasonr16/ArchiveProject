@@ -9,9 +9,9 @@ import org.junit.Test;
 import chronoTimerMain.simulator.sensor.SensorElectricEye;
 import chronoTimerMain.simulator.sensor.SensorGate;
 import chronoTimerMain.simulator.sensor.SensorPad;
-import chronoTimerMain.software.ChronoTimerEventHandler;
 import chronoTimerMain.software.RacePARIND;
-import chronoTimerMain.software.Timer;
+import chronoTimerMain.software.Timer.Timer;
+import chronoTimerMain.software.eventHandler.ChronoTimerEventHandler;
 import junit.framework.TestCase;
 /**
  * ChronoHardwareHandler is an adapter between the simulator and the rest of chronotimer.

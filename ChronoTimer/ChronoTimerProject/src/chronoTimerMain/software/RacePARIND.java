@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import junit.framework.TestCase;
 
 import chronoTimerMain.simulator.ChronoHardwareHandler;
+import chronoTimerMain.software.Timer.Timer;
 
 /**
  * Represents a single race of the parallel individual event type.

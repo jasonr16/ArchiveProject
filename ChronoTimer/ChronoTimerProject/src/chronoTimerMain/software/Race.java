@@ -2,6 +2,8 @@ package chronoTimerMain.software;
 
 import java.util.ArrayList;
 
+import chronoTimerMain.software.Timer.Timer;
+
 /**
  * Represents a single generic race event with multiple participating racers.
  * A race is created via the NEWRUN command in ChronoTimer, or by default when the system
