@@ -61,37 +61,37 @@ public class ChronoGUI {
 		MainFramePanel.add(btnPower);
 		
 		JButton btnFunction = new JButton("Function");
-		btnFunction.setBounds(38, 309, 97, 25);
+		btnFunction.setBounds(32, 294, 97, 25);
 		MainFramePanel.add(btnFunction);
 		
 		JButton btnSwap = new JButton("Swap");
 		btnSwap.setBounds(38, 504, 97, 25);
 		MainFramePanel.add(btnSwap);
 		
-		ScrollPane scrollPane = new ScrollPane();
-		scrollPane.setBounds(304, 309, 240, 220);
-		MainFramePanel.add(scrollPane);
+		ScrollPane displayScrollPane = new ScrollPane();
+		displayScrollPane.setBounds(304, 309, 240, 220);
+		MainFramePanel.add(displayScrollPane);
 		
-		JTextArea txtrQueueRunning = new JTextArea();
-		txtrQueueRunning.setText("Queue / Running / Final Time");
-		txtrQueueRunning.setBounds(304, 555, 240, 22);
-		MainFramePanel.add(txtrQueueRunning);
+		JTextArea txtQueueRunning = new JTextArea();
+		txtQueueRunning.setText("Queue / Running / Final Time");
+		txtQueueRunning.setBounds(304, 555, 240, 22);
+		MainFramePanel.add(txtQueueRunning);
 		
-		JButton button = new JButton("");
-		button.setBounds(325, 94, 43, 25);
-		MainFramePanel.add(button);
+		JButton btnstart1 = new JButton("");
+		btnstart1.setBounds(325, 94, 43, 25);
+		MainFramePanel.add(btnstart1);
 		
-		JButton button_1 = new JButton("");
-		button_1.setBounds(380, 94, 43, 25);
-		MainFramePanel.add(button_1);
+		JButton btnstart3 = new JButton("");
+		btnstart3.setBounds(380, 94, 43, 25);
+		MainFramePanel.add(btnstart3);
 		
-		JButton button_2 = new JButton("");
-		button_2.setBounds(435, 94, 43, 25);
-		MainFramePanel.add(button_2);
+		JButton btnstart5 = new JButton("");
+		btnstart5.setBounds(435, 94, 43, 25);
+		MainFramePanel.add(btnstart5);
 		
-		JButton button_3 = new JButton("");
-		button_3.setBounds(490, 94, 43, 25);
-		MainFramePanel.add(button_3);
+		JButton btnstart7 = new JButton("");
+		btnstart7.setBounds(490, 94, 43, 25);
+		MainFramePanel.add(btnstart7);
 		
 		JTextArea txtrChronotimer = new JTextArea();
 		txtrChronotimer.setText("CHRONOTIMER 9001");
@@ -102,61 +102,61 @@ public class ChronoGUI {
 		btnPrinterPwr.setBounds(670, 24, 97, 25);
 		MainFramePanel.add(btnPrinterPwr);
 		
-		ScrollPane printerTape = new ScrollPane();
-		printerTape.setBounds(653, 108, 126, 141);
-		MainFramePanel.add(printerTape);
+		ScrollPane printerTapePane = new ScrollPane();
+		printerTapePane.setBounds(653, 108, 126, 141);
+		MainFramePanel.add(printerTapePane);
 		
-		ScrollPane printerBaseArea = new ScrollPane();
-		printerBaseArea.setBounds(639, 157, 153, 115);
-		MainFramePanel.add(printerBaseArea);
+		ScrollPane printerBaseAreaPane = new ScrollPane();
+		printerBaseAreaPane.setBounds(639, 157, 153, 115);
+		MainFramePanel.add(printerBaseAreaPane);
 		
-		JButton button_4 = new JButton("");
-		button_4.setBounds(325, 203, 43, 25);
-		MainFramePanel.add(button_4);
+		JButton btnfinish2 = new JButton("");
+		btnfinish2.setBounds(325, 203, 43, 25);
+		MainFramePanel.add(btnfinish2);
 		
-		JButton button_5 = new JButton("");
-		button_5.setBounds(380, 203, 43, 25);
-		MainFramePanel.add(button_5);
+		JButton btnfinish4 = new JButton("");
+		btnfinish4.setBounds(380, 203, 43, 25);
+		MainFramePanel.add(btnfinish4);
 		
-		JButton button_6 = new JButton("");
-		button_6.setBounds(435, 203, 43, 25);
-		MainFramePanel.add(button_6);
+		JButton btnfinish6 = new JButton("");
+		btnfinish6.setBounds(435, 203, 43, 25);
+		MainFramePanel.add(btnfinish6);
 		
-		JButton button_7 = new JButton("");
-		button_7.setBounds(490, 203, 43, 25);
-		MainFramePanel.add(button_7);
+		JButton btnfinish8 = new JButton("");
+		btnfinish8.setBounds(490, 203, 43, 25);
+		MainFramePanel.add(btnfinish8);
 		
-		JRadioButton radioButton = new JRadioButton("New radio button");
-		radioButton.setBounds(335, 128, 24, 25);
-		MainFramePanel.add(radioButton);
+		JRadioButton radbtnenable1 = new JRadioButton("New radio button");
+		radbtnenable1.setBounds(335, 128, 24, 25);
+		MainFramePanel.add(radbtnenable1);
 		
-		JRadioButton radioButton_1 = new JRadioButton("New radio button");
-		radioButton_1.setBounds(390, 128, 24, 25);
-		MainFramePanel.add(radioButton_1);
+		JRadioButton radbtnenable3 = new JRadioButton("New radio button");
+		radbtnenable3.setBounds(390, 128, 24, 25);
+		MainFramePanel.add(radbtnenable3);
 		
-		JRadioButton radioButton_2 = new JRadioButton("New radio button");
-		radioButton_2.setBounds(445, 128, 24, 25);
-		MainFramePanel.add(radioButton_2);
+		JRadioButton radbtnenable5 = new JRadioButton("New radio button");
+		radbtnenable5.setBounds(445, 128, 24, 25);
+		MainFramePanel.add(radbtnenable5);
 		
-		JRadioButton radioButton_3 = new JRadioButton("New radio button");
-		radioButton_3.setBounds(500, 128, 24, 25);
-		MainFramePanel.add(radioButton_3);
+		JRadioButton radbtnenable7 = new JRadioButton("New radio button");
+		radbtnenable7.setBounds(500, 128, 24, 25);
+		MainFramePanel.add(radbtnenable7);
 		
-		JRadioButton radioButton_4 = new JRadioButton("New radio button");
-		radioButton_4.setBounds(335, 247, 24, 25);
-		MainFramePanel.add(radioButton_4);
+		JRadioButton radbtnenable2 = new JRadioButton("New radio button");
+		radbtnenable2.setBounds(335, 247, 24, 25);
+		MainFramePanel.add(radbtnenable2);
 		
-		JRadioButton radioButton_5 = new JRadioButton("New radio button");
-		radioButton_5.setBounds(390, 247, 24, 25);
-		MainFramePanel.add(radioButton_5);
+		JRadioButton radbtnenable4 = new JRadioButton("New radio button");
+		radbtnenable4.setBounds(390, 247, 24, 25);
+		MainFramePanel.add(radbtnenable4);
 		
-		JRadioButton radioButton_6 = new JRadioButton("New radio button");
-		radioButton_6.setBounds(445, 247, 24, 25);
-		MainFramePanel.add(radioButton_6);
+		JRadioButton radbtnenable6 = new JRadioButton("New radio button");
+		radbtnenable6.setBounds(445, 247, 24, 25);
+		MainFramePanel.add(radbtnenable6);
 		
-		JRadioButton radioButton_7 = new JRadioButton("New radio button");
-		radioButton_7.setBounds(500, 247, 24, 25);
-		MainFramePanel.add(radioButton_7);
+		JRadioButton radbtnenable8 = new JRadioButton("New radio button");
+		radbtnenable8.setBounds(500, 247, 24, 25);
+		MainFramePanel.add(radbtnenable8);
 		
 		JTextArea txtrStart = new JTextArea();
 		txtrStart.setText("Start");
@@ -173,170 +173,210 @@ public class ChronoGUI {
 		txtrEnabledisable.setBounds(165, 129, 143, 22);
 		MainFramePanel.add(txtrEnabledisable);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setText("Enable/Disable");
-		textArea.setBounds(165, 250, 143, 22);
-		MainFramePanel.add(textArea);
+		JTextArea textED2 = new JTextArea();
+		textED2.setText("Enable/Disable");
+		textED2.setBounds(165, 250, 143, 22);
+		MainFramePanel.add(textED2);
 		
-		JButton btnNewButton = new JButton("1");
-		btnNewButton.setBounds(619, 319, 48, 46);
-		MainFramePanel.add(btnNewButton);
+		JButton btnkeypad1 = new JButton("1");
+		btnkeypad1.setBounds(619, 319, 48, 46);
+		MainFramePanel.add(btnkeypad1);
 		
-		JButton button_8 = new JButton("2");
-		button_8.setBounds(670, 319, 48, 46);
-		MainFramePanel.add(button_8);
+		JButton btnkeypad2 = new JButton("2");
+		btnkeypad2.setBounds(670, 319, 48, 46);
+		MainFramePanel.add(btnkeypad2);
 		
-		JButton button_9 = new JButton("3");
-		button_9.setBounds(719, 319, 48, 46);
-		MainFramePanel.add(button_9);
+		JButton btnkeypad3 = new JButton("3");
+		btnkeypad3.setBounds(719, 319, 48, 46);
+		MainFramePanel.add(btnkeypad3);
 		
-		JButton button_10 = new JButton("4");
-		button_10.setBounds(619, 366, 48, 46);
-		MainFramePanel.add(button_10);
+		JButton btnkeypad4 = new JButton("4");
+		btnkeypad4.setBounds(619, 366, 48, 46);
+		MainFramePanel.add(btnkeypad4);
 		
-		JButton button_11 = new JButton("5");
-		button_11.setBounds(670, 366, 48, 46);
-		MainFramePanel.add(button_11);
+		JButton btnkeypad5 = new JButton("5");
+		btnkeypad5.setBounds(670, 366, 48, 46);
+		MainFramePanel.add(btnkeypad5);
 		
-		JButton button_12 = new JButton("6");
-		button_12.setBounds(719, 366, 48, 46);
-		MainFramePanel.add(button_12);
+		JButton btnkeypad6 = new JButton("6");
+		btnkeypad6.setBounds(719, 366, 48, 46);
+		MainFramePanel.add(btnkeypad6);
 		
-		JButton button_13 = new JButton("7");
-		button_13.setBounds(619, 414, 48, 46);
-		MainFramePanel.add(button_13);
+		JButton btnkeypad7 = new JButton("7");
+		btnkeypad7.setBounds(619, 414, 48, 46);
+		MainFramePanel.add(btnkeypad7);
 		
-		JButton button_14 = new JButton("8");
-		button_14.setBounds(670, 414, 48, 46);
-		MainFramePanel.add(button_14);
+		JButton btnkeypad8 = new JButton("8");
+		btnkeypad8.setBounds(670, 414, 48, 46);
+		MainFramePanel.add(btnkeypad8);
 		
-		JButton button_15 = new JButton("9");
-		button_15.setBounds(719, 414, 48, 46);
-		MainFramePanel.add(button_15);
+		JButton btnkeypad9 = new JButton("9");
+		btnkeypad9.setBounds(719, 414, 48, 46);
+		MainFramePanel.add(btnkeypad9);
 		
-		JButton button_16 = new JButton("*");
-		button_16.setBounds(619, 461, 48, 46);
-		MainFramePanel.add(button_16);
+		JButton btnkeypadstar = new JButton("*");
+		btnkeypadstar.setBounds(619, 461, 48, 46);
+		MainFramePanel.add(btnkeypadstar);
 		
-		JButton button_17 = new JButton("0");
-		button_17.setBounds(670, 461, 48, 46);
-		MainFramePanel.add(button_17);
+		JButton btnkeypad0 = new JButton("0");
+		btnkeypad0.setBounds(670, 461, 48, 46);
+		MainFramePanel.add(btnkeypad0);
 		
-		JButton button_18 = new JButton("#");
-		button_18.setBounds(719, 461, 48, 46);
-		MainFramePanel.add(button_18);
+		JButton btnkeypadpound = new JButton("#");
+		btnkeypadpound.setBounds(719, 461, 48, 46);
+		MainFramePanel.add(btnkeypadpound);
 		
-		JPanel backview = new JPanel();
-		backview.setBackground(Color.WHITE);
-		backview.setBorder(new LineBorder(new Color(192, 192, 192), 2));
-		backview.setBounds(0, 590, 881, 138);
-		MainFramePanel.add(backview);
-		backview.setLayout(null);
+		JPanel backviewpanel = new JPanel();
+		backviewpanel.setBackground(Color.WHITE);
+		backviewpanel.setBorder(new LineBorder(new Color(192, 192, 192), 2));
+		backviewpanel.setBounds(0, 590, 881, 138);
+		MainFramePanel.add(backviewpanel);
+		backviewpanel.setLayout(null);
 		
 		JTextArea txtrChan = new JTextArea();
 		txtrChan.setText("CHAN");
 		txtrChan.setBounds(12, 13, 61, 22);
-		backview.add(txtrChan);
+		backviewpanel.add(txtrChan);
 		
 		JRadioButton radioButton_8 = new JRadioButton("New radio button");
 		radioButton_8.setBounds(99, 44, 24, 25);
-		backview.add(radioButton_8);
+		backviewpanel.add(radioButton_8);
 		
 		JRadioButton radioButton_9 = new JRadioButton("New radio button");
 		radioButton_9.setBounds(144, 44, 24, 25);
-		backview.add(radioButton_9);
+		backviewpanel.add(radioButton_9);
 		
 		JRadioButton radioButton_10 = new JRadioButton("New radio button");
 		radioButton_10.setBounds(195, 44, 24, 25);
-		backview.add(radioButton_10);
+		backviewpanel.add(radioButton_10);
 		
 		JRadioButton radioButton_11 = new JRadioButton("New radio button");
 		radioButton_11.setBounds(247, 44, 24, 25);
-		backview.add(radioButton_11);
+		backviewpanel.add(radioButton_11);
 		
 		JRadioButton radioButton_12 = new JRadioButton("New radio button");
 		radioButton_12.setBounds(99, 104, 24, 25);
-		backview.add(radioButton_12);
+		backviewpanel.add(radioButton_12);
 		
 		JRadioButton radioButton_13 = new JRadioButton("New radio button");
 		radioButton_13.setBounds(144, 104, 24, 25);
-		backview.add(radioButton_13);
+		backviewpanel.add(radioButton_13);
 		
 		JRadioButton radioButton_14 = new JRadioButton("New radio button");
 		radioButton_14.setBounds(195, 104, 24, 25);
-		backview.add(radioButton_14);
+		backviewpanel.add(radioButton_14);
 		
 		JRadioButton radioButton_15 = new JRadioButton("New radio button");
 		radioButton_15.setBounds(247, 104, 24, 25);
-		backview.add(radioButton_15);
+		backviewpanel.add(radioButton_15);
 		
 		JTextArea textArea_1 = new JTextArea();
 		textArea_1.setText("3");
 		textArea_1.setBounds(150, 13, 12, 22);
-		backview.add(textArea_1);
+		backviewpanel.add(textArea_1);
 		
 		JTextArea textArea_2 = new JTextArea();
 		textArea_2.setText("5");
 		textArea_2.setBounds(200, 13, 12, 22);
-		backview.add(textArea_2);
+		backviewpanel.add(textArea_2);
 		
 		JTextArea textArea_3 = new JTextArea();
 		textArea_3.setText("7");
 		textArea_3.setBounds(252, 13, 12, 22);
-		backview.add(textArea_3);
+		backviewpanel.add(textArea_3);
 		
 		JTextArea textArea_4 = new JTextArea();
 		textArea_4.setText("1");
 		textArea_4.setBounds(105, 13, 12, 22);
-		backview.add(textArea_4);
+		backviewpanel.add(textArea_4);
 		
 		JTextArea textArea_5 = new JTextArea();
 		textArea_5.setText("2");
 		textArea_5.setBounds(105, 73, 12, 22);
-		backview.add(textArea_5);
+		backviewpanel.add(textArea_5);
 		
 		JTextArea textArea_6 = new JTextArea();
 		textArea_6.setText("4");
 		textArea_6.setBounds(150, 73, 12, 22);
-		backview.add(textArea_6);
+		backviewpanel.add(textArea_6);
 		
 		JTextArea textArea_7 = new JTextArea();
 		textArea_7.setText("6");
 		textArea_7.setBounds(201, 73, 12, 22);
-		backview.add(textArea_7);
+		backviewpanel.add(textArea_7);
 		
 		JTextArea textArea_8 = new JTextArea();
 		textArea_8.setText("8");
 		textArea_8.setBounds(252, 73, 12, 22);
-		backview.add(textArea_8);
+		backviewpanel.add(textArea_8);
 		
 		JTextArea txtrUsbPort = new JTextArea();
 		txtrUsbPort.setText("USB PORT");
 		txtrUsbPort.setBounds(429, 45, 83, 22);
-		backview.add(txtrUsbPort);
+		backviewpanel.add(txtrUsbPort);
 		
 		JToggleButton toggleButton = new JToggleButton("");
 		toggleButton.setBounds(343, 44, 83, 25);
-		backview.add(toggleButton);
+		backviewpanel.add(toggleButton);
 		
-		JButton leftArrow = new JButton("");
-		leftArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/leftArrow.jpg")));
-		leftArrow.setBounds(12, 340, 57, 61);
-		MainFramePanel.add(leftArrow);
+		JButton btnleftArrow = new JButton("");
+		btnleftArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/leftArrow.jpg")));
+		btnleftArrow.setBounds(12, 340, 57, 61);
+		MainFramePanel.add(btnleftArrow);
 		
-		JButton rightArrow = new JButton("");
-		rightArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/rightArrow.jpg")));
-		rightArrow.setBounds(78, 340, 57, 61);
-		MainFramePanel.add(rightArrow);
+		JButton btnrightArrow = new JButton("");
+		btnrightArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/rightArrow.jpg")));
+		btnrightArrow.setBounds(78, 340, 57, 61);
+		MainFramePanel.add(btnrightArrow);
 		
-		JButton downArrow = new JButton("");
-		downArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/downArrow.jpg")));
-		downArrow.setBounds(142, 340, 57, 61);
-		MainFramePanel.add(downArrow);
+		JButton btndownArrow = new JButton("");
+		btndownArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/downArrow.jpg")));
+		btndownArrow.setBounds(142, 340, 57, 61);
+		MainFramePanel.add(btndownArrow);
 		
-		JButton upArrow = new JButton("");
-		upArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/upArrow.jpg")));
-		upArrow.setBounds(210, 340, 57, 61);
-		MainFramePanel.add(upArrow);
+		JButton btnupArrow = new JButton("");
+		btnupArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/upArrow.jpg")));
+		btnupArrow.setBounds(210, 340, 57, 61);
+		MainFramePanel.add(btnupArrow);
+		
+		JTextArea starttxt1 = new JTextArea();
+		starttxt1.setText("1");
+		starttxt1.setBounds(335, 59, 24, 22);
+		MainFramePanel.add(starttxt1);
+		
+		JTextArea starttxt3 = new JTextArea();
+		starttxt3.setText("3");
+		starttxt3.setBounds(390, 59, 24, 22);
+		MainFramePanel.add(starttxt3);
+		
+		JTextArea starttxt5 = new JTextArea();
+		starttxt5.setText("5");
+		starttxt5.setBounds(445, 59, 24, 22);
+		MainFramePanel.add(starttxt5);
+		
+		JTextArea starttxt7 = new JTextArea();
+		starttxt7.setText("7");
+		starttxt7.setBounds(500, 59, 24, 22);
+		MainFramePanel.add(starttxt7);
+		
+		JTextArea starttxt2 = new JTextArea();
+		starttxt2.setText("2");
+		starttxt2.setBounds(335, 168, 24, 22);
+		MainFramePanel.add(starttxt2);
+		
+		JTextArea starttxt4 = new JTextArea();
+		starttxt4.setText("4");
+		starttxt4.setBounds(390, 168, 24, 22);
+		MainFramePanel.add(starttxt4);
+		
+		JTextArea starttxt6 = new JTextArea();
+		starttxt6.setText("6");
+		starttxt6.setBounds(445, 168, 24, 22);
+		MainFramePanel.add(starttxt6);
+		
+		JTextArea starttxt8 = new JTextArea();
+		starttxt8.setText("8");
+		starttxt8.setBounds(500, 168, 24, 22);
+		MainFramePanel.add(starttxt8);
 	}
 }
