@@ -1,4 +1,4 @@
-package chronoTimerMain.simulator;
+package chronoTimerMain.simulator.hardwareHandler;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,12 +6,13 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import chronoTimerMain.simulator.Sensor;
 import chronoTimerMain.simulator.sensor.SensorElectricEye;
 import chronoTimerMain.simulator.sensor.SensorGate;
 import chronoTimerMain.simulator.sensor.SensorPad;
-import chronoTimerMain.software.eventHandler.ChronoTimerEventHandler;
 import chronoTimerMain.software.RacePARIND;
 import chronoTimerMain.software.Timer.Timer;
+import chronoTimerMain.software.eventHandler.ChronoTimerEventHandler;
 import junit.framework.TestCase;
 /**
  * ChronoHardwareHandler is an adapter between the simulator and the rest of chronotimer.
@@ -28,41 +29,41 @@ public class ChronoHardwareHandler {
 	 * @author Jason
 	 *
 	 */
-	private class SingleEvent {
+	protected class SingleEvent {
 		private String timeStamp;
 		private String command;
 		private String[] args;
-		public SingleEvent(String timeStamp, String command, String[] args) {
+		protected  SingleEvent(String timeStamp, String command, String[] args) {
 			this.setTimeStamp(timeStamp);
 			this.setCommand(command);
 			this.setArgs(args);
 		}
-		public String getTimeStamp() {
+		protected String getTimeStamp() {
 			return timeStamp;
 		}
-		public void setTimeStamp(String timeStamp) {
+		protected void setTimeStamp(String timeStamp) {
 			this.timeStamp = timeStamp;
 		}
-		public String getCommand() {
+		protected String getCommand() {
 			return command;
 		}
-		public void setCommand(String command) {
+		protected  void setCommand(String command) {
 			this.command = command;
 		}
-		public String[] getArgs() {
+		protected  String[] getArgs() {
 			return args;
 		}
-		public void setArgs(String[] args) {
+		protected void setArgs(String[] args) {
 			this.args = args;
 		}
 	}
 	
-	private Timer time = new Timer();
-	private Sensor[] sensors = new Sensor[13];//no sensor stored in index 0. 12 max
-	private boolean[] isEnabledSensor = new boolean[13];
-	private ArrayList<SingleEvent> eventLog = new ArrayList<SingleEvent>();
-	private boolean power = false;
-	private ChronoTimerEventHandler eventHandler;
+	protected Timer time = new Timer();
+	protected Sensor[] sensors = new Sensor[13];//no sensor stored in index 0. 12 max
+	protected boolean[] isEnabledSensor = new boolean[13];
+	protected  ArrayList<SingleEvent> eventLog = new ArrayList<SingleEvent>();
+	protected boolean power = false;
+	protected ChronoTimerEventHandler eventHandler;
 	
 	/**
 	 * Interaction between simulator and rest of ChronoTimer
@@ -94,27 +95,27 @@ public class ChronoHardwareHandler {
 			System.out.println(timestamp + " Exiting Simulator. Have a nice day.");
 			exit();
 			break;
-		case "CONN":
-			System.out.println(timestamp +" Connecting sensor " + args[0] + " at channel " + args[1]);
-			try{
-				conn(args[0], Integer.parseInt(args[1]));
-			}catch (NumberFormatException e) {
-				System.out.println("Error - Could not parse channel number");
-			}
-			break;
-		case "DISC":
-			System.out.println(timestamp + " Disconnecting channel " + args[0]);
-			try{
-				disc(Integer.parseInt(args[0]));
-			}catch (NumberFormatException e) {
-				System.out.println(timestamp + " Error - Could not parse channel number");
-			}
-			break;
 		}
 		if(power){
 			//TODO add succeed/fail messages
 			//TODO move CONN out of power method
 		switch(command) {
+			case "CONN":
+				System.out.println(timestamp +" Connecting sensor " + args[0] + " at channel " + args[1]);
+				try{
+					conn(args[0], Integer.parseInt(args[1]));
+				}catch (NumberFormatException e) {
+					System.out.println("Error - Could not parse channel number");
+				}
+				break;
+			case "DISC":
+				System.out.println(timestamp + " Disconnecting channel " + args[0]);
+				try{
+					disc(Integer.parseInt(args[0]));
+				}catch (NumberFormatException e) {
+					System.out.println(timestamp + " Error - Could not parse channel number");
+				}
+				break;
 			case "TOGGLE":
 			case "TOG":
 				System.out.println(timestamp + " Toggling channel " + args[0]);
@@ -237,137 +238,5 @@ public class ChronoHardwareHandler {
 			result = channel;
 		}
 		return result;
-	}
-	
-	public static class ChronoHardwareHandlerUnitTester extends TestCase {
-		ChronoHardwareHandler hh;
-		
-		@Override
-		protected void setUp() {
-			hh = new ChronoHardwareHandler();
-		}
-		
-		public void testConn() {
-			// check all channels are null
-			Sensor[] sensors = hh.sensors;
-			assertEquals(13, sensors.length);
-			for(int i = 0; i < sensors.length; ++i) {
-				assertEquals(null, sensors[i]);
-			}
-			
-			// connect normal channel
-			hh.conn("GATE", 1);
-			assertEquals(null, hh.sensors[0]);
-			assertTrue(hh.sensors[1] != null);
-			
-			// connect out-of-range channel
-			assertEquals(-10, hh.conn("GATE", 15));
-		}
-		
-		public void testDisc() {
-			// disconnect connected channel
-			hh.conn("EYE", 1);
-			assertEquals(1, hh.disc(1));
-			assertTrue(hh.sensors[1] == null);
-			
-			// disconnect unconnected channel
-			assertEquals(-10, hh.disc(1));
-			assertTrue(hh.sensors[1] == null);
-			
-			// disconnect out-of-range channel
-			assertEquals(-10, hh.disc(13));
-		}
-		
-		public void testToggle() {
-			// toggle when power is off
-			assertFalse(hh.toggle(1));
-			// toggle when channel is connected
-			hh.ON();
-			hh.conn("GATE", 1);
-			assertTrue(hh.toggle(1));
-			assertTrue(hh.isEnabledSensor[1]);
-			// toggle when channel is not connected
-			assertFalse(hh.toggle(2));
-			assertFalse(hh.isEnabledSensor[2]);
-			// toggle out-of-range channel
-			assertFalse(hh.toggle(-1));
-		}
-		
-		public void testNoPower(){
-			hh = new ChronoHardwareHandler();
-			hh.OFF();
-
-			//test power from off
-			hh.OFF();
-			hh.inputFromSimulator("POWER", null, "");
-			assertTrue(!hh.power());
-			
-			//test power from on
-			hh.ON();
-			hh.inputFromSimulator("POWER", null,"");
-			assertTrue(hh.power());
-			
-			//test ON from off
-			hh.OFF();
-			hh.inputFromSimulator("ON", null,"");
-			assertTrue(!hh.power());
-					
-			//test ON from on
-			hh.ON();
-			hh.inputFromSimulator("ON", null, "");
-			assertTrue(!hh.power());
-			
-			//test OFF from off
-			hh.OFF();
-			hh.inputFromSimulator("OFF", null, "");
-			assertTrue(hh.power());
-			//test OFF from on
-			hh.ON();
-			hh.inputFromSimulator("OFF", null, "");
-			assertTrue(hh.power());
-			
-			//test ON from off
-			hh.OFF();
-			hh.inputFromSimulator("ON", null, "");
-			assertTrue(!hh.power());
-							
-			//test ON from on
-			hh.ON();
-			hh.inputFromSimulator("ON", null,"");
-			assertTrue(!hh.power());
-			
-			//test toggle when power of OFF
-			hh.OFF();
-			String[] test = {"1"};
-			String[] test2 = {"EYE","2"};
-			hh.conn("GATE", 1);
-			hh.inputFromSimulator("TOGGLE", test , "");
-			assertFalse(hh.isEnabledSensor[1]);
-			//test toggle when power is ON
-			hh.ON();
-			hh.inputFromSimulator("TOGGLE", test , "");
-			assertTrue(hh.isEnabledSensor[1]);
-			// toggle when channel is not connected
-			hh.inputFromSimulator("TOGGLE", test2 , "");
-			assertFalse(hh.isEnabledSensor[2]);
-			
-			// disconnect connected channel when off
-			hh.OFF();
-			hh.inputFromSimulator("DISC", test, "word");
-			assertFalse(hh.sensors[1] == null);
-			// disconnect connected channel when on
-			hh.ON();
-			hh.inputFromSimulator("DISC", test, "word");
-			assertTrue(hh.sensors[1] == null);
-			String[] test3 = {"EYE", "3"};
-			//test conn when off
-			hh.OFF();
-			hh.inputFromSimulator("CONN", test3, "word");
-			assertEquals(null, hh.sensors[3]);
-			//test conn when on
-			hh.ON();
-			hh.inputFromSimulator("CONN", test3, "word");
-			assertTrue(hh.sensors[3] != null);
-		}	
 	}	
 }

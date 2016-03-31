@@ -2,6 +2,7 @@ package chronoTimerMain.software;
 
 import java.util.ArrayList;
 
+import chronoTimerMain.software.Timer.Timer;
 import junit.framework.TestCase;
 
 /**

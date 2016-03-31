@@ -1,4 +1,4 @@
-package chronoTimerMain.software;
+package chronoTimerMain.software.Timer;
 
 import static org.junit.Assert.assertEquals;
 
@@ -76,7 +76,7 @@ public class Timer {
 			Duration duration = Duration.between(startT, finishT);
 			LocalTime elapsedTime = (LocalTime) duration.addTo(LocalTime.parse("00:00:00.0"));
 			s = String.format("%02d:%02d:%02d.%01d", elapsedTime.getHour(),elapsedTime.getMinute(),
-					elapsedTime.getSecond(), elapsedTime.getNano());
+					elapsedTime.getSecond(), elapsedTime.getNano()/100000000);
 		} catch (NoSuchElementException e) {
 			System.out.println("Error with time format parsing.");
 			return "00:00:00.0";
@@ -97,69 +97,11 @@ public class Timer {
 			return timeToString ((LocalDateTime) d.addTo(synchronizedChronoStartTime));
 			
 	}	
-	private String timeToString(Temporal t) {
+	protected String timeToString(Temporal t) {
 		return String.format("%02d:%02d:%02d.%01d", ((LocalDateTime) t).getHour(),((LocalDateTime) t).getMinute(),
 				((LocalDateTime) t).getSecond(),((LocalDateTime) t).getNano()/100000000);
 	}
 	
 	//Internal Unit Tests
-		@Test
-			public void testCorrectStringFormat() {
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withHour(12);
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withMinute(11);
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withSecond(10);
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withNano(900000000);
-				assertEquals("12:11:10.9", timeToString(synchronizedChronoStartTime));
-			}
-		@Test
-		public void testTimeSet() {
-			time("02:04:45.5");
-			assertEquals("02:04:45.5", timeToString(synchronizedChronoStartTime));
-		}
 		
-		@Test 
-		public void testGetChronoTime() {	
-			//test for delayed time
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withHour(0);
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withMinute(0);
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withSecond(9);
-			synchronizedChronoStartTime = synchronizedChronoStartTime.withNano(0);
-			try {
-				TimeUnit.SECONDS.sleep(1);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			System.out.println(getCurrentChronoTime());
-			assertEquals("00:00:1", getCurrentChronoTime().substring(0, 7));
-			
-		}
-		@Test
-		public void testGetRunDuration() {
-			assertEquals("01:01:01.0", getRunDuration("02:02:02.2", "03:03:03.2"));
-			//test zero nanoseconds
-			assertEquals("01:01:01.0", getRunDuration("02:02:02.0", "03:03:03.0"));
-		}
-		@Test
-		public void test0Time() {
-			assertEquals(0, synchronizedChronoStartTime.withNano(0).withSecond(0).compareTo(
-					synchronizedSystemStartTime.withNano(0).withSecond(0)));
-		}
-		@Test
-		public void testInvalidTimeFormat() {
-			LocalDateTime saveSTime = synchronizedSystemStartTime;
-			LocalDateTime saveCTime = synchronizedChronoStartTime;
-			
-			time("0000000000");
-			assertEquals(0, saveSTime.withNano(0).withSecond(0).compareTo(synchronizedSystemStartTime.withNano(0).withSecond(0)));
-			assertEquals(0, saveCTime.withNano(0).withSecond(0).compareTo(synchronizedSystemStartTime.withNano(0).withSecond(0)));
-		}
-		@Test
-		public void TestNotNumberValue() {
-			LocalDateTime saveSTime = synchronizedSystemStartTime;
-			LocalDateTime saveCTime = synchronizedChronoStartTime;
-			
-			time("c0:0f:0w.x");
-			assertEquals(0, saveSTime.withNano(0).withSecond(0).compareTo(synchronizedSystemStartTime.withNano(0).withSecond(0)));
-			assertEquals(0, saveCTime.withNano(0).withSecond(0).compareTo(synchronizedSystemStartTime.withNano(0).withSecond(0)));
-		}
 }
