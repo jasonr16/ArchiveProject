@@ -99,7 +99,7 @@ public class ChronoGUI {
 		MainFramePanel.add(txtrChronotimer);
 		
 		JButton btnPrinterPwr = new JButton("Printer Pwr");
-		btnPrinterPwr.setBounds(670, 24, 97, 25);
+		btnPrinterPwr.setBounds(653, 24, 126, 25);
 		MainFramePanel.add(btnPrinterPwr);
 		
 		ScrollPane printerTapePane = new ScrollPane();
@@ -127,35 +127,35 @@ public class ChronoGUI {
 		MainFramePanel.add(btnfinish8);
 		
 		JRadioButton radbtnenable1 = new JRadioButton("New radio button");
-		radbtnenable1.setBounds(335, 128, 24, 25);
+		radbtnenable1.setBounds(335, 128, 20, 25);
 		MainFramePanel.add(radbtnenable1);
 		
 		JRadioButton radbtnenable3 = new JRadioButton("New radio button");
-		radbtnenable3.setBounds(390, 128, 24, 25);
+		radbtnenable3.setBounds(390, 128, 20, 25);
 		MainFramePanel.add(radbtnenable3);
 		
 		JRadioButton radbtnenable5 = new JRadioButton("New radio button");
-		radbtnenable5.setBounds(445, 128, 24, 25);
+		radbtnenable5.setBounds(445, 128, 20, 25);
 		MainFramePanel.add(radbtnenable5);
 		
 		JRadioButton radbtnenable7 = new JRadioButton("New radio button");
-		radbtnenable7.setBounds(500, 128, 24, 25);
+		radbtnenable7.setBounds(500, 128, 20, 25);
 		MainFramePanel.add(radbtnenable7);
 		
 		JRadioButton radbtnenable2 = new JRadioButton("New radio button");
-		radbtnenable2.setBounds(335, 247, 24, 25);
+		radbtnenable2.setBounds(335, 247, 20, 25);
 		MainFramePanel.add(radbtnenable2);
 		
 		JRadioButton radbtnenable4 = new JRadioButton("New radio button");
-		radbtnenable4.setBounds(390, 247, 24, 25);
+		radbtnenable4.setBounds(390, 247, 20, 25);
 		MainFramePanel.add(radbtnenable4);
 		
 		JRadioButton radbtnenable6 = new JRadioButton("New radio button");
-		radbtnenable6.setBounds(445, 247, 24, 25);
+		radbtnenable6.setBounds(445, 247, 20, 25);
 		MainFramePanel.add(radbtnenable6);
 		
 		JRadioButton radbtnenable8 = new JRadioButton("New radio button");
-		radbtnenable8.setBounds(500, 247, 24, 25);
+		radbtnenable8.setBounds(500, 247, 20, 25);
 		MainFramePanel.add(radbtnenable8);
 		
 		JTextArea txtrStart = new JTextArea();
@@ -239,35 +239,35 @@ public class ChronoGUI {
 		backviewpanel.add(txtrChan);
 		
 		JRadioButton radioButton_8 = new JRadioButton("New radio button");
-		radioButton_8.setBounds(99, 44, 24, 25);
+		radioButton_8.setBounds(99, 44, 20, 25);
 		backviewpanel.add(radioButton_8);
 		
 		JRadioButton radioButton_9 = new JRadioButton("New radio button");
-		radioButton_9.setBounds(144, 44, 24, 25);
+		radioButton_9.setBounds(144, 44, 20, 25);
 		backviewpanel.add(radioButton_9);
 		
 		JRadioButton radioButton_10 = new JRadioButton("New radio button");
-		radioButton_10.setBounds(195, 44, 24, 25);
+		radioButton_10.setBounds(195, 44, 20, 25);
 		backviewpanel.add(radioButton_10);
 		
 		JRadioButton radioButton_11 = new JRadioButton("New radio button");
-		radioButton_11.setBounds(247, 44, 24, 25);
+		radioButton_11.setBounds(247, 44, 20, 25);
 		backviewpanel.add(radioButton_11);
 		
 		JRadioButton radioButton_12 = new JRadioButton("New radio button");
-		radioButton_12.setBounds(99, 104, 24, 25);
+		radioButton_12.setBounds(99, 104, 20, 25);
 		backviewpanel.add(radioButton_12);
 		
 		JRadioButton radioButton_13 = new JRadioButton("New radio button");
-		radioButton_13.setBounds(144, 104, 24, 25);
+		radioButton_13.setBounds(144, 104, 20, 25);
 		backviewpanel.add(radioButton_13);
 		
 		JRadioButton radioButton_14 = new JRadioButton("New radio button");
-		radioButton_14.setBounds(195, 104, 24, 25);
+		radioButton_14.setBounds(195, 104, 20, 25);
 		backviewpanel.add(radioButton_14);
 		
 		JRadioButton radioButton_15 = new JRadioButton("New radio button");
-		radioButton_15.setBounds(247, 104, 24, 25);
+		radioButton_15.setBounds(247, 104, 20, 25);
 		backviewpanel.add(radioButton_15);
 		
 		JTextArea textArea_1 = new JTextArea();
