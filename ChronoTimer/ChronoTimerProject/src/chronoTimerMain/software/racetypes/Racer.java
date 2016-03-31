@@ -1,4 +1,4 @@
-package chronoTimerMain.software;
+package chronoTimerMain.software.racetypes;
 
 import java.time.Instant;
 

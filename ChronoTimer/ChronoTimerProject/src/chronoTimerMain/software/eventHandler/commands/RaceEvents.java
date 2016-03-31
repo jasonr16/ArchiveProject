@@ -1,6 +1,6 @@
 package chronoTimerMain.software.eventHandler.commands;
 
-import chronoTimerMain.software.Race;
+import chronoTimerMain.software.racetypes.race.Race;
 
 public class RaceEvents implements EventCommand {
 	Race race;

@@ -1,10 +1,10 @@
 package chronoTimerMain.software.eventHandler;
 
-import chronoTimerMain.software.Race;
 import chronoTimerMain.software.Timer.Timer;
 import chronoTimerMain.software.eventHandler.commands.EventCommand;
 import chronoTimerMain.software.eventHandler.commands.RaceEvents;
 import chronoTimerMain.software.eventHandler.commands.TimerEvents;
+import chronoTimerMain.software.racetypes.race.Race;
 
 public class EventCommandFactory {
 	/** EventCommandFactory creates the proper event command class to execute. 

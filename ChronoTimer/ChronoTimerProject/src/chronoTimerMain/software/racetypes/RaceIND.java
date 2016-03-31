@@ -1,8 +1,9 @@
-package chronoTimerMain.software;
+package chronoTimerMain.software.racetypes;
 
 import java.util.ArrayList;
 
 import chronoTimerMain.software.Timer.Timer;
+import chronoTimerMain.software.racetypes.race.Race;
 import junit.framework.TestCase;
 
 /**

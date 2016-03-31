@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import chronoTimerMain.software.Race;
-import chronoTimerMain.software.RaceIND;
-import chronoTimerMain.software.RacePARIND;
 import chronoTimerMain.software.Timer.Timer;
+import chronoTimerMain.software.racetypes.RaceIND;
+import chronoTimerMain.software.racetypes.RacePARIND;
+import chronoTimerMain.software.racetypes.race.Race;
 
 public class ChronoTimerEventHandlerTest {
 	Timer timer;

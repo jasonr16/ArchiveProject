@@ -7,9 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
-import chronoTimerMain.software.RaceIND;
-import chronoTimerMain.software.RacePARIND;
 import chronoTimerMain.software.eventHandler.commands.EventCommand;
+import chronoTimerMain.software.racetypes.RaceIND;
+import chronoTimerMain.software.racetypes.RacePARIND;
 
 public class Import implements EventCommand{
 	String timestamp;

@@ -1,8 +1,9 @@
-package chronoTimerMain.software;
+package chronoTimerMain.software.racetypes.race;
 
 import java.util.ArrayList;
 
 import chronoTimerMain.software.Timer.Timer;
+import chronoTimerMain.software.racetypes.Racer;
 
 /**
  * Represents a single generic race event with multiple participating racers.

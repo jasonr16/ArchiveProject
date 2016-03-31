@@ -2,8 +2,8 @@ package chronoTimerMain.software.eventHandler;
 
 import java.util.ArrayList;
 
-import chronoTimerMain.software.Racer;
 import chronoTimerMain.software.eventHandler.commands.EventCommand;
+import chronoTimerMain.software.racetypes.Racer;
 /**
  * used for gui display text showing start, running, finished racer number and times.
  * @param timestamp timestamp from file, if file input

@@ -1,10 +1,11 @@
-package chronoTimerMain.software;
+package chronoTimerMain.software.racetypes;
 
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
 import chronoTimerMain.simulator.hardwareHandler.ChronoHardwareHandler;
 import chronoTimerMain.software.Timer.Timer;
+import chronoTimerMain.software.racetypes.race.Race;
 
 /**
  * Represents a single race of the parallel individual event type.

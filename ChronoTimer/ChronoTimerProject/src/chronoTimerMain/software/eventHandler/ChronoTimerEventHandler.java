@@ -3,12 +3,12 @@ package chronoTimerMain.software.eventHandler;
 
 import java.util.ArrayList;
 
-import chronoTimerMain.software.Race;
-import chronoTimerMain.software.RaceIND;
-import chronoTimerMain.software.RacePARIND;
-import chronoTimerMain.software.Racer;
 import chronoTimerMain.software.Timer.Timer;
 import chronoTimerMain.software.eventHandler.commands.EventCommand;
+import chronoTimerMain.software.racetypes.RaceIND;
+import chronoTimerMain.software.racetypes.RacePARIND;
+import chronoTimerMain.software.racetypes.Racer;
+import chronoTimerMain.software.racetypes.race.Race;
 
 /**
  * ChronoTimerEventHandler parses the commands that are not hardware related. 
