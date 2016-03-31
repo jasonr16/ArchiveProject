@@ -1,3 +1,4 @@
+package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import java.awt.TextField;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.JToggleButton;
+import javax.swing.ImageIcon;
 
 public class ChronoGUI {
 
@@ -317,8 +319,24 @@ public class ChronoGUI {
 		toggleButton.setBounds(343, 44, 83, 25);
 		backview.add(toggleButton);
 		
-		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setBounds(12, 340, 48, 46);
-		MainFramePanel.add(btnNewButton_1);
+		JButton leftArrow = new JButton("");
+		leftArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/leftArrow.jpg")));
+		leftArrow.setBounds(12, 340, 57, 61);
+		MainFramePanel.add(leftArrow);
+		
+		JButton rightArrow = new JButton("");
+		rightArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/rightArrow.jpg")));
+		rightArrow.setBounds(78, 340, 57, 61);
+		MainFramePanel.add(rightArrow);
+		
+		JButton downArrow = new JButton("");
+		downArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/downArrow.jpg")));
+		downArrow.setBounds(142, 340, 57, 61);
+		MainFramePanel.add(downArrow);
+		
+		JButton upArrow = new JButton("");
+		upArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/upArrow.jpg")));
+		upArrow.setBounds(210, 340, 57, 61);
+		MainFramePanel.add(upArrow);
 	}
 }
