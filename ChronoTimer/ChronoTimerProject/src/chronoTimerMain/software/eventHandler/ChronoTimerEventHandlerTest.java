@@ -40,7 +40,7 @@ public class ChronoTimerEventHandlerTest {
 	
 	@Test
 	//Tests that json export and retrieval restores the race class
-	public void testExport() {
+	public void testExportAndImport() {
 		cTEV.timeEvent("num", new String[] {"123"}, "");
 		cTEV.timeEvent("export", new String[] {Integer.toString(runNumber)}, "");
 		cTEV.timeEvent("newRun", new String[] {}, "");
@@ -50,12 +50,26 @@ public class ChronoTimerEventHandlerTest {
 	}
 	
 	@Test
-	public void testRaceINDType() {
+	public void testEvent() {
 		assertTrue(cTEV.race instanceof RaceIND); 
+		//test IND and various text cases
 		cTEV.timeEvent("event", new String[] {"IND"}, "");
 		cTEV.timeEvent("newRun", new String[] {}, "");
 		assertTrue(cTEV.race instanceof RaceIND); 
+		cTEV.timeEvent("event", new String[] {"ind"}, "");
+		cTEV.timeEvent("newRun", new String[] {}, "");
+		assertTrue(cTEV.race instanceof RaceIND); 
+		cTEV.timeEvent("event", new String[] {"Ind"}, "");
+		cTEV.timeEvent("newRun", new String[] {}, "");
+		assertTrue(cTEV.race instanceof RaceIND); 
+		//test PARIND and various text cases
 		cTEV.timeEvent("event", new String[] {"PARIND"}, "");
+		cTEV.timeEvent("newRun", new String[] {}, "");
+		assertTrue(cTEV.race instanceof RacePARIND); 
+		cTEV.timeEvent("event", new String[] {"parind"}, "");
+		cTEV.timeEvent("newRun", new String[] {}, "");
+		assertTrue(cTEV.race instanceof RacePARIND); 
+		cTEV.timeEvent("event", new String[] {"Parind"}, "");
 		cTEV.timeEvent("newRun", new String[] {}, "");
 		assertTrue(cTEV.race instanceof RacePARIND); 
 		cTEV.timeEvent("event", new String[] {"INVALID"}, "");
@@ -65,16 +79,18 @@ public class ChronoTimerEventHandlerTest {
 	}
 	
 	@Test
-	public void testNewRunCreated() {
+	public void testNewRun() {
+		//test new runs and correct run numbers
+		int rNum = cTEV.runNumber;
 		race = cTEV.race;
 		cTEV.timeEvent("newRun", new String[] {}, "");
 		assertFalse(race == cTEV.race);
+		assertTrue((rNum+1) == cTEV.runNumber);
+		
 	}
 	
 	@Test
-	public void testRemainingDNF() {
-		cTEV.timeEvent("num", new String[] {"123"}, "");
-		cTEV.race.endRun();
-		assertTrue(cTEV.race.getFinishList().size() != 0);
+	public void testDisplay() {
+		//test that the correct racers and times are displayed - start, running, finish queue.
 	}
 }
