@@ -52,6 +52,7 @@ public class ChronoTimerEventHandlerTest {
 	@Test
 	public void testEvent() {
 		assertTrue(cTEV.race instanceof RaceIND); 
+		//TODO other race types
 		//test IND and various text cases
 		cTEV.timeEvent("event", new String[] {"IND"}, "");
 		cTEV.timeEvent("newRun", new String[] {}, "");
@@ -72,20 +73,30 @@ public class ChronoTimerEventHandlerTest {
 		cTEV.timeEvent("event", new String[] {"Parind"}, "");
 		cTEV.timeEvent("newRun", new String[] {}, "");
 		assertTrue(cTEV.race instanceof RacePARIND); 
+		//test invalid types
 		cTEV.timeEvent("event", new String[] {"INVALID"}, "");
 		cTEV.timeEvent("newRun", new String[] {}, "");
 		assertTrue(cTEV.race instanceof RacePARIND); 
-		//TODO other race types
+		cTEV.timeEvent("event", new String[] {""}, "");
+		cTEV.timeEvent("newRun", new String[] {}, "");
+		assertTrue(cTEV.race instanceof RacePARIND); 
+		
 	}
 	
 	@Test
 	public void testNewRun() {
-		//test new runs and correct run numbers
+		//test new run and correct run numbers
 		int rNum = cTEV.runNumber;
+		Timer timer = cTEV.timer;
+		Race initialRace = cTEV.race;
 		race = cTEV.race;
 		cTEV.timeEvent("newRun", new String[] {}, "");
 		assertFalse(race == cTEV.race);
 		assertTrue((rNum+1) == cTEV.runNumber);
+		//test that timer is passed to new race
+		assertTrue(timer == cTEV.timer);
+		//test that raceList has a new entry
+		assertTrue(cTEV.raceList.get(1) == initialRace);
 		
 	}
 	

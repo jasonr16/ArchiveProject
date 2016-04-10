@@ -19,12 +19,14 @@ public class NewRun implements EventCommand {
 		System.out.println(timestamp + " New Run Started.");
 		cTEH.race.endRun(); // make sure previous run has ended
 		if (cTEH.raceType.equals("IND")){
-			cTEH.race = new RaceIND(++cTEH.runNumber, cTEH.timer);
 			cTEH.raceList.add(cTEH.race);
+			cTEH.race = new RaceIND(++cTEH.runNumber, cTEH.timer);
+			
 		}
 		else if (cTEH.raceType.equals("PARIND")){
-			cTEH.race = new RacePARIND(++cTEH.runNumber, cTEH.timer);
 			cTEH.raceList.add(cTEH.race);
+			cTEH.race = new RacePARIND(++cTEH.runNumber, cTEH.timer);
+			
 		}
 		//TODO add other race types
 	}
