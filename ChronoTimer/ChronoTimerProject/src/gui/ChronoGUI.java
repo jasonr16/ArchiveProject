@@ -24,6 +24,8 @@ import chronoTimerMain.simulator.hardwareHandler.ChronoHardwareHandler;
 
 import javax.swing.JToggleButton;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class ChronoGUI {
 	private int numberArgumentsRemaining;
@@ -328,42 +330,42 @@ public class ChronoGUI {
 		
 		JTextArea textArea_1 = new JTextArea();
 		textArea_1.setText("3");
-		textArea_1.setBounds(150, 13, 12, 22);
+		textArea_1.setBounds(144, 13, 12, 22);
 		backviewpanel.add(textArea_1);
 		
 		JTextArea textArea_2 = new JTextArea();
 		textArea_2.setText("5");
-		textArea_2.setBounds(200, 13, 12, 22);
+		textArea_2.setBounds(195, 13, 12, 22);
 		backviewpanel.add(textArea_2);
 		
 		JTextArea textArea_3 = new JTextArea();
 		textArea_3.setText("7");
-		textArea_3.setBounds(252, 13, 12, 22);
+		textArea_3.setBounds(247, 13, 12, 22);
 		backviewpanel.add(textArea_3);
 		
 		JTextArea textArea_4 = new JTextArea();
 		textArea_4.setText("1");
-		textArea_4.setBounds(105, 13, 12, 22);
+		textArea_4.setBounds(99, 13, 12, 22);
 		backviewpanel.add(textArea_4);
 		
 		JTextArea textArea_5 = new JTextArea();
 		textArea_5.setText("2");
-		textArea_5.setBounds(105, 73, 12, 22);
+		textArea_5.setBounds(99, 73, 12, 22);
 		backviewpanel.add(textArea_5);
 		
 		JTextArea textArea_6 = new JTextArea();
 		textArea_6.setText("4");
-		textArea_6.setBounds(150, 73, 12, 22);
+		textArea_6.setBounds(144, 73, 12, 22);
 		backviewpanel.add(textArea_6);
 		
 		JTextArea textArea_7 = new JTextArea();
 		textArea_7.setText("6");
-		textArea_7.setBounds(201, 73, 12, 22);
+		textArea_7.setBounds(195, 73, 12, 22);
 		backviewpanel.add(textArea_7);
 		
 		JTextArea textArea_8 = new JTextArea();
 		textArea_8.setText("8");
-		textArea_8.setBounds(252, 73, 12, 22);
+		textArea_8.setBounds(247, 73, 12, 22);
 		backviewpanel.add(textArea_8);
 		
 		String[] sensorTypes={"Eye","etc"};
@@ -379,6 +381,46 @@ public class ChronoGUI {
 		JToggleButton toggleButton = new JToggleButton("");
 		toggleButton.setBounds(343, 44, 83, 25);
 		backviewpanel.add(toggleButton);
+		
+		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
+		comboBox.setBounds(110, 13, 20, 22);
+		backviewpanel.add(comboBox);
+		
+		JComboBox<String> comboBox_1 = new JComboBox<String>();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
+		comboBox_1.setBounds(155, 13, 20, 22);
+		backviewpanel.add(comboBox_1);
+		
+		JComboBox<String> comboBox_2 = new JComboBox<String>();
+		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
+		comboBox_2.setBounds(207, 13, 20, 22);
+		backviewpanel.add(comboBox_2);
+		
+		JComboBox<String> comboBox_3 = new JComboBox<String>();
+		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
+		comboBox_3.setBounds(257, 13, 20, 22);
+		backviewpanel.add(comboBox_3);
+		
+		JComboBox<String> comboBox_4 = new JComboBox<String>();
+		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
+		comboBox_4.setBounds(109, 73, 20, 22);
+		backviewpanel.add(comboBox_4);
+		
+		JComboBox<String> comboBox_5 = new JComboBox<String>();
+		comboBox_5.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
+		comboBox_5.setBounds(154, 73, 20, 22);
+		backviewpanel.add(comboBox_5);
+		
+		JComboBox<String> comboBox_6 = new JComboBox<String>();
+		comboBox_6.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
+		comboBox_6.setBounds(205, 73, 20, 22);
+		backviewpanel.add(comboBox_6);
+		
+		JComboBox<String> comboBox_7 = new JComboBox<String>();
+		comboBox_7.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
+		comboBox_7.setBounds(257, 73, 20, 22);
+		backviewpanel.add(comboBox_7);
 		
 		JButton btnleftArrow = new JButton("");
 		btnleftArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/leftArrow.jpg")));

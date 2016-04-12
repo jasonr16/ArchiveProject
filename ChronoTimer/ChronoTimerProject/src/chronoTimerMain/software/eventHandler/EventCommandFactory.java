@@ -1,10 +1,9 @@
 package chronoTimerMain.software.eventHandler;
 
+import chronoTimerMain.software.Timer.Time;
 import chronoTimerMain.software.Timer.Timer;
 import chronoTimerMain.software.eventHandler.commands.EventCommand;
 import chronoTimerMain.software.eventHandler.commands.RaceEvents;
-import chronoTimerMain.software.eventHandler.commands.TimerEvents;
-import chronoTimerMain.software.racetypes.race.Race;
 
 public class EventCommandFactory {
 	/** EventCommandFactory creates the proper event command class to execute. 
@@ -36,7 +35,7 @@ public class EventCommandFactory {
 			return new Import(cTEH, timestamp);
 		}
 		else if(cmd.equalsIgnoreCase("time")) {
-			return new TimerEvents(cmd, cTEH.timer, timestamp);
+			return new Time(cTEH.timer, timestamp);
 		}
 		else 
 			return new RaceEvents(cmd, cTEH.race, timestamp);
