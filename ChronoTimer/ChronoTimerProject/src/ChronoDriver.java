@@ -12,6 +12,7 @@ import javax.swing.filechooser.*;
 
 import chronoTimerMain.simulator.Simulator;
 import chronoTimerMain.simulator.hardwareHandler.ChronoHardwareHandler;
+import gui.ChronoGUI;
 
 public class ChronoDriver {
 	public static void main (String [] args) throws IOException{
@@ -22,9 +23,9 @@ public class ChronoDriver {
 		boolean actionSuccess=false;
 		Simulator Sim=new Simulator();
 		while(!actionSuccess) {
-			System.out.print("File or Console input <C or F> : ");
+			System.out.print("File, GUI, or Console input <C, G, or F> : ");
 			input=br.readLine().trim().toUpperCase();
-			if(!input.equals("C")&&!input.equals("F")) continue;
+			if(!input.equals("C")&&!input.equals("F")&&!input.equals("G")) continue;
 			switch(input){
 			case "C":Sim = new Simulator();
 					actionSuccess=true;
@@ -66,14 +67,18 @@ public class ChronoDriver {
 						break;
 					}
 			    }
+			case "G": 
+				ChronoGUI g=new ChronoGUI();
+				actionSuccess=true;
+				break;
 			}
 			
 		}
-		
-		Timer listenTimer=new Timer();
-		listenTimer.scheduleAtFixedRate(new ListenTask(Sim,hardware),(long) 0, (long) 10);
-		Sim.start();
-		
+		if(input!="G"){
+			Timer listenTimer=new Timer();
+			listenTimer.scheduleAtFixedRate(new ListenTask(Sim,hardware),(long) 0, (long) 10);
+			Sim.start();
+		}
 		
 	};
 	
