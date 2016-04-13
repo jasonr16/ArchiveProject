@@ -1,7 +1,6 @@
 package chronoTimerMain.software.eventHandler;
 
 import chronoTimerMain.software.Timer.Time;
-import chronoTimerMain.software.Timer.Timer;
 import chronoTimerMain.software.eventHandler.commands.EventCommand;
 import chronoTimerMain.software.eventHandler.commands.RaceEvents;
 

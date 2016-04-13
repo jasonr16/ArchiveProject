@@ -88,8 +88,4 @@ public class TimerTest {
 		System.out.println(timer.getCurrentChronoTime());
 		assertEquals("00:00:1", timer.getCurrentChronoTime().substring(0, 7));
 	}
-	@Test
-	public void TestNotNumberValue() {
-		
-	}
 }

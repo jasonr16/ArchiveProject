@@ -28,7 +28,7 @@ public class NewRun implements EventCommand {
 			cTEH.race = new RacePARIND(++cTEH.runNumber, cTEH.timer);
 			
 		}
-		//TODO add other race types
+		//TODO Jason add other race types
 	}
 	
 }
