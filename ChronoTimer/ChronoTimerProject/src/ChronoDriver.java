@@ -74,7 +74,7 @@ public class ChronoDriver {
 			}
 			
 		}
-		if(input!="G"){
+		if(!input.equals("G")){
 			Timer listenTimer=new Timer();
 			listenTimer.scheduleAtFixedRate(new ListenTask(Sim,hardware),(long) 0, (long) 10);
 			Sim.start();
