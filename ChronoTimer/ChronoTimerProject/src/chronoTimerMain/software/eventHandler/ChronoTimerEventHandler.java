@@ -20,11 +20,16 @@ import gui.ChronoGUI;
 public class ChronoTimerEventHandler {
 	ChronoGUI cGUI;
 	Timer timer;
+	public Timer getTimer() {
+		return timer;
+	}
+
 	ArrayList<Race> raceList = new ArrayList<Race>();
 	Race race;
 	int runNumber = 1;
 	String raceType = "IND";
 	String display = "";
+	String printer = "";
 	public String getDisplay() {
 		return display;
 	}
@@ -52,18 +57,28 @@ public class ChronoTimerEventHandler {
 	 * @param s
 	 * @param args
 	 * @param timestamp
+	 * @return a string array with [0] = display and [1] = printer tape, "" if nothing.
 	 */
-	public void timeEvent(String s, String[] args, String timestamp) {
+	public String[] timeEvent(String s, String[] args, String timestamp) {
+		printer = ""; //resets printer to nothing so it doesnt update GUI unless print() is called
 		timestamp = timestamp.trim();
 		currentCommand = eCmdFactory.getTimeEvent(s, timestamp);
 		currentCommand.execute(args);
+		new Display(this, timestamp).execute(new String[] {});//update display
+		return new String[] {display, printer};
 	}
 
 	/**
 	 * prints the race number details, including previously completed races still stored in system.
 	 * @param number the number associated with a race, initially one and incremented every new run.
 	 */
-	public void print(int number){//number has already been decremented in timeEvent
-		raceList.get(number).print();
+	public String print(int number){//number has already been decremented in timeEvent
+		String s = "";
+		try {
+			s = raceList.get(number).print();
+		} catch (Exception e) {
+			System.out.println("Could not access race number " + number);
+		}
+		return s;
 	}
 }

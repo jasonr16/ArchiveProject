@@ -34,8 +34,9 @@ public class ChronoHardwareHandler {
 	 * Interaction between simulator and rest of ChronoTimer
 	 * @param command
 	 * @param timestamp 
+	 * @return returns a string array with index 0 = gui display and index 1 = printer tape string. Returns empty string if unchanged.
 	 **/
-	public void inputFromSimulator(String command, String[] args, String timestamp) {
+	public String [] inputFromSimulator(String command, String[] args, String timestamp) {//returns a String[] now for GUI display update
 		if(timestamp == null) {
 			eventLog.add(new SingleEvent(time.getCurrentChronoTime(), command, args));
 		}
@@ -96,9 +97,10 @@ public class ChronoHardwareHandler {
 				reset();
 				break;
 			default:
-				eventHandler.timeEvent(command, args, timestamp);
+				return eventHandler.timeEvent(command, args, timestamp);
 			}
 		}
+		return new String[] {"",""};
 	}
 	
 	/**

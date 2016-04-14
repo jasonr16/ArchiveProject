@@ -196,14 +196,17 @@ public abstract class Race {
 
 	/**
 	 * Prints formatted results of the race
+	 * @return 
 	 */
-	public void print() {
-		System.out.println("Race " + this.runNumber);
+	public String print() {//Returns a string now for the GUI to update - JASON
+		System.out.println("     Race " + this.runNumber);
+		String s = "";
 		for(int i = 0; i < finishList.size(); i++) {
-			System.out.printf("\t%d\t%s\n", finishList.get(i).getNumber(),
-					getRacerDuration(finishList.get(i).getNumber()));
+			s += "     " + finishList.get(i).getNumber() + "     " + getRacerDuration(finishList.get(i).getNumber()) + "\n";
 		}
-		System.out.print("\n");
+		s += "\n";
+		System.out.print(s);
+		return s;
 	}
 
 	protected void setStartList(ArrayList<Racer> startList2) {

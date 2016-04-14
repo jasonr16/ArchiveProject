@@ -61,6 +61,6 @@ public class RaceEvents implements EventCommand {
 			System.out.println(timestamp+" Cancel.");
 			race.handleRacerCancel();
 		}
-		
+			
 	}
 }

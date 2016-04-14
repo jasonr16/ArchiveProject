@@ -18,10 +18,10 @@ public class Print implements EventCommand{
 	public void execute(String[] args) {
 		System.out.println(timestamp + " Printing racer times to console\n");
 		if(args[0]==null){
-			cTEH.race.print();
+			cTEH.printer = cTEH.race.print();
 		}else{
 			try{
-				cTEH.print(Integer.parseInt(args[0])-1);
+				cTEH.printer = cTEH.print(Integer.parseInt(args[0])-1);
 			}catch(NumberFormatException e){		  
 				e.printStackTrace();
 			}

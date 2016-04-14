@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.Temporal;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -26,19 +27,26 @@ public class Timer {
 	 */
 	public String getRunDuration(String startTime, String finishTime) {
 		String s="";
+		LocalTime elapsedTime;
 		try {
 			LocalTime startT = LocalTime.parse(startTime, DateTimeFormatter.ISO_LOCAL_TIME);
 			LocalTime finishT = LocalTime.parse(finishTime, DateTimeFormatter.ISO_LOCAL_TIME);
 			Duration duration = Duration.between(startT, finishT);
-			LocalTime elapsedTime = (LocalTime) duration.addTo(LocalTime.parse("00:00:00.0"));
+			elapsedTime = (LocalTime) duration.addTo(LocalTime.parse("00:00:00.0"));
 			s = String.format("%02d:%02d:%02d.%01d", elapsedTime.getHour(),elapsedTime.getMinute(),
 					elapsedTime.getSecond(), elapsedTime.getNano()/100000000);
+		} catch (NullPointerException e) {
+			System.out.println("null time value entered.");
+			return "NULL ERROR";
 		} catch (NoSuchElementException e) {
 			System.out.println("Error with time format parsing.");
-			return "00:00:00.0";
+			return "PARSE ERROR";
 		} catch (NumberFormatException e) {
 			System.out.println("Error. Time number(s) not valid.");
-			return "00:00:00.0";
+			return "FORMAT ERROR";
+		} catch (DateTimeParseException e) {
+			System.out.println("Error with time format parsing.");
+			return "PARSE ERROR";
 		}
 		return s;
 	}

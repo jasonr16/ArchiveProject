@@ -38,6 +38,7 @@ public class Time implements EventCommand {
 				 n = Integer.parseInt(st.nextToken());
 			} catch (NumberFormatException e) {
 				System.out.println("Error. Time format not hh:mm:ss.n");
+				return;
 			}
 			if(h > 23 || h < 0) {
 				System.out.println("Error. Hour value not a valid number");

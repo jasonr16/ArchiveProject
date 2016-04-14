@@ -1,33 +1,27 @@
 package gui;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-
-import java.awt.ScrollPane;
-import javax.swing.JTextArea;
 import java.awt.Color;
-import java.awt.TextArea;
-import javax.swing.JRadioButton;
-import java.awt.TextField;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
+import javax.swing.JToggleButton;
 import javax.swing.border.LineBorder;
 
 import chronoTimerMain.simulator.hardwareHandler.ChronoHardwareHandler;
 
-import javax.swing.JToggleButton;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-
 public class ChronoGUI {
+	private String keypadEntry = "";
 	private int numberArgumentsRemaining;
 	private JFrame frame;
 	private ChronoHardwareHandler hardware;
@@ -35,6 +29,8 @@ public class ChronoGUI {
 	String timestamp="";
 	String command;
 	private JComboBox<String> channelType;
+	private ScrollPane displayPane;
+	private ScrollPane printerPane;
 
 //	/**
 //	 * Launch the application.
@@ -56,9 +52,10 @@ public class ChronoGUI {
 	 * Create the application.
 	 */
 	public ChronoGUI() {
+		hardware = new ChronoHardwareHandler();
 		initialize();
 	}
-
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -73,9 +70,15 @@ public class ChronoGUI {
 		MainFramePanel.setLayout(null);
 		
 		JButton btnPower = new JButton("Power");
+		btnPower.addMouseListener(new MouseAdapter() {//TODO TEMPLATE Example - JASON
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				sendToHardware("power", "", "");
+			}
+		});
 		btnPower.setBounds(32, 24, 103, 25);
 		MainFramePanel.add(btnPower);
-		btnPower.addActionListener(new commandListener("Power"));
+		//btnPower.addActionListener(new commandListener("Power")); TODO uncomment
 		
 		JButton btnFunction = new JButton("Function");
 		btnFunction.setBounds(32, 294, 97, 25);
@@ -88,8 +91,9 @@ public class ChronoGUI {
 		btnSwap.addActionListener(new commandListener("Swap"));
 		
 		ScrollPane displayScrollPane = new ScrollPane();
-		displayScrollPane.setBounds(304, 309, 240, 220);
+		displayScrollPane.setBounds(325, 309, 177, 220);
 		MainFramePanel.add(displayScrollPane);
+		displayPane = displayScrollPane;
 		
 		JTextArea txtQueueRunning = new JTextArea();
 		txtQueueRunning.setText("Queue / Running / Final Time");
@@ -119,6 +123,7 @@ public class ChronoGUI {
 		JTextArea txtrChronotimer = new JTextArea();
 		txtrChronotimer.setText("CHRONOTIMER 9001");
 		txtrChronotimer.setBounds(359, 13, 143, 22);
+		txtrChronotimer.setEditable(false);
 		MainFramePanel.add(txtrChronotimer);
 		
 		JButton btnPrinterPwr = new JButton("Printer Pwr");
@@ -127,12 +132,13 @@ public class ChronoGUI {
 		btnPrinterPwr.addActionListener(new commandListener("Printer Pwr"));
 		
 		ScrollPane printerTapePane = new ScrollPane();
-		printerTapePane.setBounds(653, 108, 126, 141);
+		printerTapePane.setBounds(604, 74, 234, 175);
 		MainFramePanel.add(printerTapePane);
+		printerPane = printerTapePane;
 		
 		
 		ScrollPane printerBaseAreaPane = new ScrollPane();
-		printerBaseAreaPane.setBounds(639, 157, 153, 115);
+		printerBaseAreaPane.setBounds(590, 157, 263, 115);
 		MainFramePanel.add(printerBaseAreaPane);
 		
 		JButton btnfinish2 = new JButton("");
@@ -289,138 +295,99 @@ public class ChronoGUI {
 		backviewpanel.add(txtrChan);
 		
 		JRadioButton radioButton_8 = new JRadioButton("New radio button");
-		radioButton_8.setBounds(99, 44, 20, 25);
+		radioButton_8.setBounds(131, 44, 20, 25);
 		backviewpanel.add(radioButton_8);
 		radioButton_8.addActionListener(new toggleListner('1',false));
 		
 		JRadioButton radioButton_9 = new JRadioButton("New radio button");
-		radioButton_9.setBounds(144, 44, 20, 25);
+		radioButton_9.setBounds(176, 44, 20, 25);
 		backviewpanel.add(radioButton_9);
 		radioButton_9.addActionListener(new toggleListner('3',false));
 		
 		JRadioButton radioButton_10 = new JRadioButton("New radio button");
-		radioButton_10.setBounds(195, 44, 20, 25);
+		radioButton_10.setBounds(227, 44, 20, 25);
 		backviewpanel.add(radioButton_10);
 		radioButton_10.addActionListener(new toggleListner('5',false));
 		
 		JRadioButton radioButton_11 = new JRadioButton("New radio button");
-		radioButton_11.setBounds(247, 44, 20, 25);
+		radioButton_11.setBounds(279, 44, 20, 25);
 		backviewpanel.add(radioButton_11);
 		radioButton_11.addActionListener(new toggleListner('7',false));
 		
 		JRadioButton radioButton_12 = new JRadioButton("New radio button");
-		radioButton_12.setBounds(99, 104, 20, 25);
+		radioButton_12.setBounds(131, 104, 20, 25);
 		backviewpanel.add(radioButton_12);
 		radioButton_12.addActionListener(new toggleListner('2',false));
 		
 		JRadioButton radioButton_13 = new JRadioButton("New radio button");
-		radioButton_13.setBounds(144, 104, 20, 25);
+		radioButton_13.setBounds(176, 104, 20, 25);
 		backviewpanel.add(radioButton_13);
 		radioButton_13.addActionListener(new toggleListner('4',false));
 		
 		JRadioButton radioButton_14 = new JRadioButton("New radio button");
-		radioButton_14.setBounds(195, 104, 20, 25);
+		radioButton_14.setBounds(227, 104, 20, 25);
 		backviewpanel.add(radioButton_14);
 		radioButton_14.addActionListener(new toggleListner('6',false));
 		
 		JRadioButton radioButton_15 = new JRadioButton("New radio button");
-		radioButton_15.setBounds(247, 104, 20, 25);
+		radioButton_15.setBounds(279, 104, 20, 25);
 		backviewpanel.add(radioButton_15);
 		radioButton_15.addActionListener(new toggleListner('8',false));
 		
 		JTextArea textArea_1 = new JTextArea();
 		textArea_1.setText("3");
-		textArea_1.setBounds(144, 13, 12, 22);
+		textArea_1.setBounds(176, 13, 12, 22);
 		backviewpanel.add(textArea_1);
 		
 		JTextArea textArea_2 = new JTextArea();
 		textArea_2.setText("5");
-		textArea_2.setBounds(195, 13, 12, 22);
+		textArea_2.setBounds(227, 13, 12, 22);
 		backviewpanel.add(textArea_2);
 		
 		JTextArea textArea_3 = new JTextArea();
 		textArea_3.setText("7");
-		textArea_3.setBounds(247, 13, 12, 22);
+		textArea_3.setBounds(279, 13, 12, 22);
 		backviewpanel.add(textArea_3);
 		
 		JTextArea textArea_4 = new JTextArea();
 		textArea_4.setText("1");
-		textArea_4.setBounds(99, 13, 12, 22);
+		textArea_4.setBounds(131, 13, 12, 22);
 		backviewpanel.add(textArea_4);
 		
 		JTextArea textArea_5 = new JTextArea();
 		textArea_5.setText("2");
-		textArea_5.setBounds(99, 73, 12, 22);
+		textArea_5.setBounds(131, 73, 12, 22);
 		backviewpanel.add(textArea_5);
 		
 		JTextArea textArea_6 = new JTextArea();
 		textArea_6.setText("4");
-		textArea_6.setBounds(144, 73, 12, 22);
+		textArea_6.setBounds(176, 73, 12, 22);
 		backviewpanel.add(textArea_6);
 		
 		JTextArea textArea_7 = new JTextArea();
 		textArea_7.setText("6");
-		textArea_7.setBounds(195, 73, 12, 22);
+		textArea_7.setBounds(227, 73, 12, 22);
 		backviewpanel.add(textArea_7);
 		
 		JTextArea textArea_8 = new JTextArea();
 		textArea_8.setText("8");
-		textArea_8.setBounds(247, 73, 12, 22);
+		textArea_8.setBounds(279, 73, 12, 22);
 		backviewpanel.add(textArea_8);
-		
-		String[] sensorTypes={"Eye","etc"};
-		channelType=new JComboBox<String>(sensorTypes);
-		channelType.setBounds(280,68,40,22);
-		backviewpanel.add(channelType);
 		
 		JTextArea txtrUsbPort = new JTextArea();
 		txtrUsbPort.setText("USB PORT");
-		txtrUsbPort.setBounds(429, 45, 83, 22);
+		txtrUsbPort.setBounds(478, 45, 83, 22);
 		backviewpanel.add(txtrUsbPort);
 		
 		JToggleButton toggleButton = new JToggleButton("");
-		toggleButton.setBounds(343, 44, 83, 25);
+		toggleButton.setBounds(392, 44, 83, 25);
 		backviewpanel.add(toggleButton);
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox.setBounds(110, 13, 20, 22);
+		JComboBox<String> comboBox = new JComboBox<String>();//Changed to be compatible with WindowBuilderPro - JASON
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
+		comboBox.setBounds(12, 45, 79, 22);
 		backviewpanel.add(comboBox);
-		
-		JComboBox<String> comboBox_1 = new JComboBox<String>();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_1.setBounds(155, 13, 20, 22);
-		backviewpanel.add(comboBox_1);
-		
-		JComboBox<String> comboBox_2 = new JComboBox<String>();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_2.setBounds(207, 13, 20, 22);
-		backviewpanel.add(comboBox_2);
-		
-		JComboBox<String> comboBox_3 = new JComboBox<String>();
-		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_3.setBounds(257, 13, 20, 22);
-		backviewpanel.add(comboBox_3);
-		
-		JComboBox<String> comboBox_4 = new JComboBox<String>();
-		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_4.setBounds(109, 73, 20, 22);
-		backviewpanel.add(comboBox_4);
-		
-		JComboBox<String> comboBox_5 = new JComboBox<String>();
-		comboBox_5.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_5.setBounds(154, 73, 20, 22);
-		backviewpanel.add(comboBox_5);
-		
-		JComboBox<String> comboBox_6 = new JComboBox<String>();
-		comboBox_6.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_6.setBounds(205, 73, 20, 22);
-		backviewpanel.add(comboBox_6);
-		
-		JComboBox<String> comboBox_7 = new JComboBox<String>();
-		comboBox_7.setModel(new DefaultComboBoxModel(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_7.setBounds(257, 73, 20, 22);
-		backviewpanel.add(comboBox_7);
+		channelType = comboBox;
 		
 		JButton btnleftArrow = new JButton("");
 		btnleftArrow.setIcon(new ImageIcon(ChronoGUI.class.getResource("/gui/leftArrow.jpg")));
@@ -483,6 +450,7 @@ public class ChronoGUI {
 		MainFramePanel.add(starttxt8);
 		frame.setVisible(true);
 	}
+	
 	//TODO
 	public class commandListener implements ActionListener {
 		
@@ -500,6 +468,7 @@ public class ChronoGUI {
 				hardware.inputFromSimulator(command,args, "");
 				break;
 			case "Function"://??? No idea
+				break;
 			case "Swap":
 				numberArgumentsRemaining=0;
 				args[0]="";
@@ -568,5 +537,24 @@ public class ChronoGUI {
 			
 		}
 		
+	}
+	public void sendToHardware(String cmd, String arg1, String arg2) {//sends GUI commands to hardwareHandler and updates GUI displays
+		String [] updates = hardware.inputFromSimulator(cmd, new String[] {arg1, arg2}, "");
+		if(!updates[0].equals("")) {
+			updateDisplay(updates[0]);
+		}
+		if(!updates[1].equals("")) {
+			updatePrinter(updates[1]);
+		}
+	}
+	public void updateDisplay(String s) {//Updates display scrollpane - JASON
+		displayPane.removeAll();
+		displayPane.add(new JTextArea(s));
+		displayPane.repaint();
+	}
+	public void updatePrinter(String s) {//Updates printer tape - JASON
+		printerPane.removeAll();
+		printerPane.add(new JTextArea(s));
+		printerPane.repaint();
 	}
 }

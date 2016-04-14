@@ -31,29 +31,29 @@ public class Display implements EventCommand{
 		runningList = cTEH.race.getRunningList();
 		finishList = cTEH.race.getFinishList();
 		if(cTEH.race instanceof RaceIND) {
-			displayRacerList(startList, 0, Math.min(3, startList.size()));
+			displayRacerList(startList, 0, Math.min(2, startList.size()-1));//display up to the next 3 racers to start
 			cTEH.display += "\n";
-			displayRacerList(runningList, 0, runningList.size());
+			displayRacerList(runningList, 0, runningList.size()-1);//display all running racers
 			cTEH.display += "\n";
-			displayRacerList(finishList, getFirstRacerFinishIndexToDisplay(finishList), Math.min(1, finishList.size()));
+			displayRacerList(finishList, Math.max(0, finishList.size()-1), Math.max(-1, finishList.size()-1));//display last racer to finish
 		}
 		else if (cTEH.race instanceof RacePARIND) {
-			displayRacerList(startList, 0, Math.min(2, startList.size()));
+			displayRacerList(startList, 0, Math.min(2, startList.size()-1));
 			cTEH.display += "\n";
-			displayRacerList(runningList, 0, runningList.size());
+			displayRacerList(runningList, 0, runningList.size()-1);
 			cTEH.display += "\n";
-			displayRacerList(finishList, getFirstRacerFinishIndexToDisplay(finishList), Math.min(2, finishList.size()));
+			displayRacerList(finishList, Math.max(0, finishList.size()-2), Math.max(-1, finishList.size()-1));
 		}
-//TODO		else if (cTEH.race instanceof RaceGRP) {
-//			displayRacerList(runningList, 0, runningList.size()-1);
-//			cTEH.display += "\n";
-//			displayRacerList(finishList, getFirstRacerFinishIndexToDisplay(finishList), Math.min(1, finishList.size()));
-//		}
+		else if (cTEH.race instanceof RaceGRP) {
+			displayRacerList(runningList, 0, runningList.size()-1);//display all running racers
+			cTEH.display += "\n";
+			displayRacerList(finishList, Math.max(0, finishList.size()-1), Math.max(-1, finishList.size()-1));//display last racer to finish
+		}
 		//TODO PARGRP
 	}
 	
-	private void displayRacerList(ArrayList<Racer> raceList, int firstRacerIndex, int numOfRacers) {
-		for(int i = numOfRacers-1; i >= 0; i--) {
+	private void displayRacerList(ArrayList<Racer> raceList, int finishIndex, int startIndex) {//racers are displayed in reverse queue order
+		for(int i = startIndex; i >= finishIndex; i--) {
 			if(timestamp.equals("")) {
 				cTEH.display += raceList.get(i).getNumber() + " " + 
 						cTEH.timer.getRunDuration(raceList.get(i).getStartTime(), cTEH.timer.getCurrentChronoTime());
@@ -71,29 +71,5 @@ public class Display implements EventCommand{
 			else
 				cTEH.display += "\n";
 		}
-	}
-	
-	private int getFirstRacerFinishIndexToDisplay(ArrayList<Racer> raceList) {
-		int numRacers = 0;
-		//only finishList needs to be adjusted for the last racers in the array
-		if(cTEH.race instanceof RaceIND /*TODO || cTEH.race instanceof RaceGRP*/) {
-			
-			if(raceList == finishList) {
-				if (raceList.size() > 1) {
-					numRacers = raceList.size()-1;//IND should display last one to finish
-				}
-			}
-		}
-		else if (cTEH.race instanceof RacePARIND) {
-			if(raceList == finishList) {
-				if (raceList.size() > 2) {
-					numRacers =  raceList.size()-2;//PARIND should display last two to finish
-				}
-			}
-		}
-		else {
-			//TODO Jason PARGRP
-		}
-		return numRacers;//default value
 	}
 }
