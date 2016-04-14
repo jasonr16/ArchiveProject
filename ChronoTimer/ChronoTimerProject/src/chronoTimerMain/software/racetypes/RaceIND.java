@@ -22,8 +22,8 @@ public class RaceIND extends Race {
 	 */
 	public RaceIND(int runNumber, Timer timer) {
 		super(runNumber, timer);
-		this.startChannel = 0;
-		this.finishChannel = 0;
+		this.startChannel = 1;
+		this.finishChannel = 2;
 	}
 
 	/**
@@ -109,19 +109,6 @@ public class RaceIND extends Race {
 		
 		if (channelNum > 12)
 			return false;
-		
-		// if the event was the first trigger of the race, it must be a start event, and we set
-		// the start channel to that number
-		if (this.startChannel == 0 && startList.size() > 0) {
-			this.startChannel = channelNum;
-		}
-		
-		// a later trigger on a different channel must be a finish event, so we set the finish 
-		// channel to that number
-		if (this.startChannel != 0 && this.startChannel != channelNum && this.finishChannel == 0
-				&& runningList.size() > 0) {
-			this.finishChannel = channelNum;
-		}
 		
 		// if there are racers in the start queue, a start event should move the racer at the head of the start queue
 		// into the running queue
