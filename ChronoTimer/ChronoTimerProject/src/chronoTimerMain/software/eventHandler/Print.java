@@ -17,7 +17,7 @@ public class Print implements EventCommand{
 	@Override
 	public void execute(String[] args) {
 		System.out.println(timestamp + " Printing racer times to console\n");
-		if(args[0]==null){
+		if(args[0]==null || args[0].equals("")){
 			cTEH.printer = cTEH.race.print();
 		}else{
 			try{

@@ -163,7 +163,8 @@ public class ChronoGUI {
 		btnPrinterPwr.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-			//TODO
+				sendToHardware("print", "", "");
+				
 			}
 		});
 		btnPrinterPwr.setBounds(653, 24, 126, 25);
