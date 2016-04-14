@@ -28,8 +28,8 @@ public class RacePARIND extends Race {
 		this.raceB = new RaceIND(runNumber, timer);
 		// TODO: unconventional?
 		raceA.setStartChannel(1);
-		raceA.setFinishChannel(3);
-		raceB.setStartChannel(2);
+		raceA.setFinishChannel(2);
+		raceB.setStartChannel(3);
 		raceB.setFinishChannel(4);
 	}
 	
@@ -152,31 +152,6 @@ public class RacePARIND extends Race {
 		
 		if (channelNum > 12)
 			return false;
-		
-		// TODO: unconventional?
-		/*
-		// if no start channels have been set, set the start channel of race 1 to
-		// the trigger number
-		if (this.race1.getStartChannel() == 0 && this.race2.getStartChannel() == 0 &&
-				startList.size() > 0) {
-			this.race1.setStartChannel(channelNum);
-		}
-		
-		// if race 1 start channel has been set, but race 2 start channel 2 has not,
-		// set race 2 start channel to trigger number
-		if (this.race1.getStartChannel() != 0 && this.race2.getStartChannel() == 0 &&
-				startList.size() > 0) {
-			this.race2.setStartChannel(channelNum);
-		}
-		
-		// if start channels of race 1 and race 2 have both been set,
-		// a later trigger on a different channel must be a finish event, so we set the finish 
-		// channel to that number
-		if (this.startChannel != 0 && this.startChannel != channelNum && this.finishChannel == 0
-				&& runningList.size() > 0) {
-			this.finishChannel = channelNum;
-		}
-		*/
 		
 		// if there are racers in the start queue, a start event should move the racer at the head of the start queue
 		// into the running queue
