@@ -368,11 +368,6 @@ public class ChronoGUI {
 		textArea_8.setBounds(247, 73, 12, 22);
 		backviewpanel.add(textArea_8);
 		
-		String[] sensorTypes={"Eye","etc"};
-		channelType=new JComboBox<String>(sensorTypes);
-		channelType.setBounds(280,68,40,22);
-		backviewpanel.add(channelType);
-		
 		JTextArea txtrUsbPort = new JTextArea();
 		txtrUsbPort.setText("USB PORT");
 		txtrUsbPort.setBounds(429, 45, 83, 22);
