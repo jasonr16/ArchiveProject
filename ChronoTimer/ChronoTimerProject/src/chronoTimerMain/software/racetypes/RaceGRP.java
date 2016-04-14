@@ -95,7 +95,7 @@ public class RaceGRP extends Race {
 	 * @return true if a racer was moved from one queue to another, false if not
 	 */
 	@Override
-	figure out what needs to happen here;
+	// TODO: figure out what needs to happen here;
 	public boolean trig(int channelNum, String timeStamp) {
 		boolean result = false;
 		ArrayList<Racer> startList = super.getStartList();
