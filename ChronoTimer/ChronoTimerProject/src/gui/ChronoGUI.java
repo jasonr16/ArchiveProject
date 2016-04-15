@@ -952,6 +952,13 @@ public class ChronoGUI {
 		btnEnter.setBounds(12, 496, 143, 62);
 		MainFramePanel.add(btnEnter);
 		
+		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setFocusable(false);
+		textArea.setOpaque(false);
+		textArea.setBounds(22, 323, 120, 123);
+		MainFramePanel.add(textArea);
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(245, 245, 245));
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 4));
@@ -960,6 +967,8 @@ public class ChronoGUI {
 		panel_1.setLayout(null);
 		
 		JToggleButton tglbtnNum = new JToggleButton("num");
+		tglbtnNum.setBorder(null);
+		tglbtnNum.setFocusable(false);
 		tglbtnNum.setSelected(true);
 		tglbtnNum.setBounds(6, 18, 52, 15);
 		panel_1.add(tglbtnNum);
@@ -968,6 +977,8 @@ public class ChronoGUI {
 		commands.add(tglbtnNum);
 		
 		JToggleButton cmdnewrun = new JToggleButton("newrun");
+		cmdnewrun.setBorder(null);
+		cmdnewrun.setFocusable(false);
 		cmdnewrun.setBounds(6, 38, 52, 15);
 		panel_1.add(cmdnewrun);
 		cmdnewrun.setBackground(new Color(245, 245, 245));
@@ -975,6 +986,8 @@ public class ChronoGUI {
 		commands.add(cmdnewrun);
 		
 		JToggleButton tglbtnCancel = new JToggleButton("cancel");
+		tglbtnCancel.setBorder(null);
+		tglbtnCancel.setFocusable(false);
 		tglbtnCancel.setBounds(6, 58, 52, 15);
 		panel_1.add(tglbtnCancel);
 		tglbtnCancel.setBackground(new Color(245, 245, 245));
@@ -982,6 +995,8 @@ public class ChronoGUI {
 		commands.add(tglbtnCancel);
 		
 		JToggleButton tglbtnReset = new JToggleButton("reset");
+		tglbtnReset.setBorder(null);
+		tglbtnReset.setFocusable(false);
 		tglbtnReset.setBounds(6, 78, 52, 15);
 		panel_1.add(tglbtnReset);
 		tglbtnReset.setBackground(new Color(245, 245, 245));
@@ -989,6 +1004,8 @@ public class ChronoGUI {
 		commands.add(tglbtnReset);
 		
 		JToggleButton tglbtnClr = new JToggleButton("clr");
+		tglbtnClr.setBorder(null);
+		tglbtnClr.setFocusable(false);
 		tglbtnClr.setBounds(6, 98, 52, 15);
 		panel_1.add(tglbtnClr);
 		tglbtnClr.setBackground(new Color(245, 245, 245));
@@ -996,6 +1013,8 @@ public class ChronoGUI {
 		commands.add(tglbtnClr);
 		
 		JToggleButton tglbtnEndrun = new JToggleButton("endrun");
+		tglbtnEndrun.setBorder(null);
+		tglbtnEndrun.setFocusable(false);
 		tglbtnEndrun.setBounds(62, 18, 52, 15);
 		panel_1.add(tglbtnEndrun);
 		tglbtnEndrun.setBackground(new Color(245, 245, 245));
@@ -1003,6 +1022,8 @@ public class ChronoGUI {
 		commands.add(tglbtnEndrun);
 		
 		JToggleButton tglbtnPrint = new JToggleButton("print");
+		tglbtnPrint.setBorder(null);
+		tglbtnPrint.setFocusable(false);
 		tglbtnPrint.setBounds(62, 38, 52, 15);
 		panel_1.add(tglbtnPrint);
 		tglbtnPrint.setBackground(new Color(245, 245, 245));
@@ -1010,6 +1031,8 @@ public class ChronoGUI {
 		commands.add(tglbtnPrint);
 		
 		JToggleButton tglbtnDnf = new JToggleButton("dnf");
+		tglbtnDnf.setBorder(null);
+		tglbtnDnf.setFocusable(false);
 		tglbtnDnf.setBounds(62, 58, 52, 15);
 		panel_1.add(tglbtnDnf);
 		tglbtnDnf.setBackground(new Color(245, 245, 245));
@@ -1017,6 +1040,8 @@ public class ChronoGUI {
 		commands.add(tglbtnDnf);
 		
 		JToggleButton tglbtnExport = new JToggleButton("export");
+		tglbtnExport.setBorder(null);
+		tglbtnExport.setFocusable(false);
 		tglbtnExport.setBounds(62, 78, 52, 15);
 		panel_1.add(tglbtnExport);
 		tglbtnExport.setBackground(new Color(245, 245, 245));
@@ -1024,6 +1049,8 @@ public class ChronoGUI {
 		commands.add(tglbtnExport);
 		
 		JToggleButton tglbtnEvent = new JToggleButton("event");
+		tglbtnEvent.setBorder(null);
+		tglbtnEvent.setFocusable(false);
 		tglbtnEvent.setMargin(new Insets(2, 2, 2, 2));
 		tglbtnEvent.setBackground(new Color(245, 245, 245));
 		tglbtnEvent.setBounds(62, 98, 52, 15);
@@ -1031,6 +1058,7 @@ public class ChronoGUI {
 		commands.add(tglbtnEvent);
 		
 		JLabel rType = new JLabel("IND");
+		rType.setFocusable(false);
 		rType.setBackground(new Color(255, 255, 255));
 		rType.setHorizontalTextPosition(SwingConstants.CENTER);
 		rType.setHorizontalAlignment(SwingConstants.CENTER);
