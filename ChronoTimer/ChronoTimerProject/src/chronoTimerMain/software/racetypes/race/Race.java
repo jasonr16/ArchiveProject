@@ -18,6 +18,9 @@ public abstract class Race {
 	private ArrayList<Racer> startList; // queue of racers who are about to start
 	private ArrayList<Racer> runningList; // queue of racers who are running
 	private ArrayList<Racer> finishList; // queue of racers who have finished
+	private boolean[] channelToggles = new boolean[13];
+	//TODO YANG/CHRIS - implement channelToggles array in each RaceType 
+	//according to start/finish channel and trig implementation
 	
 	protected Race() {
 	}
@@ -252,5 +255,9 @@ public abstract class Race {
 			racer.setDNF(true);
 			finishList.add(racer);
 		}
+	}
+	
+	public void updateTogglesInRace(boolean[] togArray) {
+		channelToggles = togArray;
 	}
 }

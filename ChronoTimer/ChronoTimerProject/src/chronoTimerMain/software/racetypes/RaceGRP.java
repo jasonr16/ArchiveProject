@@ -37,6 +37,18 @@ public class RaceGRP extends Race {
 	}
 	
 	/**
+	 * Creates an individual race with an existing start list of racers.
+	 * @param runNumber
+	 * @param timer
+	 * @param startList
+	 */
+	public RaceGRP(int runNumber, Timer timer, ArrayList<Racer> startList) {
+		super(runNumber, timer, startList);
+		this.startChannel = 1;
+		this.finishChannel = 2;
+	}
+	
+	/**
 	 * Add a new racer to the end of the start queue
 	 * @param racer number of racer to be added
 	 * @return true if add was successful, else false
