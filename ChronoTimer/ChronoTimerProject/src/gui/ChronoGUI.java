@@ -931,6 +931,7 @@ public class ChronoGUI {
 		MainFramePanel.add(starttxt8);
 		
 		keypadText = new JTextField();
+		keypadText.setEditable(false);
 		keypadText.setMargin(new Insets(10, 10, 10, 10));
 		keypadText.setBorder(new LineBorder(new Color(0, 0, 0), 4));
 		keypadText.setBounds(23, 452, 119, 31);
