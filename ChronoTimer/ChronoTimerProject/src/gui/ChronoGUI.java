@@ -606,7 +606,9 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(1).getSelectedItem().toString();
-				updateSensor(chan1.isSelected(), type, "1");
+				if(chan1.isSelected()) {
+					sendToHardware("conn", "1", "");
+				}
 				if(!chan1.isSelected())
 					sendToHardware("disc", "1", "");
 			}
@@ -622,7 +624,9 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(1).getSelectedItem().toString();
-				updateSensor(chan3.isSelected(), type, "3");
+				if(chan3.isSelected()) {
+					sendToHardware("conn", "3", "");
+				}
 				if(!chan3.isSelected())
 					sendToHardware("disc", "3", "");
 			}
@@ -638,7 +642,10 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(5).getSelectedItem().toString();
-				updateSensor(chan5.isSelected(), type, "5");
+		
+				if(chan5.isSelected()) {
+					sendToHardware("conn", "5", "");
+				}
 				if(!chan5.isSelected())
 					sendToHardware("disc", "5", "");
 			}
@@ -654,7 +661,10 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(7).getSelectedItem().toString();
-				updateSensor(chan7.isSelected(), type, "7");
+				
+				if(chan7.isSelected()) {
+					sendToHardware("conn", "7", "");
+				}
 				if(!chan7.isSelected())
 					sendToHardware("disc", "7", "");
 			}
@@ -670,7 +680,10 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(2).getSelectedItem().toString();
-				updateSensor(chan2.isSelected(), type, "2");
+		
+				if(chan2.isSelected()) {
+					sendToHardware("conn", "2", "");
+				}
 				if(!chan2.isSelected())
 					sendToHardware("disc", "2", "");
 			}
@@ -686,7 +699,10 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(4).getSelectedItem().toString();
-				updateSensor(chan4.isSelected(), type, "4");
+		
+				if(chan4.isSelected()) {
+					sendToHardware("conn", "4", "");
+				}
 				if(!chan4.isSelected())
 					sendToHardware("disc", "4", "");
 			}
@@ -702,7 +718,10 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(6).getSelectedItem().toString();
-				updateSensor(chan6.isSelected(), type, "6");
+			
+				if(chan6.isSelected()) {
+					sendToHardware("conn", "6", "");
+				}
 				if(!chan6.isSelected())
 					sendToHardware("disc", "6", "");
 			}
@@ -718,7 +737,10 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(8).getSelectedItem().toString();
-				updateSensor(chan8.isSelected(), type, "8");
+			
+				if(chan8.isSelected()) {
+					sendToHardware("conn", "8", "");
+				}
 				if(!chan8.isSelected())
 					sendToHardware("disc", "8", "");
 			}
@@ -1155,7 +1177,6 @@ public class ChronoGUI {
 		}
 		sendToHardware("event", raceType.getText(), "");
 		raceType.setText(hardware.getRaceType());
-		
 	}
 
 	private String deleteLastChar(String keypadEntry) {
