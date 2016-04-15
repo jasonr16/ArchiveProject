@@ -1085,9 +1085,34 @@ public class ChronoGUI {
 		// get command from commands[cmdIndex].getText().toString()
 		//and the args from keypadEntry - call sendtohardware with them
 		// reset keypadEntry to empty
-		sendToHardware(commands.get(cmdIndex).getText().toString(),keypadText.getText(),"");
-		keypadText.setText("");
+		if(commands.get(cmdIndex).getText().toString().equalsIgnoreCase("event")) {
+			handleEventChange();
+		}
+		else {
+			sendToHardware(commands.get(cmdIndex).getText().toString(),keypadText.getText(),"");
+			keypadText.setText("");
+		}
 	}
+	private void handleEventChange() {
+		switch(raceType.getText()) {
+		case "IND":
+			raceType.setText("PARIND");
+			break;
+		case "PARIND":
+			raceType.setText("GRP");
+			break;
+		case "GRP":
+			raceType.setText("IND");
+			break;
+		default:
+			//TODO PARGRP
+			break;
+		}
+		sendToHardware("event", raceType.getText(), "");
+		raceType.setText(hardware.getRaceType());
+		
+	}
+
 	private String deleteLastChar(String keypadEntry) {
 		// delete the last character and return the 
 		// rest of the string or "" if already empty

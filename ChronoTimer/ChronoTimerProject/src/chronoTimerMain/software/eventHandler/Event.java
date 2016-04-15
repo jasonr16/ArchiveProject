@@ -19,7 +19,7 @@ public class Event implements EventCommand {
 	@Override
 	public void execute(String[] args) {
 		System.out.println(timestamp + " Setting event type " + args[0]);
-		if(args[0].equalsIgnoreCase("IND") || args[0].equalsIgnoreCase("PARIND"))
+		if(args[0].equalsIgnoreCase("IND") || args[0].equalsIgnoreCase("PARIND") || args[0].equalsIgnoreCase("GRP"))
 			cTEH.raceType = args[0];
 		//change current racetype if not started
 		if(cTEH.race.getStartList().size() != 0 && cTEH.race.getRunningList().size() == 0 && cTEH.race.getFinishList().size() == 0)
