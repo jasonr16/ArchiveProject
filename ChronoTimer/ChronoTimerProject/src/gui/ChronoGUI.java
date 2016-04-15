@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -23,24 +23,26 @@ import chronoTimerMain.simulator.hardwareHandler.ChronoHardwareHandler;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.SystemColor;
-import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Insets;
-import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
-
+/**
+ * Built with windowbuilderpro - official eclipse WYSIWYG plugin
+ * @author Jason
+ *
+ */
 public class ChronoGUI {
 	private String keypadEntry = "";
 	private int numberArgumentsRemaining;
 	private JFrame frame;
-	private ChronoHardwareHandler hardware;
+	private ChronoHardwareHandler hardware;//moved to GUIController class for MVC design pattern
 	String[] args=new String[2];
 	String timestamp="";
 	String command;
-	private JComboBox<String> channelType;
+	private Vector<JComboBox<String>> channelType = new Vector<JComboBox<String>>();
+	private Vector<JRadioButton> channels = new Vector<JRadioButton>();
 	private ScrollPane displayPane;
 	private ScrollPane printerPane;
 	private JTextField keypadText;
@@ -83,11 +85,6 @@ public class ChronoGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel MainFramePanel = new JPanel();
-		MainFramePanel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
 		MainFramePanel.setBackground(new Color(211, 211, 211));
 		frame.getContentPane().add(MainFramePanel, BorderLayout.CENTER);
 		MainFramePanel.setLayout(null);
@@ -106,9 +103,12 @@ public class ChronoGUI {
 		btnfunction.setBackground(new Color(192, 192, 192));
 		btnfunction.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mousePressed(MouseEvent e) {
-				sendToHardware("swap", "", "");
+			public void mouseClicked(MouseEvent e) {
+				++cmdIndex;
+				updateCMDSelect();
+				
 			}
+
 		});
 		btnfunction.setBounds(12, 236, 143, 67);
 		MainFramePanel.add(btnfunction);
@@ -203,6 +203,14 @@ public class ChronoGUI {
 		MainFramePanel.add(txtrChronotimer);
 		
 		JToggleButton btnPrinterPwr = new JToggleButton("PRINTER PWR");
+		btnPrinterPwr.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				updatePrinterPowerValue(btnPrinterPwr.isSelected());
+			}
+
+		});
+		btnPrinterPwr.setSelected(true);
 		btnPrinterPwr.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btnPrinterPwr.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnPrinterPwr.setBackground(new Color(192, 192, 192));
@@ -516,6 +524,13 @@ public class ChronoGUI {
 		//btnkeypad9.addActionListener(new optionsListener('9'));
 		
 		JButton btnkeypadsDELETE = new JButton("DEL");
+		btnkeypadsDELETE.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				keypadEntry = deleteLastChar(keypadEntry);
+			}
+
+		});
 		btnkeypadsDELETE.setBackground(new Color(192, 192, 192));
 		btnkeypadsDELETE.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		btnkeypadsDELETE.setBounds(589, 488, 60, 60);
@@ -569,12 +584,13 @@ public class ChronoGUI {
 		chan1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String type = channelType.getSelectedItem().toString();
-				sendToHardware("conn", type, "1");
+				String type = channelType.get(1).getSelectedItem().toString();
+				updateSensor(chan1.isSelected(), type, "1");
 			}
 		});
 		chan1.setBounds(81, 44, 20, 25);
 		backviewpanel.add(chan1);
+		channels.add(1, chan1);
 		//chan1.addActionListener(new toggleListner('1',false));
 		
 		JRadioButton chan3 = new JRadioButton("New radio button");
@@ -582,12 +598,14 @@ public class ChronoGUI {
 		chan3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String type = channelType.getSelectedItem().toString();
+				//TODO finish chan2-8 based on chan1
+				String type = channelType.get(3).getSelectedItem().toString();
 				sendToHardware("conn", type, "3");
 			}
 		});
 		chan3.setBounds(166, 44, 20, 25);
 		backviewpanel.add(chan3);
+		channels.add(3, chan3);
 	//	chan3.addActionListener(new toggleListner('3',false));
 		
 		JRadioButton chan5 = new JRadioButton("New radio button");
@@ -595,12 +613,12 @@ public class ChronoGUI {
 		chan5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String type = channelType.getSelectedItem().toString();
-				sendToHardware("conn", type, "5");
+			
 			}
 		});
 		chan5.setBounds(251, 44, 20, 25);
 		backviewpanel.add(chan5);
+		channels.add(5, chan5);
 		//chan5.addActionListener(new toggleListner('5',false));
 		
 		JRadioButton chan7 = new JRadioButton("New radio button");
@@ -608,12 +626,12 @@ public class ChronoGUI {
 		chan7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String type = channelType.getSelectedItem().toString();
-				sendToHardware("conn", type, "7");
+				
 			}
 		});
 		chan7.setBounds(336, 44, 20, 25);
 		backviewpanel.add(chan7);
+		channels.add(7, chan7);
 		//chan7.addActionListener(new toggleListner('7',false));
 		
 		JRadioButton chan2 = new JRadioButton("New radio button");
@@ -621,12 +639,12 @@ public class ChronoGUI {
 		chan2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String type = channelType.getSelectedItem().toString();
-				sendToHardware("conn", type, "2");
+				
 			}
 		});
 		chan2.setBounds(81, 104, 20, 25);
 		backviewpanel.add(chan2);
+		channels.add(2, chan2);
 //		chan2.addActionListener(new toggleListner('2',false));
 		
 		JRadioButton chan4 = new JRadioButton("New radio button");
@@ -634,12 +652,12 @@ public class ChronoGUI {
 		chan4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String type = channelType.getSelectedItem().toString();
-				sendToHardware("conn", type, "4");
+				
 			}
 		});
 		chan4.setBounds(166, 104, 20, 25);
 		backviewpanel.add(chan4);
+		channels.add(4, chan4);
 //		chan4.addActionListener(new toggleListner('4',false));
 		
 		JRadioButton chan6 = new JRadioButton("New radio button");
@@ -647,12 +665,12 @@ public class ChronoGUI {
 		chan6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String type = channelType.getSelectedItem().toString();
-				sendToHardware("conn", type, "6");
+				
 			}
 		});
 		chan6.setBounds(251, 104, 20, 25);
 		backviewpanel.add(chan6);
+		channels.add(6, chan6);
 //		chan6.addActionListener(new toggleListner('6',false));
 		
 		JRadioButton chan8 = new JRadioButton("New radio button");
@@ -660,12 +678,12 @@ public class ChronoGUI {
 		chan8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String type = channelType.getSelectedItem().toString();
-				sendToHardware("conn", type, "8");
+				
 			}
 		});
 		chan8.setBounds(336, 104, 20, 25);
 		backviewpanel.add(chan8);
+		channels.add(8, chan8);
 //		chan8.addActionListener(new toggleListner('8',false));
 		
 		JTextArea textArea_1 = new JTextArea();
@@ -731,54 +749,66 @@ public class ChronoGUI {
 		usbBooleantoggle.setBounds(508, 44, 103, 25);
 		backviewpanel.add(usbBooleantoggle);
 		
-		JComboBox<String> sensortypebox = new JComboBox<String>();//Changed to be compatible with WindowBuilderPro - JASON
-		sensortypebox.setBackground(new Color(248, 248, 255));
-		sensortypebox.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
-		sensortypebox.setBounds(105, 13, 53, 22);
-		backviewpanel.add(sensortypebox);
-		channelType = sensortypebox;
+		JComboBox<String> c1box = new JComboBox<String>();//Changed to be compatible with WindowBuilderPro - JASON
+		c1box.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateSensor(channels.get(1).isSelected(), c1box.getSelectedItem().toString(), "1");
+			}
+		});
+		c1box.setBackground(new Color(248, 248, 255));
+		c1box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
+		c1box.setBounds(105, 13, 53, 22);
+		backviewpanel.add(c1box);
+		channelType.add(1, c1box);
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox.setBackground(new Color(248, 248, 255));
-		comboBox.setBounds(190, 13, 53, 22);
-		backviewpanel.add(comboBox);
+		JComboBox<String> c3box = new JComboBox<String>();//TODO finish cboxes 2-8 based on cbox1
+		c3box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
+		c3box.setBackground(new Color(248, 248, 255));
+		c3box.setBounds(190, 13, 53, 22);
+		backviewpanel.add(c3box);
+		channelType.add(3, c3box);
 		
-		JComboBox<String> comboBox_1 = new JComboBox<String>();
-		comboBox_1.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_1.setBackground(new Color(248, 248, 255));
-		comboBox_1.setBounds(275, 13, 53, 22);
-		backviewpanel.add(comboBox_1);
+		JComboBox<String> c5box = new JComboBox<String>();
+		c5box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
+		c5box.setBackground(new Color(248, 248, 255));
+		c5box.setBounds(275, 13, 53, 22);
+		backviewpanel.add(c5box);
+		channelType.add(5, c5box);
 		
-		JComboBox<String> comboBox_2 = new JComboBox<String>();
-		comboBox_2.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_2.setBackground(new Color(248, 248, 255));
-		comboBox_2.setBounds(360, 13, 53, 22);
-		backviewpanel.add(comboBox_2);
+		JComboBox<String> c7box = new JComboBox<String>();
+		c7box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
+		c7box.setBackground(new Color(248, 248, 255));
+		c7box.setBounds(360, 13, 53, 22);
+		backviewpanel.add(c7box);
+		channelType.add(7, c7box);
 		
-		JComboBox<String> comboBox_3 = new JComboBox<String>();
-		comboBox_3.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_3.setBackground(new Color(248, 248, 255));
-		comboBox_3.setBounds(105, 73, 53, 22);
-		backviewpanel.add(comboBox_3);
+		JComboBox<String> c2box = new JComboBox<String>();
+		c2box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
+		c2box.setBackground(new Color(248, 248, 255));
+		c2box.setBounds(105, 73, 53, 22);
+		backviewpanel.add(c2box);
+		channelType.add(2, c2box);
 		
-		JComboBox<String> comboBox_4 = new JComboBox<String>();
-		comboBox_4.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_4.setBackground(new Color(248, 248, 255));
-		comboBox_4.setBounds(190, 73, 53, 22);
-		backviewpanel.add(comboBox_4);
+		JComboBox<String> c4box = new JComboBox<String>();
+		c4box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
+		c4box.setBackground(new Color(248, 248, 255));
+		c4box.setBounds(190, 73, 53, 22);
+		backviewpanel.add(c4box);
+		channelType.add(4, c4box);
 		
-		JComboBox<String> comboBox_5 = new JComboBox<String>();
-		comboBox_5.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_5.setBackground(new Color(248, 248, 255));
-		comboBox_5.setBounds(271, 73, 53, 22);
-		backviewpanel.add(comboBox_5);
+		JComboBox<String> c6box = new JComboBox<String>();
+		c6box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
+		c6box.setBackground(new Color(248, 248, 255));
+		c6box.setBounds(271, 73, 53, 22);
+		backviewpanel.add(c6box);
+		channelType.add(6, c6box);
 		
-		JComboBox<String> comboBox_6 = new JComboBox<String>();
-		comboBox_6.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
-		comboBox_6.setBackground(new Color(248, 248, 255));
-		comboBox_6.setBounds(360, 73, 53, 22);
-		backviewpanel.add(comboBox_6);
+		JComboBox<String> c8box = new JComboBox<String>();
+		c8box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
+		c8box.setBackground(new Color(248, 248, 255));
+		c8box.setBounds(360, 73, 53, 22);
+		backviewpanel.add(c8box);
+		channelType.add(7, c8box);
 		
 		JTextArea starttxt1 = new JTextArea();
 		starttxt1.setBackground(new Color(211, 211, 211));
@@ -844,6 +874,13 @@ public class ChronoGUI {
 		keypadText.setBackground(new Color(245, 245, 245));
 		
 		JButton btnEnter = new JButton("ENTER CMD");
+		btnEnter.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				handleCmdEntered();  
+			}
+
+		});
 		btnEnter.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btnEnter.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnEnter.setBackground(new Color(192, 192, 192));
@@ -921,18 +958,20 @@ public class ChronoGUI {
 		tglbtnExport.setMargin(new Insets(2, 2, 2, 2));
 		commands.add(tglbtnExport);
 		
-		JLabel lblInd = new JLabel("IND");
-		lblInd.setBackground(new Color(255, 255, 255));
-		lblInd.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblInd.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInd.setBounds(47, 207, 79, 16);
-		MainFramePanel.add(lblInd);
-		raceType = lblInd;
+		JToggleButton tglbtnEvent = new JToggleButton("event");
+		tglbtnEvent.setMargin(new Insets(2, 2, 2, 2));
+		tglbtnEvent.setBackground(new Color(245, 245, 245));
+		tglbtnEvent.setBounds(62, 98, 52, 15);
+		panel_1.add(tglbtnEvent);
+		commands.add(tglbtnEvent);
 		
-		JButton btnRaceType = new JButton("Race Type");
-		btnRaceType.setBackground(new Color(192, 192, 192));
-		btnRaceType.setBounds(37, 169, 93, 25);
-		MainFramePanel.add(btnRaceType);
+		JLabel rType = new JLabel("IND");
+		rType.setBackground(new Color(255, 255, 255));
+		rType.setHorizontalTextPosition(SwingConstants.CENTER);
+		rType.setHorizontalAlignment(SwingConstants.CENTER);
+		rType.setBounds(47, 207, 79, 16);
+		MainFramePanel.add(rType);
+		raceType = rType;
 		frame.setVisible(true);
 	}
 	/* Keeping in case windowbuilder doesn't work right
@@ -1033,6 +1072,7 @@ public class ChronoGUI {
 		if(!updates[1].equals("")) {
 			updatePrinter(updates[1]);
 		}
+		//TODO update racetype.setText() with current racetype from hardware (hardwarehandler needs change)
 	}
 	public void updateDisplay(String s) {//Updates display scrollpane - JASON
 		displayPane.removeAll();
@@ -1047,5 +1087,24 @@ public class ChronoGUI {
 	}
 	public void updateKeypad(String s) {
 		keypadText.setText(s);
+	}
+	public void updateSensor(boolean conn, String type, String channel) {
+		//TODO if the correpsonding channel button is selected, disc previous sensor and conn new one of type on channel.
+	}
+	public void updatePrinterPowerValue(boolean selected) {
+		// TODO if true change hardwarehandler printerpower to true, else change to false
+	}
+	private void handleCmdEntered() {
+		// TODO get command from commands[cmdIndex].getText().toString() and the args from keypadEntry - call sendtohardware with them
+		//TODO reset keypadEntry to empty
+		
+	}
+	private String deleteLastChar(String keypadEntry) {
+		// TODO delete the last character and return the rest of the string or "" if already empty
+		return null;
+	}
+
+	private void updateCMDSelect() {
+		//TODO toggle current and next command in commands.
 	}
 }

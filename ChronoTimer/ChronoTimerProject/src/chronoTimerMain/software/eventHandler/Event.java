@@ -18,5 +18,6 @@ public class Event implements EventCommand {
 		System.out.println(timestamp + " Setting event type " + args[0]);
 		if(args[0].equalsIgnoreCase("IND") || args[0].equalsIgnoreCase("PARIND"))
 			cTEH.raceType = args[0];
+		//TODO instantiate new race class with same startlist is running/finish queues are empty.
 	}
 }

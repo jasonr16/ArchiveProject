@@ -22,14 +22,22 @@ import junit.framework.TestCase;
  *
  */
 public class ChronoHardwareHandler {
-	
+	//TODO add check in input simulator to check and block print command if printerpower=false
+	//TODO BUG! toggle not checked. pass all toggle commands on to racetypes to handle. 
+	//	They need to block start/finish/trig cmds if channel is disabled.
+	//TODO create getracetype for gui
 	protected Timer time = new Timer();
 	protected Sensor[] sensors = new Sensor[13];//no sensor stored in index 0. 12 max
 	protected boolean[] isEnabledSensor = new boolean[13];
 	protected  ArrayList<SingleEvent> eventLog = new ArrayList<SingleEvent>();
 	protected boolean power = false;
 	protected ChronoTimerEventHandler eventHandler;
+	protected boolean printerPower = true;
 	
+	public boolean isPrinterPower() {
+		return printerPower;
+	}
+
 	/**
 	 * Interaction between simulator and rest of ChronoTimer
 	 * @param command
