@@ -764,6 +764,12 @@ public class ChronoGUI {
 		channelType.add(1, c1box);
 		
 		JComboBox<String> c3box = new JComboBox<String>();//TODO finish cboxes 2-8 based on cbox1
+		c3box.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateSensor(channels.get(3).isSelected(), c3box.getSelectedItem().toString(), "3");
+			}
+		});
+		
 		c3box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
 		c3box.setBackground(new Color(248, 248, 255));
 		c3box.setBounds(190, 13, 53, 22);
@@ -771,6 +777,12 @@ public class ChronoGUI {
 		channelType.add(3, c3box);
 		
 		JComboBox<String> c5box = new JComboBox<String>();
+		c5box.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateSensor(channels.get(5).isSelected(), c5box.getSelectedItem().toString(), "5");
+			}
+		});
+		
 		c5box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
 		c5box.setBackground(new Color(248, 248, 255));
 		c5box.setBounds(275, 13, 53, 22);
@@ -778,6 +790,12 @@ public class ChronoGUI {
 		channelType.add(5, c5box);
 		
 		JComboBox<String> c7box = new JComboBox<String>();
+		c7box.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateSensor(channels.get(7).isSelected(), c7box.getSelectedItem().toString(), "7");
+			}
+		});
+		
 		c7box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
 		c7box.setBackground(new Color(248, 248, 255));
 		c7box.setBounds(360, 13, 53, 22);
@@ -785,6 +803,11 @@ public class ChronoGUI {
 		channelType.add(7, c7box);
 		
 		JComboBox<String> c2box = new JComboBox<String>();
+		c2box.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateSensor(channels.get(2).isSelected(), c2box.getSelectedItem().toString(), "2");
+			}
+		});
 		c2box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
 		c2box.setBackground(new Color(248, 248, 255));
 		c2box.setBounds(105, 73, 53, 22);
@@ -792,6 +815,11 @@ public class ChronoGUI {
 		channelType.add(2, c2box);
 		
 		JComboBox<String> c4box = new JComboBox<String>();
+		c4box.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateSensor(channels.get(4).isSelected(), c4box.getSelectedItem().toString(), "4");
+			}
+		});
 		c4box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
 		c4box.setBackground(new Color(248, 248, 255));
 		c4box.setBounds(190, 73, 53, 22);
@@ -799,6 +827,11 @@ public class ChronoGUI {
 		channelType.add(4, c4box);
 		
 		JComboBox<String> c6box = new JComboBox<String>();
+		c6box.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateSensor(channels.get(6).isSelected(), c6box.getSelectedItem().toString(), "6");
+			}
+		});
 		c6box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
 		c6box.setBackground(new Color(248, 248, 255));
 		c6box.setBounds(271, 73, 53, 22);
@@ -806,6 +839,11 @@ public class ChronoGUI {
 		channelType.add(6, c6box);
 		
 		JComboBox<String> c8box = new JComboBox<String>();
+		c8box.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateSensor(channels.get(8).isSelected(), c8box.getSelectedItem().toString(), "8");
+			}
+		});
 		c8box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
 		c8box.setBackground(new Color(248, 248, 255));
 		c8box.setBounds(360, 73, 53, 22);
