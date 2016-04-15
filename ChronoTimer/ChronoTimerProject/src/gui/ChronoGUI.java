@@ -72,7 +72,7 @@ public class ChronoGUI {
 	 */
 	public ChronoGUI() {
 		hardware = new ChronoHardwareHandler();
-		for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < 9; i++) {
 			channels.add(new JRadioButton("placeholder"));
 			channelType.add(new JComboBox<String>());
 		}
