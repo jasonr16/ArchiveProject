@@ -1069,7 +1069,7 @@ public class ChronoGUI {
 		//channel using sendtohardware
 		if(conn){
 			sendToHardware("disc",channel,"");
-			sendToHardware("CONN",channel,type);
+			sendToHardware("CONN",type,channel);
 		}
 	}
 	public void updatePrinterPowerValue(boolean selected) {
