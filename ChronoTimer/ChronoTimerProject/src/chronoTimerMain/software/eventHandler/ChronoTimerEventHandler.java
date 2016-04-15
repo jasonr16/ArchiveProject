@@ -27,6 +27,10 @@ public class ChronoTimerEventHandler {
 	Race race;
 	int runNumber = 1;
 	String raceType = "IND";
+	public String getRaceType() {
+		return raceType;
+	}
+
 	String display = "";
 	String printer = "";
 	public String getDisplay() {
@@ -79,5 +83,8 @@ public class ChronoTimerEventHandler {
 			System.out.println("Could not access race number " + number);
 		}
 		return s;
+	}
+	public void passToggles(boolean[] togArray) {
+		race.updateTogglesInRace(togArray);
 	}
 }

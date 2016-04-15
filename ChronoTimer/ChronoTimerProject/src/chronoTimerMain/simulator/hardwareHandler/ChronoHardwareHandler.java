@@ -22,10 +22,7 @@ import junit.framework.TestCase;
  *
  */
 public class ChronoHardwareHandler {
-	//TODO add check in input simulator to check and block print command if printerpower=false
-	//TODO BUG! toggle not checked. pass all toggle commands on to racetypes to handle. 
-	//	They need to block start/finish/trig cmds if channel is disabled.
-	//TODO create getracetype for gui
+
 	protected Timer time = new Timer();
 	protected Sensor[] sensors = new Sensor[13];//no sensor stored in index 0. 12 max
 	protected boolean[] isEnabledSensor = new boolean[13];
@@ -36,6 +33,9 @@ public class ChronoHardwareHandler {
 	
 	public boolean isPrinterPower() {
 		return printerPower;
+	}
+	public String getRaceType() {
+		return eventHandler.getRaceType();
 	}
 
 	/**
@@ -95,6 +95,7 @@ public class ChronoHardwareHandler {
 				System.out.println(timestamp + " Toggling channel " + args[0]);
 				try {
 					toggle(Integer.parseInt(args[0]));
+					eventHandler.passToggles(isEnabledSensor);
 				}catch (NumberFormatException e) {
 					System.out.println("Error - Could not parse channel number");
 				}
@@ -105,6 +106,9 @@ public class ChronoHardwareHandler {
 				reset();
 				break;
 			default:
+				if(command.equalsIgnoreCase("print") && !printerPower) {//ignore print if printer power off
+					break;
+				}
 				return eventHandler.timeEvent(command, args, timestamp);
 			}
 		}
