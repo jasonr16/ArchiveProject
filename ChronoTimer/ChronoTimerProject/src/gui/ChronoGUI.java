@@ -153,8 +153,10 @@ public class ChronoGUI {
 		MainFramePanel.add(txtQueueRunning);
 		
 		JButton btnstart1 = new JButton("");
+		btnstart1.setIcon(null);
+		btnstart1.setForeground(new Color(0, 128, 0));
 		btnstart1.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnstart1.setBackground(new Color(0, 0, 0));
+		btnstart1.setBackground(new Color(0, 128, 0));
 		btnstart1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -166,8 +168,10 @@ public class ChronoGUI {
 		//btnstart1.addActionListener(new manualStartFin('1'));
 		
 		JButton btnstart3 = new JButton("");
+		btnstart3.setIcon(null);
+		btnstart3.setForeground(new Color(0, 128, 0));
 		btnstart3.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnstart3.setBackground(new Color(0, 0, 0));
+		btnstart3.setBackground(new Color(0, 128, 0));
 		btnstart3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -179,8 +183,10 @@ public class ChronoGUI {
 		//btnstart3.addActionListener(new manualStartFin('3'));
 		
 		JButton btnstart5 = new JButton("");
+		btnstart5.setIcon(null);
+		btnstart5.setForeground(new Color(0, 128, 0));
 		btnstart5.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnstart5.setBackground(new Color(0, 0, 0));
+		btnstart5.setBackground(new Color(0, 128, 0));
 		btnstart5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -192,8 +198,10 @@ public class ChronoGUI {
 		//btnstart5.addActionListener(new manualStartFin('5'));
 		
 		JButton btnstart7 = new JButton("");
+		btnstart7.setIcon(null);
+		btnstart7.setForeground(new Color(0, 128, 0));
 		btnstart7.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnstart7.setBackground(new Color(0, 0, 0));
+		btnstart7.setBackground(new Color(0, 128, 0));
 		btnstart7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -241,8 +249,10 @@ public class ChronoGUI {
 		MainFramePanel.add(printerBaseAreaPane);
 		
 		JButton btnfinish2 = new JButton("");
+		btnfinish2.setForeground(new Color(255, 0, 0));
+		btnfinish2.setIcon(null);
 		btnfinish2.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnfinish2.setBackground(new Color(0, 0, 0));
+		btnfinish2.setBackground(new Color(255, 0, 0));
 		btnfinish2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -254,8 +264,10 @@ public class ChronoGUI {
 		//btnfinish2.addActionListener(new manualStartFin('2'));
 				
 		JButton btnfinish4 = new JButton("");
+		btnfinish4.setForeground(new Color(255, 0, 0));
+		btnfinish4.setIcon(null);
 		btnfinish4.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnfinish4.setBackground(new Color(0, 0, 0));
+		btnfinish4.setBackground(new Color(255, 0, 0));
 		btnfinish4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -267,8 +279,10 @@ public class ChronoGUI {
 		//btnfinish4.addActionListener(new manualStartFin('4'));
 		
 		JButton btnfinish6 = new JButton("");
+		btnfinish6.setForeground(new Color(255, 0, 0));
+		btnfinish6.setIcon(null);
 		btnfinish6.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnfinish6.setBackground(new Color(0, 0, 0));
+		btnfinish6.setBackground(new Color(255, 0, 0));
 		btnfinish6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -280,8 +294,10 @@ public class ChronoGUI {
 		//btnfinish6.addActionListener(new manualStartFin('6'));
 		
 		JButton btnfinish8 = new JButton("");
+		btnfinish8.setForeground(new Color(255, 0, 0));
+		btnfinish8.setIcon(null);
 		btnfinish8.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnfinish8.setBackground(new Color(0, 0, 0));
+		btnfinish8.setBackground(new Color(255, 0, 0));
 		btnfinish8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
