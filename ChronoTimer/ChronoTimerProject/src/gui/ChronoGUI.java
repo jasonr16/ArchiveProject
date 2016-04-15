@@ -586,6 +586,8 @@ public class ChronoGUI {
 			public void mouseClicked(MouseEvent e) {
 				String type = channelType.get(1).getSelectedItem().toString();
 				updateSensor(chan1.isSelected(), type, "1");
+				if(!chan1.isSelected())
+					sendToHardware("disc", "1", "");
 			}
 		});
 		chan1.setBounds(81, 44, 20, 25);
@@ -599,8 +601,7 @@ public class ChronoGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//TODO finish chan2-8 based on chan1
-				String type = channelType.get(3).getSelectedItem().toString();
-				sendToHardware("conn", type, "3");
+			
 			}
 		});
 		chan3.setBounds(166, 44, 20, 25);
