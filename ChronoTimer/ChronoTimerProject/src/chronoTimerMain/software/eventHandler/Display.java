@@ -26,7 +26,6 @@ public class Display implements EventCommand{
 	@Override
 	public void execute(String[] args) {
 		cTEH.display = "";
-		System.out.println(timestamp + " Printing display.");
 		startList = cTEH.race.getStartList();
 		runningList = cTEH.race.getRunningList();
 		finishList = cTEH.race.getFinishList();

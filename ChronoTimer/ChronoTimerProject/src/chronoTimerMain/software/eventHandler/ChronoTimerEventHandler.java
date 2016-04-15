@@ -18,7 +18,6 @@ import gui.ChronoGUI;
  *
  */
 public class ChronoTimerEventHandler {
-	ChronoGUI cGUI;
 	Timer timer;
 	public Timer getTimer() {
 		return timer;
