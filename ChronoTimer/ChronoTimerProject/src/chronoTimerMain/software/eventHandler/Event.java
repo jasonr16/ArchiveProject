@@ -1,9 +1,12 @@
 package chronoTimerMain.software.eventHandler;
 
+import java.util.ArrayList;
+
 import chronoTimerMain.software.eventHandler.commands.EventCommand;
 import chronoTimerMain.software.racetypes.RaceGRP;
 import chronoTimerMain.software.racetypes.RaceIND;
 import chronoTimerMain.software.racetypes.RacePARIND;
+import chronoTimerMain.software.racetypes.Racer;
 /**
  * sets the Race type
  * @param eventType
@@ -11,6 +14,7 @@ import chronoTimerMain.software.racetypes.RacePARIND;
 public class Event implements EventCommand {
 	String timestamp;
 	ChronoTimerEventHandler cTEH;
+	ArrayList<Racer> tempList;
 	public Event(ChronoTimerEventHandler cTEH, String timestamp) {
 		this.timestamp = timestamp;
 		this.cTEH = cTEH;
@@ -23,12 +27,16 @@ public class Event implements EventCommand {
 			cTEH.raceType = args[0];
 		//change current racetype if not started
 		if(cTEH.race.getStartList().size() != 0 && cTEH.race.getRunningList().size() == 0 && cTEH.race.getFinishList().size() == 0)
-			if(args[0].equalsIgnoreCase("IND"))
-				cTEH.race = new RaceIND(cTEH.runNumber, cTEH.timer, cTEH.race.getStartList());
-			else if(args[0].equalsIgnoreCase("PARIND"))
-				cTEH.race = new RacePARIND(cTEH.runNumber, cTEH.timer, cTEH.race.getStartList());
-			else if(args[0].equalsIgnoreCase("GRP"))
-				cTEH.race = new RaceGRP(cTEH.runNumber, cTEH.timer, cTEH.race.getStartList());
+			tempList = new ArrayList<Racer>();
+		for(int i = 0; i < cTEH.race.getStartList().size(); i++) {//clone current startlist
+			tempList.add(cTEH.race.getStartList().get(i));
+		}
+		if(args[0].equalsIgnoreCase("IND"))
+			cTEH.race = new RaceIND(cTEH.runNumber, cTEH.timer, tempList);
+		else if(args[0].equalsIgnoreCase("PARIND"))
+			cTEH.race = new RacePARIND(cTEH.runNumber, cTEH.timer, tempList);
+		else if(args[0].equalsIgnoreCase("GRP"))
+			cTEH.race = new RaceGRP(cTEH.runNumber, cTEH.timer, tempList);
 		//TODO pargrp
 	}
 }

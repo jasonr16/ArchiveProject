@@ -39,7 +39,7 @@ public class RacePARIND extends Race {
 	 * @param startList
 	 */
 	public RacePARIND(int runNumber, Timer timer, ArrayList<Racer> startList) {
-		super(runNumber, timer);
+		super(runNumber, timer, startList);
 		this.raceA = new RaceIND(runNumber, timer);
 		this.raceB = new RaceIND(runNumber, timer);
 		raceA.setStartChannel(1);
@@ -47,7 +47,6 @@ public class RacePARIND extends Race {
 		raceB.setStartChannel(3);
 		raceB.setFinishChannel(4);
 		for (Racer racer : startList) {
-			startList.add(racer);
 			// odd racers gets added to race A, even racers gets added to race B, etc.
 			if ((startList.size() % 2) != 0)
 				this.raceA.getStartList().add(racer);

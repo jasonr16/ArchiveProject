@@ -96,7 +96,7 @@ public class ChronoGUI {
 		JToggleButton btnPower = new JToggleButton("POWER");
 		btnPower.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				sendToHardware("POWER", "", "");
 			}
 		});
@@ -113,7 +113,7 @@ public class ChronoGUI {
 		btnfunction.setBackground(new Color(192, 192, 192));
 		btnfunction.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				
 				updateCMDSelect();
 				
@@ -223,7 +223,7 @@ public class ChronoGUI {
 		JToggleButton btnPrinterPwr = new JToggleButton("PRINTER PWR");
 		btnPrinterPwr.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mousePressed(MouseEvent arg0) {
 				updatePrinterPowerValue(btnPrinterPwr.isSelected());
 			}
 
@@ -312,7 +312,7 @@ public class ChronoGUI {
 		radbtnenable1.setBackground(new Color(211, 211, 211));
 		radbtnenable1.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				sendToHardware("tog", "1", "");
 			}
 		});
@@ -324,7 +324,7 @@ public class ChronoGUI {
 		radbtnenable3.setBackground(new Color(211, 211, 211));
 		radbtnenable3.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				sendToHardware("tog", "3", "");
 			}
 		});
@@ -336,7 +336,7 @@ public class ChronoGUI {
 		radbtnenable5.setBackground(new Color(211, 211, 211));
 		radbtnenable5.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				sendToHardware("tog", "5", "");
 			}
 		});
@@ -348,7 +348,7 @@ public class ChronoGUI {
 		radbtnenable7.setBackground(new Color(211, 211, 211));
 		radbtnenable7.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				sendToHardware("tog", "7", "");
 			}
 		});
@@ -360,7 +360,7 @@ public class ChronoGUI {
 		radbtnenable2.setBackground(new Color(211, 211, 211));
 		radbtnenable2.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				sendToHardware("tog", "2", "");
 			}
 		});
@@ -372,7 +372,7 @@ public class ChronoGUI {
 		radbtnenable4.setBackground(new Color(211, 211, 211));
 		radbtnenable4.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				sendToHardware("tog", "4", "");
 			}
 		});
@@ -384,7 +384,7 @@ public class ChronoGUI {
 		radbtnenable6.setBackground(new Color(211, 211, 211));
 		radbtnenable6.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				sendToHardware("tog", "6", "");
 			}
 		});
@@ -396,7 +396,7 @@ public class ChronoGUI {
 		radbtnenable8.setBackground(new Color(211, 211, 211));
 		radbtnenable8.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				sendToHardware("tog", "8", "");
 			}
 		});
@@ -548,8 +548,9 @@ public class ChronoGUI {
 		JButton btnkeypadsDELETE = new JButton("DEL");
 		btnkeypadsDELETE.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				keypadEntry = deleteLastChar(keypadEntry);
+			public void mousePressed(MouseEvent e) {
+				keypadEntry = keypadText.getText();
+				keypadText.setText(deleteLastChar(keypadEntry));
 			}
 
 		});
@@ -603,7 +604,7 @@ public class ChronoGUI {
 		chan1.setBackground(new Color(169, 169, 169));
 		chan1.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(1).getSelectedItem().toString();
 				updateSensor(chan1.isSelected(), type, "1");
 				if(!chan1.isSelected())
@@ -619,7 +620,7 @@ public class ChronoGUI {
 		chan3.setBackground(new Color(169, 169, 169));
 		chan3.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(1).getSelectedItem().toString();
 				updateSensor(chan3.isSelected(), type, "3");
 				if(!chan3.isSelected())
@@ -635,7 +636,7 @@ public class ChronoGUI {
 		chan5.setBackground(new Color(169, 169, 169));
 		chan5.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(5).getSelectedItem().toString();
 				updateSensor(chan5.isSelected(), type, "5");
 				if(!chan5.isSelected())
@@ -651,7 +652,7 @@ public class ChronoGUI {
 		chan7.setBackground(new Color(169, 169, 169));
 		chan7.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(7).getSelectedItem().toString();
 				updateSensor(chan7.isSelected(), type, "7");
 				if(!chan7.isSelected())
@@ -667,7 +668,7 @@ public class ChronoGUI {
 		chan2.setBackground(new Color(169, 169, 169));
 		chan2.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(2).getSelectedItem().toString();
 				updateSensor(chan2.isSelected(), type, "2");
 				if(!chan2.isSelected())
@@ -683,7 +684,7 @@ public class ChronoGUI {
 		chan4.setBackground(new Color(169, 169, 169));
 		chan4.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(4).getSelectedItem().toString();
 				updateSensor(chan4.isSelected(), type, "4");
 				if(!chan4.isSelected())
@@ -699,7 +700,7 @@ public class ChronoGUI {
 		chan6.setBackground(new Color(169, 169, 169));
 		chan6.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(6).getSelectedItem().toString();
 				updateSensor(chan6.isSelected(), type, "6");
 				if(!chan6.isSelected())
@@ -715,7 +716,7 @@ public class ChronoGUI {
 		chan8.setBackground(new Color(169, 169, 169));
 		chan8.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(8).getSelectedItem().toString();
 				updateSensor(chan8.isSelected(), type, "8");
 				if(!chan8.isSelected())
@@ -957,7 +958,7 @@ public class ChronoGUI {
 		JButton btnEnter = new JButton("ENTER CMD");
 		btnEnter.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mousePressed(MouseEvent arg0) {
 				handleCmdEntered();  
 			}
 
