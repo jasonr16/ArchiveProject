@@ -97,6 +97,12 @@ public class ChronoGUI {
 		btnPower.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				if(!btnPower.isSelected()) {//pressed does not change state before running
+					btnPower.setBackground(new Color(152,251,152));
+				}
+				else {
+					btnPower.setBackground(new Color(192,192,192));
+				}
 				sendToHardware("POWER", "", "");
 			}
 		});
@@ -224,6 +230,12 @@ public class ChronoGUI {
 		btnPrinterPwr.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
+				if(!btnPrinterPwr.isSelected()) {
+					btnPrinterPwr.setBackground(new Color(152,251,152));
+				}
+				else {
+					btnPrinterPwr.setBackground(new Color(192,192,192));
+				}
 				updatePrinterPowerValue(btnPrinterPwr.isSelected());
 			}
 
@@ -231,7 +243,7 @@ public class ChronoGUI {
 		btnPrinterPwr.setSelected(true);
 		btnPrinterPwr.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btnPrinterPwr.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnPrinterPwr.setBackground(new Color(192, 192, 192));
+		btnPrinterPwr.setBackground(new Color(152,251,152));
 		btnPrinterPwr.setBounds(617, 26, 155, 67);
 		MainFramePanel.add(btnPrinterPwr);
 //		btnPrinterPwr.addActionListener(new commandListener("Printer Pwr"));
