@@ -600,8 +600,10 @@ public class ChronoGUI {
 		chan3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO finish chan2-8 based on chan1
-			
+				String type = channelType.get(1).getSelectedItem().toString();
+				updateSensor(chan3.isSelected(), type, "3");
+				if(!chan3.isSelected())
+					sendToHardware("disc", "3", "");
 			}
 		});
 		chan3.setBounds(166, 44, 20, 25);
@@ -614,7 +616,10 @@ public class ChronoGUI {
 		chan5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-			
+				String type = channelType.get(5).getSelectedItem().toString();
+				updateSensor(chan5.isSelected(), type, "5");
+				if(!chan5.isSelected())
+					sendToHardware("disc", "5", "");
 			}
 		});
 		chan5.setBounds(251, 44, 20, 25);
@@ -627,7 +632,10 @@ public class ChronoGUI {
 		chan7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				String type = channelType.get(7).getSelectedItem().toString();
+				updateSensor(chan7.isSelected(), type, "7");
+				if(!chan7.isSelected())
+					sendToHardware("disc", "7", "");
 			}
 		});
 		chan7.setBounds(336, 44, 20, 25);
@@ -640,7 +648,10 @@ public class ChronoGUI {
 		chan2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				String type = channelType.get(2).getSelectedItem().toString();
+				updateSensor(chan2.isSelected(), type, "2");
+				if(!chan2.isSelected())
+					sendToHardware("disc", "2", "");
 			}
 		});
 		chan2.setBounds(81, 104, 20, 25);
@@ -653,7 +664,10 @@ public class ChronoGUI {
 		chan4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				String type = channelType.get(4).getSelectedItem().toString();
+				updateSensor(chan4.isSelected(), type, "4");
+				if(!chan4.isSelected())
+					sendToHardware("disc", "4", "");
 			}
 		});
 		chan4.setBounds(166, 104, 20, 25);
@@ -666,7 +680,10 @@ public class ChronoGUI {
 		chan6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				String type = channelType.get(6).getSelectedItem().toString();
+				updateSensor(chan6.isSelected(), type, "6");
+				if(!chan6.isSelected())
+					sendToHardware("disc", "6", "");
 			}
 		});
 		chan6.setBounds(251, 104, 20, 25);
@@ -679,7 +696,10 @@ public class ChronoGUI {
 		chan8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				String type = channelType.get(8).getSelectedItem().toString();
+				updateSensor(chan8.isSelected(), type, "8");
+				if(!chan8.isSelected())
+					sendToHardware("disc", "8", "");
 			}
 		});
 		chan8.setBounds(336, 104, 20, 25);
