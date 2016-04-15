@@ -1002,22 +1002,41 @@ public class ChronoGUI {
 		keypadText.setText(s);
 	}
 	public void updateSensor(boolean conn, String type, String channel) {
-		//TODO if true, disc previous sensor and conn new one of type on channel using sendtohardware
+		//TODO if true, disc previous sensor and conn new one of type on
+		//channel using sendtohardware
+		if(conn){
+			sendToHardware("disc",channel,"");
+			sendToHardware("CONN",channel,type);
+		}
 	}
 	public void updatePrinterPowerValue(boolean selected) {
-		// TODO if true change hardwarehandler printerpower to true, else change to false
+		// if true change hardwarehandler printerpower to 
+		//true, else change to false
+		if(selected){
+			hardware.setPrinterPower(true);
+		}else{
+			hardware.setPrinterPower(false);
+		}
 	}
 	private void handleCmdEntered() {
-		// TODO get command from commands[cmdIndex].getText().toString() and the args from keypadEntry - call sendtohardware with them
-		//TODO reset keypadEntry to empty
-		
+		// get command from commands[cmdIndex].getText().toString()
+		//and the args from keypadEntry - call sendtohardware with them
+		// reset keypadEntry to empty
+		sendToHardware(commands.get(cmdIndex).getText().toString(),keypadText.getText(),"");
+		updateKeypad("");
 	}
 	private String deleteLastChar(String keypadEntry) {
-		// TODO delete the last character and return the rest of the string or "" if already empty
-		return null;
+		// delete the last character and return the 
+		// rest of the string or "" if already empty
+		if(keypadEntry.length()>0){
+			return(keypadEntry.substring(0,keypadEntry.length()-1));
+		}
+		return "";
 	}
 
 	private void updateCMDSelect() {
-		//TODO toggle current and next command in commands.
+		//toggle current and next command in commands.
+		commands.get(cmdIndex).doClick();
+		commands.get(cmdIndex+1).doClick();
 	}
 }

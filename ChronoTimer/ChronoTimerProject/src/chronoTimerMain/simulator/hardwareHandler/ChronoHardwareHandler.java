@@ -213,5 +213,12 @@ public class ChronoHardwareHandler {
 			result = channel;
 		}
 		return result;
-	}	
+	}
+	/**
+	 * changes printer power state to b
+	 * @param b, true if power is on, false if off
+	 */
+	public void setPrinterPower(boolean b){
+		printerPower=b;
+	}
 }
