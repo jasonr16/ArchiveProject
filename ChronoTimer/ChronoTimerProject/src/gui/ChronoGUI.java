@@ -755,6 +755,7 @@ public class ChronoGUI {
 				updateSensor(channels.get(1).isSelected(), c1box.getSelectedItem().toString(), "1");
 			}
 		});
+		
 		c1box.setBackground(new Color(248, 248, 255));
 		c1box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
 		c1box.setBounds(105, 13, 53, 22);
@@ -1089,7 +1090,7 @@ public class ChronoGUI {
 		keypadText.setText(s);
 	}
 	public void updateSensor(boolean conn, String type, String channel) {
-		//TODO if the correpsonding channel button is selected, disc previous sensor and conn new one of type on channel.
+		//TODO if true, disc previous sensor and conn new one of type on channel using sendtohardware
 	}
 	public void updatePrinterPowerValue(boolean selected) {
 		// TODO if true change hardwarehandler printerpower to true, else change to false
