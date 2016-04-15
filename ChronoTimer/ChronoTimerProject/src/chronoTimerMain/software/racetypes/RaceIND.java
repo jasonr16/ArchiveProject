@@ -25,6 +25,18 @@ public class RaceIND extends Race {
 		this.startChannel = 1;
 		this.finishChannel = 2;
 	}
+	
+	/**
+	 * Creates an individual race with an existing start list of racers.
+	 * @param runNumber
+	 * @param timer
+	 * @param startList
+	 */
+	public RaceIND(int runNumber, Timer timer, ArrayList<Racer> startList) {
+		super(runNumber, timer, startList);
+		this.startChannel = 1;
+		this.finishChannel = 2;
+	}
 
 	/**
 	 * Gets the start channel associated with the race

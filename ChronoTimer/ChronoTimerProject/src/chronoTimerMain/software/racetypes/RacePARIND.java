@@ -26,11 +26,34 @@ public class RacePARIND extends Race {
 		super(runNumber, timer);
 		this.raceA = new RaceIND(runNumber, timer);
 		this.raceB = new RaceIND(runNumber, timer);
-		// TODO: unconventional?
 		raceA.setStartChannel(1);
 		raceA.setFinishChannel(2);
 		raceB.setStartChannel(3);
 		raceB.setFinishChannel(4);
+	}
+	
+	/**
+	 * Creates a parallel individual race with an existing start list
+	 * @param runNumber
+	 * @param timer
+	 * @param startList
+	 */
+	public RacePARIND(int runNumber, Timer timer, ArrayList<Racer> startList) {
+		super(runNumber, timer);
+		this.raceA = new RaceIND(runNumber, timer);
+		this.raceB = new RaceIND(runNumber, timer);
+		raceA.setStartChannel(1);
+		raceA.setFinishChannel(2);
+		raceB.setStartChannel(3);
+		raceB.setFinishChannel(4);
+		for (Racer racer : startList) {
+			startList.add(racer);
+			// odd racers gets added to race A, even racers gets added to race B, etc.
+			if ((startList.size() % 2) != 0)
+				this.raceA.getStartList().add(racer);
+			else
+				this.raceB.getStartList().add(racer);
+		}
 	}
 	
 	/**
@@ -289,7 +312,6 @@ public class RacePARIND extends Race {
 	}
 
 	/**
-	 * TODO: does swap supposed to work for PARIND?
 	 * Swap the two racers who are at the head of the running queue.
 	 * @return true if the swap was successful, else false
 	 */
@@ -486,8 +508,8 @@ public class RacePARIND extends Race {
 		public void testTrig() {
 			// test conventional start/finish channel setup
 			assertEquals(1, race1.getRaceA().getStartChannel());
-			assertEquals(3, race1.getRaceA().getFinishChannel());
-			assertEquals(2, race1.getRaceB().getStartChannel());
+			assertEquals(2, race1.getRaceA().getFinishChannel());
+			assertEquals(3, race1.getRaceB().getStartChannel());
 			assertEquals(4, race1.getRaceB().getFinishChannel());
 			
 			// trigger when no racers in start queue
@@ -521,8 +543,8 @@ public class RacePARIND extends Race {
 			assertEquals(0, race1.getRaceB().getFinishList().size());
 			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
 			
-			// trigger channel 3 (racer finishes in race A)
-			assertTrue(race1.trig(3, ""));
+			// trigger channel 2 (racer finishes in race A)
+			assertTrue(race1.trig(2, ""));
 			assertEquals(1, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(1, race1.getFinishList().size());
@@ -553,8 +575,8 @@ public class RacePARIND extends Race {
 			assertEquals(0, race1.getRaceB().getFinishList().size());
 			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
 			
-			// trigger channel 2 (racer starts in race B)
-			assertTrue(race1.trig(2, ""));
+			// trigger channel 3 (racer starts in race B)
+			assertTrue(race1.trig(3, ""));
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(1, race1.getRunningList().size());
 			assertEquals(1, race1.getFinishList().size());
@@ -585,9 +607,9 @@ public class RacePARIND extends Race {
 			assertEquals(1, race1.getRaceB().getFinishList().size());
 			assertEquals(315, race1.getRaceB().getFinishList().get(0).getNumber());
 			
-			// trigger channels 1 and 3 (no more racers to start and finish)
+			// trigger channels 1 and 2 (no more racers to start and finish)
 			assertFalse(race1.trig(1, ""));
-			assertFalse(race1.trig(3, ""));
+			assertFalse(race1.trig(2, ""));
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(2, race1.getFinishList().size());
@@ -609,9 +631,9 @@ public class RacePARIND extends Race {
 			
 			// trigger multiple consecutive starts
 			assertTrue(race2.trig(1, ""));
-			assertTrue(race2.trig(2, ""));
+			assertTrue(race2.trig(3, ""));
 			assertTrue(race2.trig(1, ""));
-			assertTrue(race2.trig(2, ""));
+			assertTrue(race2.trig(3, ""));
 			assertEquals(0, race2.getStartList().size());
 			assertEquals(4, race2.getRunningList().size());
 			assertEquals(0, race2.getFinishList().size());
@@ -631,9 +653,9 @@ public class RacePARIND extends Race {
 			assertEquals(201, race2.getRaceB().getRunningList().get(1).getNumber());
 			
 			// trigger multiple consecutive finishes
-			assertTrue(race2.trig(3, ""));
+			assertTrue(race2.trig(2, ""));
 			assertTrue(race2.trig(4, ""));
-			assertTrue(race2.trig(3, ""));
+			assertTrue(race2.trig(2, ""));
 			assertTrue(race2.trig(4, ""));
 			assertEquals(0, race2.getStartList().size());
 			assertEquals(0, race2.getRunningList().size());
@@ -649,6 +671,33 @@ public class RacePARIND extends Race {
 			assertEquals(200, race2.getRaceA().getFinishList().get(1).getNumber());
 			assertEquals(0, race2.getRaceB().getStartList().size());
 			assertEquals(0, race2.getRaceB().getRunningList().size());
+			assertEquals(2, race2.getRaceB().getFinishList().size());
+			assertEquals(177, race2.getRaceB().getFinishList().get(0).getNumber());
+			assertEquals(201, race2.getRaceB().getFinishList().get(1).getNumber());
+			
+			// test redundant starts and finishes
+			// trig 1, 2, 2, 3, 3, 4, 4
+			race2 = new RacePARIND(2, timer);
+			race2.addRacerToStart(167);
+			race2.addRacerToStart(177);
+			race2.addRacerToStart(200);
+			race2.addRacerToStart(201);
+			assertTrue(race2.trig(1, ""));
+			assertTrue(race2.trig(2, ""));
+			assertFalse(race2.trig(2, ""));
+			assertTrue(race2.trig(3, ""));
+			assertTrue(race2.trig(3, ""));
+			assertTrue(race2.trig(4, ""));
+			assertTrue(race2.trig(4, ""));
+			assertEquals(1, race2.getStartList().size());
+			assertEquals(3, race2.getFinishList().size());
+			// race A should have 167 in finish, 200 in start
+			assertEquals(1, race2.getRaceA().getStartList().size());
+			assertEquals(1, race2.getRaceA().getFinishList().size());
+			assertEquals(167, race2.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals(200, race2.getRaceA().getStartList().get(0).getNumber());
+			// race B should have 177, 201 in finish
+			assertEquals(0, race2.getRaceB().getStartList().size());
 			assertEquals(2, race2.getRaceB().getFinishList().size());
 			assertEquals(177, race2.getRaceB().getFinishList().get(0).getNumber());
 			assertEquals(201, race2.getRaceB().getFinishList().get(1).getNumber());
