@@ -1100,7 +1100,7 @@ public class ChronoGUI {
 		//toggle current and next command in commands.
 		
 		commands.get(cmdIndex).doClick();
-		commands.get(cmdIndex+1).doClick();
-		++cmdIndex;
+		cmdIndex=(cmdIndex+1)%commands.size();
+		commands.get(cmdIndex).doClick();
 	}
 }
