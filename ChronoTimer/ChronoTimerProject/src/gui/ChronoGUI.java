@@ -37,7 +37,7 @@ public class ChronoGUI {
 	private String keypadEntry = "";
 	private int numberArgumentsRemaining;
 	private JFrame frame;
-	private ChronoHardwareHandler hardware;//moved to GUIController class for MVC design pattern
+	private ChronoHardwareHandler hardware;
 	String[] args=new String[2];
 	String timestamp="";
 	String command;
@@ -72,6 +72,10 @@ public class ChronoGUI {
 	 */
 	public ChronoGUI() {
 		hardware = new ChronoHardwareHandler();
+		for(int i = 0; i < 8; i++) {
+			channels.add(new JRadioButton("placeholder"));
+			channelType.add(new JComboBox<String>());
+		}
 		initialize();
 	}
 	
@@ -90,6 +94,12 @@ public class ChronoGUI {
 		MainFramePanel.setLayout(null);
 		
 		JToggleButton btnPower = new JToggleButton("POWER");
+		btnPower.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				sendToHardware("POWER", "", "");
+			}
+		});
 		btnPower.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btnPower.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnPower.setBackground(new Color(192, 192, 192));
@@ -104,7 +114,7 @@ public class ChronoGUI {
 		btnfunction.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				++cmdIndex;
+				
 				updateCMDSelect();
 				
 			}
@@ -220,14 +230,14 @@ public class ChronoGUI {
 		
 		ScrollPane printerTapePane = new ScrollPane();
 		printerTapePane.setBackground(Color.WHITE);
-		printerTapePane.setBounds(643, 122, 100, 115);
+		printerTapePane.setBounds(559, 122, 184, 115);
 		MainFramePanel.add(printerTapePane);
 		printerPane = printerTapePane;
 		
 		
 		ScrollPane printerBaseAreaPane = new ScrollPane();
 		printerBaseAreaPane.setBackground(new Color(128, 128, 128));
-		printerBaseAreaPane.setBounds(617, 182, 155, 89);
+		printerBaseAreaPane.setBounds(532, 182, 240, 89);
 		MainFramePanel.add(printerBaseAreaPane);
 		
 		JButton btnfinish2 = new JButton("");
@@ -411,8 +421,7 @@ public class ChronoGUI {
 		btnkeypad1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				keypadEntry += "1";
-				updateKeypad(keypadEntry);
+				updateKeypad("1");
 			}
 		});
 		btnkeypad1.setBounds(589, 304, 60, 60);
@@ -424,8 +433,7 @@ public class ChronoGUI {
 		btnkeypad2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				keypadEntry += "2";
-				updateKeypad(keypadEntry);
+				updateKeypad("2");
 			}
 		});
 		btnkeypad2.setBounds(650, 304, 60, 60);
@@ -437,8 +445,7 @@ public class ChronoGUI {
 		btnkeypad3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				keypadEntry += "3";
-				updateKeypad(keypadEntry);
+				updateKeypad("3");
 			}
 		});
 		btnkeypad3.setBounds(712, 304, 60, 60);
@@ -450,8 +457,7 @@ public class ChronoGUI {
 		btnkeypad4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				keypadEntry += "4";
-				updateKeypad(keypadEntry);
+				updateKeypad("4");
 			}
 		});
 		btnkeypad4.setBounds(589, 366, 60, 60);
@@ -463,8 +469,8 @@ public class ChronoGUI {
 		btnkeypad5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				keypadEntry += "5";
-				updateKeypad(keypadEntry);
+				
+				updateKeypad("5");
 			}
 		});
 		btnkeypad5.setBounds(650, 366, 60, 60);
@@ -476,8 +482,8 @@ public class ChronoGUI {
 		btnkeypad6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				keypadEntry += "6";
-				updateKeypad(keypadEntry);
+				
+				updateKeypad("6");
 			}
 		});
 		btnkeypad6.setBounds(712, 366, 60, 60);
@@ -489,8 +495,8 @@ public class ChronoGUI {
 		btnkeypad7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				keypadEntry += "7";
-				updateKeypad(keypadEntry);
+				
+				updateKeypad("7");
 			}
 		});
 		btnkeypad7.setBounds(589, 425, 60, 60);
@@ -502,8 +508,8 @@ public class ChronoGUI {
 		btnkeypad8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				keypadEntry += "8";
-				updateKeypad(keypadEntry);
+			
+				updateKeypad("8");
 			}
 		});
 		btnkeypad8.setBounds(650, 425, 60, 60);
@@ -515,8 +521,8 @@ public class ChronoGUI {
 		btnkeypad9.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				keypadEntry += "9";
-				updateKeypad(keypadEntry);
+			
+				updateKeypad("9");
 			}
 		});
 		btnkeypad9.setBounds(712, 425, 60, 60);
@@ -543,8 +549,7 @@ public class ChronoGUI {
 		btnkeypad0.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				keypadEntry += "0";
-				updateKeypad(keypadEntry);
+				updateKeypad("0");
 			}
 		});
 		btnkeypad0.setBounds(650, 488, 60, 60);
@@ -556,9 +561,8 @@ public class ChronoGUI {
 		btnkeypadpound.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				sendToHardware("num", keypadEntry, "");//keypad is used to add racers to start.# enters racer command
-				keypadEntry = "";
-				updateKeypad(keypadEntry);
+				handleCmdEntered();
+				
 			}
 		});
 		btnkeypadpound.setBounds(712, 488, 60, 60);
@@ -1057,7 +1061,7 @@ public class ChronoGUI {
 		printerPane.repaint();
 	}
 	public void updateKeypad(String s) {
-		keypadText.setText(s);
+		keypadText.setText(keypadText.getText()+s);
 	}
 	public void updateSensor(boolean conn, String type, String channel) {
 		//TODO if true, disc previous sensor and conn new one of type on
@@ -1081,7 +1085,7 @@ public class ChronoGUI {
 		//and the args from keypadEntry - call sendtohardware with them
 		// reset keypadEntry to empty
 		sendToHardware(commands.get(cmdIndex).getText().toString(),keypadText.getText(),"");
-		updateKeypad("");
+		keypadText.setText("");
 	}
 	private String deleteLastChar(String keypadEntry) {
 		// delete the last character and return the 
@@ -1094,7 +1098,9 @@ public class ChronoGUI {
 
 	private void updateCMDSelect() {
 		//toggle current and next command in commands.
+		
 		commands.get(cmdIndex).doClick();
 		commands.get(cmdIndex+1).doClick();
+		++cmdIndex;
 	}
 }
