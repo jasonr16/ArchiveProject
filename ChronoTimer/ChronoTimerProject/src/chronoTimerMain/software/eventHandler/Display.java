@@ -54,8 +54,14 @@ public class Display implements EventCommand{
 	private void displayRacerList(ArrayList<Racer> raceList, int finishIndex, int startIndex) {//racers are displayed in reverse queue order
 		for(int i = startIndex; i >= finishIndex; i--) {
 			if(timestamp.equals("")) {
-				cTEH.display += raceList.get(i).getNumber() + " " + 
-						cTEH.timer.getRunDuration(raceList.get(i).getStartTime(), cTEH.timer.getCurrentChronoTime());
+				if(raceList == finishList) {
+					cTEH.display += raceList.get(i).getNumber() + " " + 
+							cTEH.timer.getRunDuration(raceList.get(i).getStartTime(), raceList.get(i).getFinishTime());
+				}
+				else {
+					cTEH.display += raceList.get(i).getNumber() + " " + 
+							cTEH.timer.getRunDuration(raceList.get(i).getStartTime(), cTEH.timer.getCurrentChronoTime());
+				}
 			}
 			else
 				cTEH.display += raceList.get(i).getNumber() + " " + 

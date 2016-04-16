@@ -1116,6 +1116,17 @@ public class ChronoGUI {
 		rType.setBounds(47, 207, 79, 16);
 		MainFramePanel.add(rType);
 		raceType = rType;
+		
+		JButton btnSwap = new JButton("Swap");
+		btnSwap.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				sendToHardware("swap", "", "");
+			}
+		});
+		btnSwap.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		btnSwap.setBounds(34, 169, 97, 25);
+		MainFramePanel.add(btnSwap);
 		frame.setVisible(true);
 	}
 

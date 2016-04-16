@@ -26,17 +26,18 @@ public class Event implements EventCommand {
 		if(args[0].equalsIgnoreCase("IND") || args[0].equalsIgnoreCase("PARIND") || args[0].equalsIgnoreCase("GRP"))
 			cTEH.raceType = args[0];
 		//change current racetype if not started
-		if(cTEH.race.getStartList().size() != 0 && cTEH.race.getRunningList().size() == 0 && cTEH.race.getFinishList().size() == 0)
+		if(cTEH.race.getStartList().size() != 0 && cTEH.race.getRunningList().size() == 0 && cTEH.race.getFinishList().size() == 0) {
 			tempList = new ArrayList<Racer>();
-		for(int i = 0; i < cTEH.race.getStartList().size(); i++) {//clone current startlist
-			tempList.add(cTEH.race.getStartList().get(i));
+			for(int i = 0; i < cTEH.race.getStartList().size(); i++) {//clone current startlist
+				tempList.add(cTEH.race.getStartList().get(i));
+			}
+			if(args[0].equalsIgnoreCase("IND"))
+				cTEH.race = new RaceIND(cTEH.runNumber, cTEH.timer, tempList);
+			else if(args[0].equalsIgnoreCase("PARIND"))
+				cTEH.race = new RacePARIND(cTEH.runNumber, cTEH.timer, tempList);
+			else if(args[0].equalsIgnoreCase("GRP"))
+				cTEH.race = new RaceGRP(cTEH.runNumber, cTEH.timer, tempList);
 		}
-		if(args[0].equalsIgnoreCase("IND"))
-			cTEH.race = new RaceIND(cTEH.runNumber, cTEH.timer, tempList);
-		else if(args[0].equalsIgnoreCase("PARIND"))
-			cTEH.race = new RacePARIND(cTEH.runNumber, cTEH.timer, tempList);
-		else if(args[0].equalsIgnoreCase("GRP"))
-			cTEH.race = new RaceGRP(cTEH.runNumber, cTEH.timer, tempList);
 		//TODO pargrp
 	}
 }
