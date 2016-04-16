@@ -44,7 +44,7 @@ public class Display implements EventCommand{
 			displayRacerList(finishList, Math.max(0, finishList.size()-2), Math.max(-1, finishList.size()-1));
 		}
 		else if (cTEH.race instanceof RaceGRP) {
-			displayRacerList(runningList, 0, runningList.size()-1);//display all running racers
+			displayRacerList(runningList, 0, Math.min(runningList.size()-1, 0));//only one running time needs to be displayed
 			cTEH.display += "\n";
 			displayRacerList(finishList, Math.max(0, finishList.size()-1), Math.max(-1, finishList.size()-1));//display last racer to finish
 		}
