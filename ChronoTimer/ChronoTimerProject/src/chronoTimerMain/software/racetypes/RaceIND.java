@@ -50,7 +50,7 @@ public class RaceIND extends Race {
 	 * Set the start channel
 	 * @param num - start channel number
 	 */
-	public void setStartChannel(int num) {
+	protected void setStartChannel(int num) {
 		this.startChannel = num;
 	}
 	
@@ -118,8 +118,9 @@ public class RaceIND extends Race {
 		ArrayList<Racer> runningList = super.getRunningList();
 		ArrayList<Racer> finishList = super.getFinishList();
 		Racer racer = null;
+		boolean[] channelToggleArray = super.getChannelToggles();
 		
-		if (channelNum > 12)
+		if (channelNum > 12 || channelToggleArray[channelNum] == false)
 			return false;
 		
 		// if there are racers in the start queue, a start event should move the racer at the head of the start queue

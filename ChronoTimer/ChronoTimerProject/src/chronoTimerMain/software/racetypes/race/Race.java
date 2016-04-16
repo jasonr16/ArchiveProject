@@ -257,7 +257,20 @@ public abstract class Race {
 		}
 	}
 	
+	/**
+	 * Update race's internal representation of hardware channel toggles
+	 * to reflect hardware changes
+	 * @param togArray
+	 */
 	public void updateTogglesInRace(boolean[] togArray) {
-		channelToggles = togArray;
+		this.channelToggles = togArray;
+	}
+
+	/**
+	 * Returns the current toggle state of channels
+	 * @return boolean array representation toggle state of channels
+	 */
+	public boolean[] getChannelToggles() {
+		return this.channelToggles;
 	}
 }

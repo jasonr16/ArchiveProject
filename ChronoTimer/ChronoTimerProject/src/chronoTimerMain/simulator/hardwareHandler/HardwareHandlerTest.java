@@ -75,10 +75,10 @@ public class HardwareHandlerTest {
 		hh.ON();
 		hh.conn("GATE", 1);
 		assertTrue(hh.toggle(1));
-		assertTrue(hh.isEnabledSensor[1]);
+		assertTrue(hh.isEnabledChannel[1]);
 		// toggle when channel is not connected
 		assertFalse(hh.toggle(2));
-		assertFalse(hh.isEnabledSensor[2]);
+		assertFalse(hh.isEnabledChannel[2]);
 		// toggle out-of-range channel
 		assertFalse(hh.toggle(-1));
 	}
@@ -132,14 +132,14 @@ public class HardwareHandlerTest {
 		String[] test2 = {"EYE","2"};
 		hh.conn("GATE", 1);
 		hh.inputFromSimulator("TOGGLE", test , "");
-		assertFalse(hh.isEnabledSensor[1]);
+		assertFalse(hh.isEnabledChannel[1]);
 		//test toggle when power is ON
 		hh.ON();
 		hh.inputFromSimulator("TOGGLE", test , "");
-		assertTrue(hh.isEnabledSensor[1]);
+		assertTrue(hh.isEnabledChannel[1]);
 		// toggle when channel is not connected
 		hh.inputFromSimulator("TOGGLE", test2 , "");
-		assertFalse(hh.isEnabledSensor[2]);
+		assertFalse(hh.isEnabledChannel[2]);
 		
 		// disconnect connected channel when off
 		hh.OFF();

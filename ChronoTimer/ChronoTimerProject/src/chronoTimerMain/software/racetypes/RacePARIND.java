@@ -171,8 +171,9 @@ public class RacePARIND extends Race {
 		ArrayList<Racer> runningListB = this.raceB.getRunningList();
 		ArrayList<Racer> finishListB = this.raceB.getFinishList();
 		Racer racer = null;
+		boolean[] channelToggleArray = super.getChannelToggles();
 		
-		if (channelNum > 12)
+		if (channelNum > 12 || channelToggleArray[channelNum] == false)
 			return false;
 		
 		// if there are racers in the start queue, a start event should move the racer at the head of the start queue

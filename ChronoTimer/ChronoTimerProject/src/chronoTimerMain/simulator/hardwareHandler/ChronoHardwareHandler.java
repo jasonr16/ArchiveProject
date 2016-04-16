@@ -25,7 +25,7 @@ public class ChronoHardwareHandler {
 
 	protected Timer time = new Timer();
 	protected Sensor[] sensors = new Sensor[13];//no sensor stored in index 0. 12 max
-	protected boolean[] isEnabledSensor = new boolean[13];
+	protected boolean[] isEnabledChannel = new boolean[13];
 	protected  ArrayList<SingleEvent> eventLog = new ArrayList<SingleEvent>();
 	protected boolean power = false;
 	protected ChronoTimerEventHandler eventHandler;
@@ -73,43 +73,43 @@ public class ChronoHardwareHandler {
 		if(power){
 			//TODO add succeed/fail messages
 			//TODO move CONN out of power method
-		switch(command) {
-			case "CONN":
-				System.out.println(timestamp +" Connecting sensor " + args[0] + " at channel " + args[1]);
-				try{
-					conn(args[0], Integer.parseInt(args[1]));
-				}catch (NumberFormatException e) {
-					System.out.println("Error - Could not parse channel number");
-				}
-				break;
-			case "DISC":
-				System.out.println(timestamp + " Disconnecting channel " + args[0]);
-				try{
-					disc(Integer.parseInt(args[0]));
-				}catch (NumberFormatException e) {
-					System.out.println(timestamp + " Error - Could not parse channel number");
-				}
-				break;
-			case "TOGGLE":
-			case "TOG":
-				System.out.println(timestamp + " Toggling channel " + args[0]);
-				try {
-					toggle(Integer.parseInt(args[0]));
-					eventHandler.passToggles(isEnabledSensor);
-				}catch (NumberFormatException e) {
-					System.out.println("Error - Could not parse channel number");
-				}
-				break;
-				
-			case "RESET":
-				System.out.println(timestamp + " Resetting system.");
-				reset();
-				break;
-			default:
-				if(command.equalsIgnoreCase("print") && !printerPower) {//ignore print if printer power off
+			switch(command) {
+				case "CONN":
+					System.out.println(timestamp +" Connecting sensor " + args[0] + " at channel " + args[1]);
+					try{
+						conn(args[0], Integer.parseInt(args[1]));
+					}catch (NumberFormatException e) {
+						System.out.println("Error - Could not parse channel number");
+					}
 					break;
-				}
-				return eventHandler.timeEvent(command, args, timestamp);
+				case "DISC":
+					System.out.println(timestamp + " Disconnecting channel " + args[0]);
+					try{
+						disc(Integer.parseInt(args[0]));
+					}catch (NumberFormatException e) {
+						System.out.println(timestamp + " Error - Could not parse channel number");
+					}
+					break;
+				case "TOGGLE":
+				case "TOG":
+					System.out.println(timestamp + " Toggling channel " + args[0]);
+					try {
+						toggle(Integer.parseInt(args[0]));
+						eventHandler.passToggles(isEnabledChannel);
+					}catch (NumberFormatException e) {
+						System.out.println("Error - Could not parse channel number");
+					}
+					break;
+					
+				case "RESET":
+					System.out.println(timestamp + " Resetting system.");
+					reset();
+					break;
+				default:
+					if(command.equalsIgnoreCase("print") && !printerPower) {//ignore print if printer power off
+						break;
+					}
+					return eventHandler.timeEvent(command, args, timestamp);
 			}
 		}
 		return new String[] {"",""};
@@ -170,7 +170,7 @@ public class ChronoHardwareHandler {
 		boolean result = false;
 		// check if power is on and channel is connected before toggling it
 		if (power && channel <= 12 && channel > 0 && sensors[channel] != null) {
-			isEnabledSensor[channel] = !isEnabledSensor[channel];
+			isEnabledChannel[channel] = !isEnabledChannel[channel];
 			result = true;
 		}
 		return result;
