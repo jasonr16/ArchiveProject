@@ -110,7 +110,7 @@ public class RacePARIND extends Race {
 	 * @return true if add was successful, else false
 	 */
 	@Override
-	public boolean addRacerToStart(String racerNum) {
+	public boolean num(String racerNum) {
 		boolean result = false;
 		Racer racer = null;
 		ArrayList<Racer> startList = super.getStartList();
@@ -363,7 +363,7 @@ public class RacePARIND extends Race {
 			race2 = new RacePARIND(2,timer);
 		}
 		
-		public void testAddRacerToStart() {
+		public void testnum() {
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
@@ -374,7 +374,7 @@ public class RacePARIND extends Race {
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
 			
-			assertTrue(race1.addRacerToStart(234));
+			assertTrue(race1.num("234"));
 			assertEquals(1, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
@@ -387,7 +387,7 @@ public class RacePARIND extends Race {
 			assertEquals(234, race1.getStartList().get(0).getNumber());
 			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
 			
-			assertTrue(race1.addRacerToStart(315));
+			assertTrue(race1.num("315"));
 			assertEquals(2, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
@@ -402,7 +402,7 @@ public class RacePARIND extends Race {
 			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
 			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
 			
-			assertTrue(race1.addRacerToStart(361));
+			assertTrue(race1.num("361"));
 			assertEquals(3, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
@@ -419,7 +419,7 @@ public class RacePARIND extends Race {
 			assertEquals(361, race1.getRaceA().getStartList().get(1).getNumber());
 			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
 			
-			assertTrue(race1.addRacerToStart(431));
+			assertTrue(race1.num("431"));
 			assertEquals(4, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
@@ -439,7 +439,7 @@ public class RacePARIND extends Race {
 			assertEquals(431, race1.getRaceB().getStartList().get(1).getNumber());
 			
 			// add duplicate racer
-			assertFalse(race1.addRacerToStart(234));
+			assertFalse(race1.num("234"));
 			assertEquals(4, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
@@ -460,11 +460,11 @@ public class RacePARIND extends Race {
 		}
 
 		public void testRemoveRacerFromStart() {
-			race1.addRacerToStart(234);
-			race1.addRacerToStart(315);
+			race1.num("234");
+			race1.num("315");
 			
 			// remove non-existent racer
-			assertFalse(race1.removeRacerFromStart(111));
+			assertFalse(race1.removeRacerFromStart("111"));
 			assertEquals(2, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
@@ -480,7 +480,7 @@ public class RacePARIND extends Race {
 			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
 			
 			// valid remove
-			assertTrue(race1.removeRacerFromStart(234));
+			assertTrue(race1.removeRacerFromStart("234"));
 			assertEquals(1, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
@@ -493,7 +493,7 @@ public class RacePARIND extends Race {
 			assertEquals(0, race1.getRaceB().getFinishList().size());
 			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
 			
-			assertTrue(race1.removeRacerFromStart(315));
+			assertTrue(race1.removeRacerFromStart("315"));
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
@@ -525,8 +525,8 @@ public class RacePARIND extends Race {
 			assertEquals(0, race1.getRaceB().getFinishList().size());
 			
 			// add racers
-			race1.addRacerToStart(234);
-			race1.addRacerToStart(315);
+			race1.num("234");
+			race1.num("315");
 			// trigger channel 1 (racer starts in race A)
 			assertTrue(race1.trig(1, ""));
 			assertEquals(1, race1.getStartList().size());
@@ -624,10 +624,10 @@ public class RacePARIND extends Race {
 			assertEquals(1, race1.getRaceB().getFinishList().size());
 			assertEquals(315, race1.getRaceB().getFinishList().get(0).getNumber());
 			
-			race2.addRacerToStart(167);
-			race2.addRacerToStart(177);
-			race2.addRacerToStart(200);
-			race2.addRacerToStart(201);
+			race2.num("167");
+			race2.num("177");
+			race2.num("200");
+			race2.num("201");
 			
 			// trigger multiple consecutive starts
 			assertTrue(race2.trig(1, ""));
@@ -678,10 +678,10 @@ public class RacePARIND extends Race {
 			// test redundant starts and finishes
 			// trig 1, 2, 2, 3, 3, 4, 4
 			race2 = new RacePARIND(2, timer);
-			race2.addRacerToStart(167);
-			race2.addRacerToStart(177);
-			race2.addRacerToStart(200);
-			race2.addRacerToStart(201);
+			race2.num("167");
+			race2.num("177");
+			race2.num("200");
+			race2.num("201");
 			assertTrue(race2.trig(1, ""));
 			assertTrue(race2.trig(2, ""));
 			assertFalse(race2.trig(2, ""));
@@ -704,8 +704,8 @@ public class RacePARIND extends Race {
 		}
 
 		public void testStart() {
-			race1.addRacerToStart(234);
-			race1.addRacerToStart(315);
+			race1.num("234");
+			race1.num("315");
 			assertTrue(race1.start(""));
 			assertEquals(1, race1.getStartList().size());
 			assertEquals(315, race1.getStartList().get(0).getNumber());
@@ -738,8 +738,8 @@ public class RacePARIND extends Race {
 		}
 
 		public void testFinish() {
-			race1.addRacerToStart(234);
-			race1.addRacerToStart(315);
+			race1.num("234");
+			race1.num("315");
 			assertTrue(race1.start(""));
 			assertTrue(race1.start(""));
 			assertTrue(race1.finish(""));
@@ -761,8 +761,8 @@ public class RacePARIND extends Race {
 		}
 
 		public void testCancel() {
-			race1.addRacerToStart(234);
-			race1.addRacerToStart(315);
+			race1.num("234");
+			race1.num("315");
 			
 			// test cancel when no racers in running queue
 			assertFalse(race1.handleRacerCancel());
@@ -791,8 +791,8 @@ public class RacePARIND extends Race {
 		}
 
 		public void testDNF() {
-			race1.addRacerToStart(234);
-			race1.addRacerToStart(315);
+			race1.num("234");
+			race1.num("315");
 			
 			// test DNF when no racers in running queue
 			assertFalse(race1.handleRacerDNF());

@@ -618,16 +618,17 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(1).getSelectedItem().toString();
-				if(chan1.isSelected()) {
-					sendToHardware("conn", "1", "");
+				if(!chan1.isSelected()) {
+					sendToHardware("conn", type, "1");
 				}
-				if(!chan1.isSelected())
+				else {
 					sendToHardware("disc", "1", "");
+				}
 			}
 		});
 		chan1.setBounds(81, 44, 20, 25);
 		backviewpanel.add(chan1);
-		channels.add(1, chan1);
+		channels.set(1, chan1);
 		//chan1.addActionListener(new toggleListner('1',false));
 		
 		JRadioButton chan3 = new JRadioButton("New radio button");
@@ -635,17 +636,18 @@ public class ChronoGUI {
 		chan3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				String type = channelType.get(1).getSelectedItem().toString();
-				if(chan3.isSelected()) {
-					sendToHardware("conn", "3", "");
+				String type = channelType.get(3).getSelectedItem().toString();
+				if(!chan3.isSelected()) {
+					sendToHardware("conn", type, "3");
 				}
-				if(!chan3.isSelected())
+				else {
 					sendToHardware("disc", "3", "");
+				}
 			}
 		});
 		chan3.setBounds(166, 44, 20, 25);
 		backviewpanel.add(chan3);
-		channels.add(3, chan3);
+		channels.set(3, chan3);
 	//	chan3.addActionListener(new toggleListner('3',false));
 		
 		JRadioButton chan5 = new JRadioButton("New radio button");
@@ -654,17 +656,17 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(5).getSelectedItem().toString();
-		
-				if(chan5.isSelected()) {
-					sendToHardware("conn", "5", "");
+				if(!chan5.isSelected()) {
+					sendToHardware("conn", type, "5");
 				}
-				if(!chan5.isSelected())
+				else {
 					sendToHardware("disc", "5", "");
+				}
 			}
 		});
 		chan5.setBounds(251, 44, 20, 25);
 		backviewpanel.add(chan5);
-		channels.add(5, chan5);
+		channels.set(5, chan5);
 		//chan5.addActionListener(new toggleListner('5',false));
 		
 		JRadioButton chan7 = new JRadioButton("New radio button");
@@ -673,17 +675,17 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(7).getSelectedItem().toString();
-				
-				if(chan7.isSelected()) {
-					sendToHardware("conn", "7", "");
+				if(!chan7.isSelected()) {
+					sendToHardware("conn", type, "7");
 				}
-				if(!chan7.isSelected())
+				else {
 					sendToHardware("disc", "7", "");
+				}
 			}
 		});
 		chan7.setBounds(336, 44, 20, 25);
 		backviewpanel.add(chan7);
-		channels.add(7, chan7);
+		channels.set(7, chan7);
 		//chan7.addActionListener(new toggleListner('7',false));
 		
 		JRadioButton chan2 = new JRadioButton("New radio button");
@@ -692,17 +694,17 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(2).getSelectedItem().toString();
-		
-				if(chan2.isSelected()) {
-					sendToHardware("conn", "2", "");
+				if(!chan2.isSelected()) {
+					sendToHardware("conn", type, "2");
 				}
-				if(!chan2.isSelected())
+				else {
 					sendToHardware("disc", "2", "");
+				}
 			}
 		});
 		chan2.setBounds(81, 104, 20, 25);
 		backviewpanel.add(chan2);
-		channels.add(2, chan2);
+		channels.set(2, chan2);
 //		chan2.addActionListener(new toggleListner('2',false));
 		
 		JRadioButton chan4 = new JRadioButton("New radio button");
@@ -711,17 +713,17 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(4).getSelectedItem().toString();
-		
-				if(chan4.isSelected()) {
-					sendToHardware("conn", "4", "");
+				if(!chan4.isSelected()) {
+					sendToHardware("conn", type, "4");
 				}
-				if(!chan4.isSelected())
+				else {
 					sendToHardware("disc", "4", "");
+				}
 			}
 		});
 		chan4.setBounds(166, 104, 20, 25);
 		backviewpanel.add(chan4);
-		channels.add(4, chan4);
+		channels.set(4, chan4);
 //		chan4.addActionListener(new toggleListner('4',false));
 		
 		JRadioButton chan6 = new JRadioButton("New radio button");
@@ -730,17 +732,17 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(6).getSelectedItem().toString();
-			
-				if(chan6.isSelected()) {
-					sendToHardware("conn", "6", "");
+				if(!chan6.isSelected()) {
+					sendToHardware("conn", type, "6");
 				}
-				if(!chan6.isSelected())
+				else {
 					sendToHardware("disc", "6", "");
+				}
 			}
 		});
 		chan6.setBounds(251, 104, 20, 25);
 		backviewpanel.add(chan6);
-		channels.add(6, chan6);
+		channels.set(6, chan6);
 //		chan6.addActionListener(new toggleListner('6',false));
 		
 		JRadioButton chan8 = new JRadioButton("New radio button");
@@ -749,17 +751,17 @@ public class ChronoGUI {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				String type = channelType.get(8).getSelectedItem().toString();
-			
-				if(chan8.isSelected()) {
-					sendToHardware("conn", "8", "");
+				if(!chan8.isSelected()) {
+					sendToHardware("conn", type, "8");
 				}
-				if(!chan8.isSelected())
+				else {
 					sendToHardware("disc", "8", "");
+				}
 			}
 		});
 		chan8.setBounds(336, 104, 20, 25);
 		backviewpanel.add(chan8);
-		channels.add(8, chan8);
+		channels.set(8, chan8);
 //		chan8.addActionListener(new toggleListner('8',false));
 		
 		JTextArea textArea_1 = new JTextArea();
@@ -836,7 +838,7 @@ public class ChronoGUI {
 		c1box.setModel(new DefaultComboBoxModel<String>(new String[] {"Eye", "Gate", "Pad"}));
 		c1box.setBounds(105, 13, 53, 22);
 		backviewpanel.add(c1box);
-		channelType.add(1, c1box);
+		channelType.set(1, c1box);
 		
 		JComboBox<String> c3box = new JComboBox<String>();//TODO finish cboxes 2-8 based on cbox1
 		c3box.addActionListener(new ActionListener() {
@@ -849,7 +851,7 @@ public class ChronoGUI {
 		c3box.setBackground(new Color(248, 248, 255));
 		c3box.setBounds(190, 13, 53, 22);
 		backviewpanel.add(c3box);
-		channelType.add(3, c3box);
+		channelType.set(3, c3box);
 		
 		JComboBox<String> c5box = new JComboBox<String>();
 		c5box.addActionListener(new ActionListener() {
@@ -862,7 +864,7 @@ public class ChronoGUI {
 		c5box.setBackground(new Color(248, 248, 255));
 		c5box.setBounds(275, 13, 53, 22);
 		backviewpanel.add(c5box);
-		channelType.add(5, c5box);
+		channelType.set(5, c5box);
 		
 		JComboBox<String> c7box = new JComboBox<String>();
 		c7box.addActionListener(new ActionListener() {
@@ -875,7 +877,7 @@ public class ChronoGUI {
 		c7box.setBackground(new Color(248, 248, 255));
 		c7box.setBounds(360, 13, 53, 22);
 		backviewpanel.add(c7box);
-		channelType.add(7, c7box);
+		channelType.set(7, c7box);
 		
 		JComboBox<String> c2box = new JComboBox<String>();
 		c2box.addActionListener(new ActionListener() {
@@ -887,7 +889,7 @@ public class ChronoGUI {
 		c2box.setBackground(new Color(248, 248, 255));
 		c2box.setBounds(105, 73, 53, 22);
 		backviewpanel.add(c2box);
-		channelType.add(2, c2box);
+		channelType.set(2, c2box);
 		
 		JComboBox<String> c4box = new JComboBox<String>();
 		c4box.addActionListener(new ActionListener() {
@@ -899,7 +901,7 @@ public class ChronoGUI {
 		c4box.setBackground(new Color(248, 248, 255));
 		c4box.setBounds(190, 73, 53, 22);
 		backviewpanel.add(c4box);
-		channelType.add(4, c4box);
+		channelType.set(4, c4box);
 		
 		JComboBox<String> c6box = new JComboBox<String>();
 		c6box.addActionListener(new ActionListener() {
@@ -911,7 +913,7 @@ public class ChronoGUI {
 		c6box.setBackground(new Color(248, 248, 255));
 		c6box.setBounds(271, 73, 53, 22);
 		backviewpanel.add(c6box);
-		channelType.add(6, c6box);
+		channelType.set(6, c6box);
 		
 		JComboBox<String> c8box = new JComboBox<String>();
 		c8box.addActionListener(new ActionListener() {
@@ -923,7 +925,7 @@ public class ChronoGUI {
 		c8box.setBackground(new Color(248, 248, 255));
 		c8box.setBounds(360, 73, 53, 22);
 		backviewpanel.add(c8box);
-		channelType.add(7, c8box);
+		channelType.set(8, c8box);
 		
 		JTextArea starttxt1 = new JTextArea();
 		starttxt1.setBackground(new Color(211, 211, 211));
@@ -1023,7 +1025,7 @@ public class ChronoGUI {
 		tglbtnNum.setSelected(true);
 		tglbtnNum.setBounds(6, 18, 52, 15);
 		panel_1.add(tglbtnNum);
-		tglbtnNum.setBackground(new Color(245, 245, 245));
+		tglbtnNum.setBackground(new Color(53,151,255));
 		tglbtnNum.setMargin(new Insets(2, 2, 2, 2));
 		commands.add(tglbtnNum);
 		
@@ -1215,7 +1217,9 @@ public class ChronoGUI {
 		//toggle current and next command in commands.
 		
 		commands.get(cmdIndex).doClick();
+		commands.get(cmdIndex).setBackground(new Color(245,245,245));
 		cmdIndex=(cmdIndex+1)%commands.size();
 		commands.get(cmdIndex).doClick();
+		commands.get(cmdIndex).setBackground(new Color(53,151,255));
 	}
 }

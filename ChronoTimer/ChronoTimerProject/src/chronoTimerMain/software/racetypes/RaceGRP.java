@@ -19,7 +19,6 @@ public class RaceGRP extends Race {
 	private int startChannel;
 	private int finishChannel;
 	private int numChanged;
-	private String startTime;
 
 	/**
 	 * Creates a group race
@@ -94,7 +93,7 @@ public class RaceGRP extends Race {
 			
 			// if the event was a start trigger then the channel trigger was 1 and startTime is set
 			// to timeStamp
-			if (channelNum == 1) {
+			if (channelNum == 1 && startTime == null) {
 				if (timeStamp.equals("")){
 					startTime = super.getTimer().getCurrentChronoTime();
 				}

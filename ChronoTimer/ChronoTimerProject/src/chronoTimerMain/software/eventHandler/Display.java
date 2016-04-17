@@ -44,7 +44,12 @@ public class Display implements EventCommand{
 			displayRacerList(finishList, Math.max(0, finishList.size()-2), Math.max(-1, finishList.size()-1));
 		}
 		else if (cTEH.race instanceof RaceGRP) {
-			displayRacerList(runningList, 0, Math.min(runningList.size()-1, 0));//only one running time needs to be displayed
+			String rTime;
+			if(cTEH.race.getStartTime() == null)
+				rTime = "00:00:00.0";
+			else
+				rTime = cTEH.race.getStartTime();
+			cTEH.display += "00000 " + cTEH.timer.getRunDuration(rTime, cTEH.timer.getCurrentChronoTime());
 			cTEH.display += "\n";
 			displayRacerList(finishList, Math.max(0, finishList.size()-1), Math.max(-1, finishList.size()-1));//display last racer to finish
 		}
@@ -64,7 +69,7 @@ public class Display implements EventCommand{
 				}
 			}
 			else
-				cTEH.display += raceList.get(i).getNumber() + " " + 
+				cTEH.display += raceList.get(i).getNumber() + " " + //for testing purposes
 						cTEH.timer.getRunDuration(raceList.get(i).getStartTime(), timestamp);
 			
 			if(raceList == startList && i == 0) 

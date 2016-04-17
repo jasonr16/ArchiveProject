@@ -13,6 +13,7 @@ import chronoTimerMain.software.racetypes.Racer;
  */
 
 public abstract class Race {
+	protected String startTime;
 	private int runNumber;
 	private Timer timer;
 	private ArrayList<Racer> startList; // queue of racers who are about to start
@@ -21,7 +22,10 @@ public abstract class Race {
 	private boolean[] channelToggles = new boolean[13];
 	//TODO YANG/CHRIS - implement channelToggles array in each RaceType 
 	//according to start/finish channel and trig implementation
-	
+
+	public String getStartTime() {
+		return startTime;
+	}
 	protected Race() {
 	}
 	
@@ -276,5 +280,8 @@ public abstract class Race {
 	
 	protected void setChannelToggles(boolean bool) {
 		this.channelToggles = new boolean[]{bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool};
+	}
+	public void replaceToggles(boolean [] toggles) {
+		channelToggles = toggles;
 	}
 }
