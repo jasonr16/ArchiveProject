@@ -20,7 +20,6 @@ import chronoTimerMain.software.racetypes.race.RaceTest;
    RaceGRP.class, //Will not run automated! Run test class by itself.
    RaceIND.class //Will not run automated! Run test class by itself.
 })
-// ChronoTimerEventHandler, RacePARIND, and RaceIND Tests must be run individually from each class - they aren't currently runnable through test suite
 public class ChronoTestSuite {
 
 }
