@@ -288,6 +288,11 @@ public abstract class Race {
 			this.channelToggles[i] = bool;
 		}
 	}
+	public void setTogsToTrue() {//can remove later
+		for(int i = 0; i < this.channelToggles.length; ++i) {
+			this.channelToggles[i] = true;
+		}
+	}
 	
 	public void replaceToggles(boolean [] toggles) {
 		channelToggles = toggles;

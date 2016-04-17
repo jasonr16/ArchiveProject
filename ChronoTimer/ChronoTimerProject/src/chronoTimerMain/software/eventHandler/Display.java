@@ -49,7 +49,12 @@ public class Display implements EventCommand{
 				rTime = "00:00:00.0";
 			else
 				rTime = cTEH.race.getStartTime();
-			cTEH.display += "00000 " + cTEH.timer.getRunDuration(rTime, cTEH.timer.getCurrentChronoTime());
+			if(timestamp.equals("")) {
+				cTEH.display += "00000 " + cTEH.timer.getRunDuration(rTime, cTEH.timer.getCurrentChronoTime());
+			}
+			else {
+				cTEH.display += "00000 " + cTEH.timer.getRunDuration(rTime, timestamp);
+			}
 			cTEH.display += "\n";
 			displayRacerList(finishList, Math.max(0, finishList.size()-1), Math.max(-1, finishList.size()-1));//display last racer to finish
 		}

@@ -166,7 +166,7 @@ public class ChronoGUI {
 		btnstart1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				sendToHardware("start", "1", "");
+				sendToHardware("trig", "1", "");
 			}
 		});
 		btnstart1.setBounds(285, 106, 43, 25);
@@ -181,7 +181,7 @@ public class ChronoGUI {
 		btnstart3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				sendToHardware("start", "3", "");
+				sendToHardware("trig", "3", "");
 			}
 		});
 		btnstart3.setBounds(340, 106, 43, 25);
@@ -196,7 +196,7 @@ public class ChronoGUI {
 		btnstart5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				sendToHardware("start", "5", "");
+				sendToHardware("trig", "5", "");
 			}
 		});
 		btnstart5.setBounds(395, 106, 43, 25);
@@ -211,7 +211,7 @@ public class ChronoGUI {
 		btnstart7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				sendToHardware("start", "7", "");
+				sendToHardware("trig", "7", "");
 			}
 		});
 		btnstart7.setBounds(450, 106, 43, 25);
@@ -268,7 +268,7 @@ public class ChronoGUI {
 		btnfinish2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				sendToHardware("finish", "2", "");
+				sendToHardware("trig", "2", "");
 			}
 		});
 		btnfinish2.setBounds(285, 215, 43, 25);
@@ -283,7 +283,7 @@ public class ChronoGUI {
 		btnfinish4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				sendToHardware("finish", "2", "");
+				sendToHardware("trig", "4", "");
 			}
 		});
 		btnfinish4.setBounds(340, 215, 43, 25);
@@ -298,7 +298,7 @@ public class ChronoGUI {
 		btnfinish6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				sendToHardware("finish", "2", "");
+				sendToHardware("trig", "6", "");
 			}
 		});
 		btnfinish6.setBounds(395, 215, 43, 25);
@@ -313,7 +313,7 @@ public class ChronoGUI {
 		btnfinish8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				sendToHardware("finish", "2", "");
+				sendToHardware("trig", "8", "");
 			}
 		});
 		btnfinish8.setBounds(450, 215, 43, 25);
