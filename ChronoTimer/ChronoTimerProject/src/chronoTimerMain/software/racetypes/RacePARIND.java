@@ -46,12 +46,15 @@ public class RacePARIND extends Race {
 		raceA.setFinishChannel(2);
 		raceB.setStartChannel(3);
 		raceB.setFinishChannel(4);
-		for (Racer racer : startList) {
+		int index = 0;
+		while (startList.iterator().hasNext()) {
+			++index;
 			// odd racers gets added to race A, even racers gets added to race B, etc.
-			if ((startList.size() % 2) != 0)
-				this.raceA.getStartList().add(racer);
+			if ((index % 2) != 0)
+				this.raceA.getStartList().add(startList.iterator().next());
 			else
-				this.raceB.getStartList().add(racer);
+				this.raceB.getStartList().add(startList.iterator().next());
+			startList.iterator().remove();
 		}
 	}
 	
@@ -173,7 +176,7 @@ public class RacePARIND extends Race {
 		Racer racer = null;
 		boolean[] channelToggleArray = super.getChannelToggles();
 		
-		if (channelNum > 12 || channelToggleArray[channelNum] == false)
+		if (channelNum > 12 || channelNum < 1 || channelToggleArray[channelNum] == false)
 			return false;
 		
 		// if there are racers in the start queue, a start event should move the racer at the head of the start queue
@@ -361,6 +364,8 @@ public class RacePARIND extends Race {
 			timer = new Timer();
 			race1 = new RacePARIND(1,timer);
 			race2 = new RacePARIND(2,timer);
+			race1.setChannelToggles(true);
+			race2.setChannelToggles(true);
 		}
 		
 		public void testnum() {
@@ -384,8 +389,8 @@ public class RacePARIND extends Race {
 			assertEquals(0, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(234, race1.getStartList().get(0).getNumber());
-			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
+			assertEquals("234", race1.getStartList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getStartList().get(0).getNumber());
 			
 			assertTrue(race1.num("315"));
 			assertEquals(2, race1.getStartList().size());
@@ -397,10 +402,10 @@ public class RacePARIND extends Race {
 			assertEquals(1, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(234, race1.getStartList().get(0).getNumber());
-			assertEquals(315, race1.getStartList().get(1).getNumber());
-			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
-			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("234", race1.getStartList().get(0).getNumber());
+			assertEquals("315", race1.getStartList().get(1).getNumber());
+			assertEquals("234", race1.getRaceA().getStartList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getStartList().get(0).getNumber());
 			
 			assertTrue(race1.num("361"));
 			assertEquals(3, race1.getStartList().size());
@@ -412,12 +417,12 @@ public class RacePARIND extends Race {
 			assertEquals(1, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(234, race1.getStartList().get(0).getNumber());
-			assertEquals(315, race1.getStartList().get(1).getNumber());
-			assertEquals(361, race1.getStartList().get(2).getNumber());
-			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
-			assertEquals(361, race1.getRaceA().getStartList().get(1).getNumber());
-			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("234", race1.getStartList().get(0).getNumber());
+			assertEquals("315", race1.getStartList().get(1).getNumber());
+			assertEquals("361", race1.getStartList().get(2).getNumber());
+			assertEquals("234", race1.getRaceA().getStartList().get(0).getNumber());
+			assertEquals("361", race1.getRaceA().getStartList().get(1).getNumber());
+			assertEquals("315", race1.getRaceB().getStartList().get(0).getNumber());
 			
 			assertTrue(race1.num("431"));
 			assertEquals(4, race1.getStartList().size());
@@ -429,14 +434,14 @@ public class RacePARIND extends Race {
 			assertEquals(2, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(234, race1.getStartList().get(0).getNumber());
-			assertEquals(315, race1.getStartList().get(1).getNumber());
-			assertEquals(361, race1.getStartList().get(2).getNumber());
-			assertEquals(431, race1.getStartList().get(3).getNumber());
-			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
-			assertEquals(361, race1.getRaceA().getStartList().get(1).getNumber());
-			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
-			assertEquals(431, race1.getRaceB().getStartList().get(1).getNumber());
+			assertEquals("234", race1.getStartList().get(0).getNumber());
+			assertEquals("315", race1.getStartList().get(1).getNumber());
+			assertEquals("361", race1.getStartList().get(2).getNumber());
+			assertEquals("431", race1.getStartList().get(3).getNumber());
+			assertEquals("234", race1.getRaceA().getStartList().get(0).getNumber());
+			assertEquals("361", race1.getRaceA().getStartList().get(1).getNumber());
+			assertEquals("315", race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("431", race1.getRaceB().getStartList().get(1).getNumber());
 			
 			// add duplicate racer
 			assertFalse(race1.num("234"));
@@ -449,14 +454,14 @@ public class RacePARIND extends Race {
 			assertEquals(2, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(234, race1.getStartList().get(0).getNumber());
-			assertEquals(315, race1.getStartList().get(1).getNumber());
-			assertEquals(361, race1.getStartList().get(2).getNumber());
-			assertEquals(431, race1.getStartList().get(3).getNumber());
-			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
-			assertEquals(361, race1.getRaceA().getStartList().get(1).getNumber());
-			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
-			assertEquals(431, race1.getRaceB().getStartList().get(1).getNumber());
+			assertEquals("234", race1.getStartList().get(0).getNumber());
+			assertEquals("315", race1.getStartList().get(1).getNumber());
+			assertEquals("361", race1.getStartList().get(2).getNumber());
+			assertEquals("431", race1.getStartList().get(3).getNumber());
+			assertEquals("234", race1.getRaceA().getStartList().get(0).getNumber());
+			assertEquals("361", race1.getRaceA().getStartList().get(1).getNumber());
+			assertEquals("315", race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("431", race1.getRaceB().getStartList().get(1).getNumber());
 		}
 
 		public void testRemoveRacerFromStart() {
@@ -468,30 +473,30 @@ public class RacePARIND extends Race {
 			assertEquals(2, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
-			assertEquals(234, race1.getStartList().get(0).getNumber());
-			assertEquals(315, race1.getStartList().get(1).getNumber());
+			assertEquals("234", race1.getStartList().get(0).getNumber());
+			assertEquals("315", race1.getStartList().get(1).getNumber());
 			assertEquals(1, race1.getRaceA().getStartList().size());
 			assertEquals(0, race1.getRaceA().getRunningList().size());
 			assertEquals(0, race1.getRaceA().getFinishList().size());
 			assertEquals(1, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getStartList().get(0).getNumber());
-			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getStartList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getStartList().get(0).getNumber());
 			
 			// valid remove
 			assertTrue(race1.removeRacerFromStart("234"));
 			assertEquals(1, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
-			assertEquals(315, race1.getStartList().get(0).getNumber());
+			assertEquals("315", race1.getStartList().get(0).getNumber());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(0, race1.getRaceA().getRunningList().size());
 			assertEquals(0, race1.getRaceA().getFinishList().size());
 			assertEquals(1, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getStartList().get(0).getNumber());
 			
 			assertTrue(race1.removeRacerFromStart("315"));
 			assertEquals(0, race1.getStartList().size());
@@ -530,82 +535,82 @@ public class RacePARIND extends Race {
 			// trigger channel 1 (racer starts in race A)
 			assertTrue(race1.trig(1, ""));
 			assertEquals(1, race1.getStartList().size());
-			assertEquals(315, race1.getStartList().get(0).getNumber());
+			assertEquals("315", race1.getStartList().get(0).getNumber());
 			assertEquals(1, race1.getRunningList().size());
-			assertEquals(234, race1.getRunningList().get(0).getNumber());
+			assertEquals("234", race1.getRunningList().get(0).getNumber());
 			assertEquals(0, race1.getFinishList().size());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(1, race1.getRaceA().getRunningList().size());
 			assertEquals(0, race1.getRaceA().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getRunningList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getRunningList().get(0).getNumber());
 			assertEquals(1, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getStartList().get(0).getNumber());
 			
 			// trigger channel 2 (racer finishes in race A)
 			assertTrue(race1.trig(2, ""));
 			assertEquals(1, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(1, race1.getFinishList().size());
-			assertEquals(315, race1.getStartList().get(0).getNumber());
-			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals("315", race1.getStartList().get(0).getNumber());
+			assertEquals("234", race1.getFinishList().get(0).getNumber());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(0, race1.getRaceA().getRunningList().size());
 			assertEquals(1, race1.getRaceA().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getFinishList().get(0).getNumber());
 			assertEquals(1, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getStartList().get(0).getNumber());
 			
 			// trigger channel 5 (not start or finish)
 			assertFalse(race1.trig(5, ""));
 			assertEquals(1, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(1, race1.getFinishList().size());
-			assertEquals(315, race1.getStartList().get(0).getNumber());
-			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals("315", race1.getStartList().get(0).getNumber());
+			assertEquals("234", race1.getFinishList().get(0).getNumber());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(0, race1.getRaceA().getRunningList().size());
 			assertEquals(1, race1.getRaceA().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getFinishList().get(0).getNumber());
 			assertEquals(1, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getStartList().get(0).getNumber());
 			
 			// trigger channel 3 (racer starts in race B)
 			assertTrue(race1.trig(3, ""));
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(1, race1.getRunningList().size());
 			assertEquals(1, race1.getFinishList().size());
-			assertEquals(315, race1.getRunningList().get(0).getNumber());
-			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals("315", race1.getRunningList().get(0).getNumber());
+			assertEquals("234", race1.getFinishList().get(0).getNumber());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(0, race1.getRaceA().getRunningList().size());
 			assertEquals(1, race1.getRaceA().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getFinishList().get(0).getNumber());
 			assertEquals(0, race1.getRaceB().getStartList().size());
 			assertEquals(1, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getRunningList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getRunningList().get(0).getNumber());
 			
 			// trigger channel 4 (racer finishes in race B)
 			assertTrue(race1.trig(4, ""));
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(2, race1.getFinishList().size());
-			assertEquals(315, race1.getFinishList().get(1).getNumber());
-			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals("315", race1.getFinishList().get(1).getNumber());
+			assertEquals("234", race1.getFinishList().get(0).getNumber());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(0, race1.getRaceA().getRunningList().size());
 			assertEquals(1, race1.getRaceA().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getFinishList().get(0).getNumber());
 			assertEquals(0, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(1, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getFinishList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getFinishList().get(0).getNumber());
 			
 			// trigger channels 1 and 2 (no more racers to start and finish)
 			assertFalse(race1.trig(1, ""));
@@ -613,16 +618,16 @@ public class RacePARIND extends Race {
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(2, race1.getFinishList().size());
-			assertEquals(315, race1.getFinishList().get(1).getNumber());
-			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals("315", race1.getFinishList().get(1).getNumber());
+			assertEquals("234", race1.getFinishList().get(0).getNumber());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(0, race1.getRaceA().getRunningList().size());
 			assertEquals(1, race1.getRaceA().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getFinishList().get(0).getNumber());
 			assertEquals(0, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(1, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getFinishList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getFinishList().get(0).getNumber());
 			
 			race2.num("167");
 			race2.num("177");
@@ -637,20 +642,20 @@ public class RacePARIND extends Race {
 			assertEquals(0, race2.getStartList().size());
 			assertEquals(4, race2.getRunningList().size());
 			assertEquals(0, race2.getFinishList().size());
-			assertEquals(167, race2.getRunningList().get(0).getNumber());
-			assertEquals(177, race2.getRunningList().get(1).getNumber());
-			assertEquals(200, race2.getRunningList().get(2).getNumber());
-			assertEquals(201, race2.getRunningList().get(3).getNumber());
+			assertEquals("167", race2.getRunningList().get(0).getNumber());
+			assertEquals("177", race2.getRunningList().get(1).getNumber());
+			assertEquals("200", race2.getRunningList().get(2).getNumber());
+			assertEquals("201", race2.getRunningList().get(3).getNumber());
 			assertEquals(0, race2.getRaceA().getStartList().size());
 			assertEquals(2, race2.getRaceA().getRunningList().size());
 			assertEquals(0, race2.getRaceA().getFinishList().size());
-			assertEquals(167, race2.getRaceA().getRunningList().get(0).getNumber());
-			assertEquals(200, race2.getRaceA().getRunningList().get(1).getNumber());
+			assertEquals("167", race2.getRaceA().getRunningList().get(0).getNumber());
+			assertEquals("200", race2.getRaceA().getRunningList().get(1).getNumber());
 			assertEquals(0, race2.getRaceB().getStartList().size());
 			assertEquals(2, race2.getRaceB().getRunningList().size());
 			assertEquals(0, race2.getRaceB().getFinishList().size());
-			assertEquals(177, race2.getRaceB().getRunningList().get(0).getNumber());
-			assertEquals(201, race2.getRaceB().getRunningList().get(1).getNumber());
+			assertEquals("177", race2.getRaceB().getRunningList().get(0).getNumber());
+			assertEquals("201", race2.getRaceB().getRunningList().get(1).getNumber());
 			
 			// trigger multiple consecutive finishes
 			assertTrue(race2.trig(2, ""));
@@ -660,24 +665,25 @@ public class RacePARIND extends Race {
 			assertEquals(0, race2.getStartList().size());
 			assertEquals(0, race2.getRunningList().size());
 			assertEquals(4, race2.getFinishList().size());
-			assertEquals(167, race2.getFinishList().get(0).getNumber());
-			assertEquals(177, race2.getFinishList().get(1).getNumber());
-			assertEquals(200, race2.getFinishList().get(2).getNumber());
-			assertEquals(201, race2.getFinishList().get(3).getNumber());
+			assertEquals("167", race2.getFinishList().get(0).getNumber());
+			assertEquals("177", race2.getFinishList().get(1).getNumber());
+			assertEquals("200", race2.getFinishList().get(2).getNumber());
+			assertEquals("201", race2.getFinishList().get(3).getNumber());
 			assertEquals(0, race2.getRaceA().getStartList().size());
 			assertEquals(0, race2.getRaceA().getRunningList().size());
 			assertEquals(2, race2.getRaceA().getFinishList().size());
-			assertEquals(167, race2.getRaceA().getFinishList().get(0).getNumber());
-			assertEquals(200, race2.getRaceA().getFinishList().get(1).getNumber());
+			assertEquals("167", race2.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals("200", race2.getRaceA().getFinishList().get(1).getNumber());
 			assertEquals(0, race2.getRaceB().getStartList().size());
 			assertEquals(0, race2.getRaceB().getRunningList().size());
 			assertEquals(2, race2.getRaceB().getFinishList().size());
-			assertEquals(177, race2.getRaceB().getFinishList().get(0).getNumber());
-			assertEquals(201, race2.getRaceB().getFinishList().get(1).getNumber());
+			assertEquals("177", race2.getRaceB().getFinishList().get(0).getNumber());
+			assertEquals("201", race2.getRaceB().getFinishList().get(1).getNumber());
 			
 			// test redundant starts and finishes
 			// trig 1, 2, 2, 3, 3, 4, 4
 			race2 = new RacePARIND(2, timer);
+			race2.setChannelToggles(true);
 			race2.num("167");
 			race2.num("177");
 			race2.num("200");
@@ -694,13 +700,13 @@ public class RacePARIND extends Race {
 			// race A should have 167 in finish, 200 in start
 			assertEquals(1, race2.getRaceA().getStartList().size());
 			assertEquals(1, race2.getRaceA().getFinishList().size());
-			assertEquals(167, race2.getRaceA().getFinishList().get(0).getNumber());
-			assertEquals(200, race2.getRaceA().getStartList().get(0).getNumber());
+			assertEquals("167", race2.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals("200", race2.getRaceA().getStartList().get(0).getNumber());
 			// race B should have 177, 201 in finish
 			assertEquals(0, race2.getRaceB().getStartList().size());
 			assertEquals(2, race2.getRaceB().getFinishList().size());
-			assertEquals(177, race2.getRaceB().getFinishList().get(0).getNumber());
-			assertEquals(201, race2.getRaceB().getFinishList().get(1).getNumber());
+			assertEquals("177", race2.getRaceB().getFinishList().get(0).getNumber());
+			assertEquals("201", race2.getRaceB().getFinishList().get(1).getNumber());
 		}
 
 		public void testStart() {
@@ -708,33 +714,33 @@ public class RacePARIND extends Race {
 			race1.num("315");
 			assertTrue(race1.start(""));
 			assertEquals(1, race1.getStartList().size());
-			assertEquals(315, race1.getStartList().get(0).getNumber());
+			assertEquals("315", race1.getStartList().get(0).getNumber());
 			assertEquals(1, race1.getRunningList().size());
-			assertEquals(234, race1.getRunningList().get(0).getNumber());
+			assertEquals("234", race1.getRunningList().get(0).getNumber());
 			assertEquals(0, race1.getFinishList().size());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(1, race1.getRaceA().getRunningList().size());
 			assertEquals(0, race1.getRaceA().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getRunningList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getRunningList().get(0).getNumber());
 			assertEquals(1, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getStartList().get(0).getNumber());
 			
 			assertTrue(race1.start(""));
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(2, race1.getRunningList().size());
-			assertEquals(234, race1.getRunningList().get(0).getNumber());
-			assertEquals(315, race1.getRunningList().get(1).getNumber());
+			assertEquals("234", race1.getRunningList().get(0).getNumber());
+			assertEquals("315", race1.getRunningList().get(1).getNumber());
 			assertEquals(0, race1.getFinishList().size());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(1, race1.getRaceA().getRunningList().size());
 			assertEquals(0, race1.getRaceA().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getRunningList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getRunningList().get(0).getNumber());
 			assertEquals(0, race1.getRaceB().getStartList().size());
 			assertEquals(1, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getRunningList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getRunningList().get(0).getNumber());
 		}
 
 		public void testFinish() {
@@ -748,16 +754,16 @@ public class RacePARIND extends Race {
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(2, race1.getFinishList().size());
-			assertEquals(234, race1.getFinishList().get(0).getNumber());
-			assertEquals(315, race1.getFinishList().get(1).getNumber());
+			assertEquals("234", race1.getFinishList().get(0).getNumber());
+			assertEquals("315", race1.getFinishList().get(1).getNumber());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(0, race1.getRaceA().getRunningList().size());
 			assertEquals(1, race1.getRaceA().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getFinishList().get(0).getNumber());
 			assertEquals(0, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(1, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getFinishList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getFinishList().get(0).getNumber());
 		}
 
 		public void testCancel() {
@@ -773,16 +779,16 @@ public class RacePARIND extends Race {
 			assertTrue(race1.handleRacerCancel());
 			assertEquals(1, race1.getStartList().size());
 			assertEquals(1, race1.getRunningList().size());
-			assertEquals(234, race1.getRunningList().get(0).getNumber());
-			assertEquals(315, race1.getStartList().get(0).getNumber());
+			assertEquals("234", race1.getRunningList().get(0).getNumber());
+			assertEquals("315", race1.getStartList().get(0).getNumber());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(1, race1.getRaceA().getRunningList().size());
 			assertEquals(0, race1.getRaceA().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getRunningList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getRunningList().get(0).getNumber());
 			assertEquals(1, race1.getRaceB().getStartList().size());
 			assertEquals(0, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getStartList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getStartList().get(0).getNumber());
 			assertEquals("00:00:00.0", race1.getRaceB().getStartList().get(0).getStartTime());
 		}
 		
@@ -803,18 +809,18 @@ public class RacePARIND extends Race {
 			assertTrue(race1.handleRacerDNF());
 			assertEquals(1, race1.getRunningList().size());
 			assertEquals(1, race1.getFinishList().size());
-			assertEquals(315, race1.getRunningList().get(0).getNumber());
-			assertEquals(234, race1.getFinishList().get(0).getNumber());
+			assertEquals("315", race1.getRunningList().get(0).getNumber());
+			assertEquals("234", race1.getFinishList().get(0).getNumber());
 			assertTrue(race1.getFinishList().get(0).getDNF());
 			assertEquals(0, race1.getRaceA().getStartList().size());
 			assertEquals(0, race1.getRaceA().getRunningList().size());
 			assertEquals(1, race1.getRaceA().getFinishList().size());
-			assertEquals(234, race1.getRaceA().getFinishList().get(0).getNumber());
+			assertEquals("234", race1.getRaceA().getFinishList().get(0).getNumber());
 			assertTrue(race1.getRaceA().getFinishList().get(0).getDNF());
 			assertEquals(0, race1.getRaceB().getStartList().size());
 			assertEquals(1, race1.getRaceB().getRunningList().size());
 			assertEquals(0, race1.getRaceB().getFinishList().size());
-			assertEquals(315, race1.getRaceB().getRunningList().get(0).getNumber());
+			assertEquals("315", race1.getRaceB().getRunningList().get(0).getNumber());
 		}
 	}
 

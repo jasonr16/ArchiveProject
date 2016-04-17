@@ -263,7 +263,8 @@ public abstract class Race {
 	
 	/**
 	 * Update race's internal representation of hardware channel toggles
-	 * to reflect hardware changes
+	 * to reflect hardware changes (called by passToggles in eventHandler, which is in turn
+	 * invoked by ChronoHardwareHandler when the command "TOG" is input)
 	 * @param togArray
 	 */
 	public void updateTogglesInRace(boolean[] togArray) {
@@ -278,9 +279,16 @@ public abstract class Race {
 		return this.channelToggles;
 	}
 	
+	/**
+	 * Used to set channel toggle state during unit tests
+	 * @param bool state of all channels
+	 */
 	protected void setChannelToggles(boolean bool) {
-		this.channelToggles = new boolean[]{bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool};
+		for(int i = 0; i < this.channelToggles.length; ++i) {
+			this.channelToggles[i] = bool;
+		}
 	}
+	
 	public void replaceToggles(boolean [] toggles) {
 		channelToggles = toggles;
 	}
