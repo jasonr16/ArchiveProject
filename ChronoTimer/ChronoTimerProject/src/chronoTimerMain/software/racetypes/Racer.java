@@ -8,22 +8,22 @@ import java.time.Instant;
  * in an event, as well as other special conditions such as DNF.
  */
 public class Racer {
-	private int number;
+	private String number;
 	private String startTime; // timestamp of start time
 	private String finishTime; // timestamp of finish time
 	private boolean dnf; // whether the racer did not finish a race
 	
-	public Racer(int number) {
+	public Racer(String number) {
 		this.number = number;
 		this.setStartTime("00:00:00.0");
 		this.setFinishTime("00:00:00.0");
 		this.dnf = false;
 	}
 	
-	public int getNumber() {
+	public String getNumber() {
 		return number;
 	}
-	public void setNumber(int number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 	

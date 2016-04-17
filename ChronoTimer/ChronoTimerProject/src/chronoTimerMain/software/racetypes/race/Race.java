@@ -91,16 +91,16 @@ public abstract class Race {
 	
 	/**
 	 * Calculates the run duration of a racer who is running or finished a race
-	 * @param racerNum
+	 * @param racerNum AS A STRING
 	 * @return the formatted time duration of a racer's run. If the racer did not start yet,
 	 * returns a duration of zero.
 	 */
-	public String getRacerDuration(int racerNum) {
+	public String getRacerDuration(String racerNum) {
 		String result = "";
 		Racer racer = null;
 		// if racer is in start queue, return zero duration
 		for(int i = 0; i < startList.size(); i++) {
-			if (startList.get(i).getNumber() == racerNum) {
+			if (startList.get(i).getNumber().equals(racerNum)) {
 				racer = startList.get(i);
 				result = timer.getRunDuration(racer.getStartTime(), racer.getStartTime());
 			}
@@ -109,7 +109,7 @@ public abstract class Race {
 		// if racer is in running queue, return duration between current time and start time
 		if (racer == null) {
 			for(int i = 0; i < runningList.size(); i++) {
-				if (runningList.get(i).getNumber() == racerNum) {
+				if (runningList.get(i).getNumber().equals(racerNum)) {
 					racer = startList.get(i);
 					result = timer.getRunDuration(racer.getStartTime(), timer.getCurrentChronoTime());
 				}
@@ -120,7 +120,7 @@ public abstract class Race {
 		// finish time and start time
 		if (racer == null) {
 			for(int i = 0; i < finishList.size(); i++) {
-				if (finishList.get(i).getNumber() == racerNum) {
+				if (finishList.get(i).getNumber().equals(racerNum)) {
 					racer = finishList.get(i);
 					// if racer did not finish, return "DNF"
 					if (racer.getDNF())
@@ -143,19 +143,19 @@ public abstract class Race {
 	 * @param racerNum
 	 * @return Racer with number raceNumber, or null if does not exist
 	 */
-	public Racer getCorrectRacer(int racerNum) {
+	public Racer getCorrectRacer(String racerNum) {
 		for(int i = 0; i < startList.size(); i++) {
-			if (startList.get(i).getNumber() == racerNum) {
+			if (startList.get(i).getNumber().equals(racerNum)) {
 				return startList.get(i);
 			}
 		}
 		for(int i = 0; i < runningList.size(); i++) {
-			if (runningList.get(i).getNumber() == racerNum) {
+			if (runningList.get(i).getNumber().equals(racerNum)) {
 				return runningList.get(i);
 			}
 		}
 		for(int i = 0; i < finishList.size(); i++) {
-			if (finishList.get(i).getNumber() == racerNum) {
+			if (finishList.get(i).getNumber().equals(racerNum)) {
 				return finishList.get(i);
 			}
 		}
@@ -167,14 +167,14 @@ public abstract class Race {
 	 * Corresponds to the NUM <NUMBER> command
 	 * @param racer
 	 */
-	public abstract boolean addRacerToStart(int racerNum);
+	public abstract boolean num(String racerNum);
 	
 	/**
 	 * Removes the next racer to start from the race
 	 * Corresponds to the CLR <NUMBER> command
 	 * @param racerNum
 	 */
-	public abstract boolean removeRacerFromStart(int racerNum);
+	public abstract boolean removeRacerFromStart(String racerNum);
 
 	/**
 	 * Marks the next racer to finish as DNF
@@ -272,5 +272,9 @@ public abstract class Race {
 	 */
 	public boolean[] getChannelToggles() {
 		return this.channelToggles;
+	}
+	
+	protected void setChannelToggles(boolean bool) {
+		this.channelToggles = new boolean[]{bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool};
 	}
 }

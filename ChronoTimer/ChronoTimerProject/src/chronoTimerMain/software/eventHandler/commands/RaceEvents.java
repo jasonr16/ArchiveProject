@@ -15,7 +15,7 @@ public class RaceEvents implements EventCommand {
 	public void execute(String[] args) {
 		if(cmd.equalsIgnoreCase("num")) {
 			try {
-				race.addRacerToStart(Integer.parseInt(args[0]));	
+				race.num(args[0]);	
 				System.out.println(timestamp + " Adding racer number " +args[0]);
 				} catch (NumberFormatException e) {
 					System.out.println("Error - invalid number.");
@@ -23,7 +23,7 @@ public class RaceEvents implements EventCommand {
 		}
 		else if(cmd.equalsIgnoreCase("clr")) {
 			try {
-				race.removeRacerFromStart((Integer.parseInt(args[0])));	
+				race.removeRacerFromStart((args[0]));	
 				System.out.println(timestamp + " Removing racer number " + args[0]);
 				} catch (NumberFormatException e) {
 					System.out.println("Error - invalid number.");

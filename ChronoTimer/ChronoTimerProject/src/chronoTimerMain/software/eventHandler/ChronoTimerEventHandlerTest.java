@@ -52,15 +52,15 @@ public class ChronoTimerEventHandlerTest {
 		
 		cTEV.timeEvent("newRun", new String[] {}, "");
 		//test null racer
-		assertTrue(cTEV.race.getCorrectRacer(1) == null);
-		assertTrue(cTEV.race.getCorrectRacer(2) == null);
+		assertTrue(cTEV.race.getCorrectRacer("1") == null);
+		assertTrue(cTEV.race.getCorrectRacer("2") == null);
 	
 		cTEV.timeEvent("import", new String[] {Integer.toString(runNumber)}, "");
 		//test racer imported
-		assertTrue(cTEV.race.getCorrectRacer(1) != null);
-		assertTrue(cTEV.race.getCorrectRacer(2) != null);
+		assertTrue(cTEV.race.getCorrectRacer("1") != null);
+		assertTrue(cTEV.race.getCorrectRacer("2") != null);
 		//test non-existing racer is null
-		assertTrue(cTEV.race.getCorrectRacer(3) == null);
+		assertTrue(cTEV.race.getCorrectRacer("3") == null);
 	}
 	
 	@Test
@@ -137,31 +137,31 @@ public class ChronoTimerEventHandlerTest {
 		cTEV.timeEvent("num", new String[] {"3"}, "01:01:03.3");
 		cTEV.timeEvent("num", new String[] {"4"}, "01:01:04.4");
 		
-		correctDisplay = cTEV.race.getCorrectRacer(3).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(3).getStartTime(), "01:01:05.1")+ "\n";
+		correctDisplay = cTEV.race.getCorrectRacer("3").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("3").getStartTime(), "01:01:05.1")+ "\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(2).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(2).getStartTime(), "01:01:05.1")+ "\n";
+		correctDisplay += cTEV.race.getCorrectRacer("2").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("2").getStartTime(), "01:01:05.1")+ "\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(1).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(1).getStartTime(), "01:01:05.1") + " >\n\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("1").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("1").getStartTime(), "01:01:05.1") + " >\n\n\n";
 		cTEV.timeEvent("display", new String[] {}, "01:01:05.1");
 		
 		assertEquals(correctDisplay, cTEV.display);
 		//test IND Racer
 		cTEV.timeEvent("start", new String[] {""}, "01:01:06.0");
 		//2, 3, and 4 in start, 1 in running
-		correctDisplay = cTEV.race.getCorrectRacer(4).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(4).getStartTime(), "01:01:10.0")+ "\n";
+		correctDisplay = cTEV.race.getCorrectRacer("4").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("4").getStartTime(), "01:01:10.0")+ "\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(3).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(3).getStartTime(), "01:01:10.0") + "\n";
+		correctDisplay += cTEV.race.getCorrectRacer("3").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("3").getStartTime(), "01:01:10.0") + "\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(2).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(2).getStartTime(), "01:01:10.0")+ " >\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("2").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("2").getStartTime(), "01:01:10.0")+ " >\n\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(1).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(1).getStartTime(), "01:01:10.0") + " R\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("1").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("1").getStartTime(), "01:01:10.0") + " R\n\n";
 		cTEV.timeEvent("display", new String[] {}, "01:01:10.0");
 		
 		assertEquals(correctDisplay, cTEV.display);
@@ -169,17 +169,17 @@ public class ChronoTimerEventHandlerTest {
 		//test 1 finish racer
 		cTEV.timeEvent("finish", new String[] {""}, "01:01:11.0");
 		//2, 3, 4 in start. 1 in finish
-		correctDisplay = cTEV.race.getCorrectRacer(4).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(4).getStartTime(), "01:01:12.5")+ "\n";
+		correctDisplay = cTEV.race.getCorrectRacer("4").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("4").getStartTime(), "01:01:12.5")+ "\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(3).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(3).getStartTime(), "01:01:12.5") + "\n";
+		correctDisplay += cTEV.race.getCorrectRacer("3").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("3").getStartTime(), "01:01:12.5") + "\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(2).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(2).getStartTime(), "01:01:12.5")+ " >\n\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("2").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("2").getStartTime(), "01:01:12.5")+ " >\n\n\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(1).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(1).getStartTime(), "01:01:12.5") + " F\n";
+		correctDisplay += cTEV.race.getCorrectRacer("1").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("1").getStartTime(), "01:01:12.5") + " F\n";
 		
 		cTEV.timeEvent("display", new String[] {}, "01:01:12.5");
 		
@@ -191,14 +191,14 @@ public class ChronoTimerEventHandlerTest {
 		cTEV.timeEvent("start", new String[] {""}, "01:01:15.1");
 		
 		//4 in start, 3 running, 1 and 2 finished
-		correctDisplay = cTEV.race.getCorrectRacer(4).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(4).getStartTime(), "01:01:16.6")+ " >\n\n";
+		correctDisplay = cTEV.race.getCorrectRacer("4").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("4").getStartTime(), "01:01:16.6")+ " >\n\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(3).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(3).getStartTime(), "01:01:16.6") + " R\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("3").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("3").getStartTime(), "01:01:16.6") + " R\n\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(2).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(2).getStartTime(), "01:01:16.6")+ " F\n";
+		correctDisplay += cTEV.race.getCorrectRacer("2").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("2").getStartTime(), "01:01:16.6")+ " F\n";
 		
 		cTEV.timeEvent("display", new String[] {""}, "01:01:16.6");
 		
@@ -209,8 +209,8 @@ public class ChronoTimerEventHandlerTest {
 		cTEV.timeEvent("start", new String[] {""}, "01:01:19.9");
 		cTEV.timeEvent("finish", new String[] {""}, "01:01:20.0");
 		
-		correctDisplay = "\n\n" + cTEV.race.getCorrectRacer(4).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(4).getStartTime(), "01:01:21.0")+ " F\n";
+		correctDisplay = "\n\n" + cTEV.race.getCorrectRacer("4").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("4").getStartTime(), "01:01:21.0")+ " F\n";
 		
 		cTEV.timeEvent("display", new String[] {""}, "01:01:21.0");
 
@@ -234,14 +234,14 @@ public class ChronoTimerEventHandlerTest {
 		cTEV.timeEvent("num", new String[] {"3"}, "01:01:03.3");
 		cTEV.timeEvent("num", new String[] {"4"}, "01:01:04.4");
 		
-		correctDisplay = cTEV.race.getCorrectRacer(3).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(3).getStartTime(), "01:01:05.1")+ "\n";
+		correctDisplay = cTEV.race.getCorrectRacer("3").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("3").getStartTime(), "01:01:05.1")+ "\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(2).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(2).getStartTime(), "01:01:05.1")+ "\n";
+		correctDisplay += cTEV.race.getCorrectRacer("2").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("2").getStartTime(), "01:01:05.1")+ "\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(1).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(1).getStartTime(), "01:01:05.1") + " >\n\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("1").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("1").getStartTime(), "01:01:05.1") + " >\n\n\n";
 		cTEV.timeEvent("display", new String[] {}, "01:01:05.1");
 		
 		assertEquals(correctDisplay, cTEV.display);
@@ -249,17 +249,17 @@ public class ChronoTimerEventHandlerTest {
 		cTEV.timeEvent("start", new String[] {""}, "01:01:06.0");
 		cTEV.timeEvent("start", new String[] {""}, "01:01:06.5");
 		
-		correctDisplay = cTEV.race.getCorrectRacer(4).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(4).getStartTime(), "01:01:10.0")+ "\n";
+		correctDisplay = cTEV.race.getCorrectRacer("4").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("4").getStartTime(), "01:01:10.0")+ "\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(3).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(3).getStartTime(), "01:01:10.0") + " >\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("3").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("3").getStartTime(), "01:01:10.0") + " >\n\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(2).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(2).getStartTime(), "01:01:10.0")+ " R\n";
+		correctDisplay += cTEV.race.getCorrectRacer("2").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("2").getStartTime(), "01:01:10.0")+ " R\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(1).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(1).getStartTime(), "01:01:10.0") + " R\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("1").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("1").getStartTime(), "01:01:10.0") + " R\n\n";
 		
 		cTEV.timeEvent("display", new String[] {}, "01:01:10.0");
 		
@@ -268,17 +268,17 @@ public class ChronoTimerEventHandlerTest {
 		
 		cTEV.timeEvent("finish", new String[] {""}, "01:01:12.0");
 		
-		correctDisplay = cTEV.race.getCorrectRacer(4).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(4).getStartTime(), "01:01:15.5")+ "\n";
+		correctDisplay = cTEV.race.getCorrectRacer("4").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("4").getStartTime(), "01:01:15.5")+ "\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(3).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(3).getStartTime(), "01:01:15.5") + " >\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("3").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("3").getStartTime(), "01:01:15.5") + " >\n\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(2).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(2).getStartTime(), "01:01:15.5")+ " R\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("2").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("2").getStartTime(), "01:01:15.5")+ " R\n\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(1).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(1).getStartTime(), "01:01:15.5") + " F\n";
+		correctDisplay += cTEV.race.getCorrectRacer("1").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("1").getStartTime(), "01:01:15.5") + " F\n";
 		
 		cTEV.timeEvent("display", new String[] {}, "01:01:15.5");
 		assertTrue(cTEV.race.getFinishList().size() > 0);
@@ -287,17 +287,17 @@ public class ChronoTimerEventHandlerTest {
 		cTEV.timeEvent("finish", new String[] {""}, "01:01:20.2");
 		cTEV.timeEvent("start", new String[] {""}, "01:01:20.2");
 		
-		correctDisplay = cTEV.race.getCorrectRacer(4).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(4).getStartTime(), "01:01:22.5")+ " >\n\n";
+		correctDisplay = cTEV.race.getCorrectRacer("4").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("4").getStartTime(), "01:01:22.5")+ " >\n\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(3).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(3).getStartTime(), "01:01:22.5") + " R\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("3").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("3").getStartTime(), "01:01:22.5") + " R\n\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(2).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(2).getStartTime(), "01:01:22.5")+ " F\n";
+		correctDisplay += cTEV.race.getCorrectRacer("2").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("2").getStartTime(), "01:01:22.5")+ " F\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(1).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(1).getStartTime(), "01:01:22.5") + " F\n";
+		correctDisplay += cTEV.race.getCorrectRacer("1").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("1").getStartTime(), "01:01:22.5") + " F\n";
 		
 		cTEV.timeEvent("display", new String[] {}, "01:01:22.5");
 		
@@ -307,11 +307,11 @@ public class ChronoTimerEventHandlerTest {
 		cTEV.timeEvent("finish", new String[] {""}, "01:01:26.2");
 		cTEV.timeEvent("finish", new String[] {""}, "01:01:26.2");
 		
-		correctDisplay = "\n\n" + cTEV.race.getCorrectRacer(4).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(4).getStartTime(), "01:01:30.5")+ " F\n";
+		correctDisplay = "\n\n" + cTEV.race.getCorrectRacer("4").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("4").getStartTime(), "01:01:30.5")+ " F\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(3).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(3).getStartTime(), "01:01:30.5") + " F\n";
+		correctDisplay += cTEV.race.getCorrectRacer("3").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("3").getStartTime(), "01:01:30.5") + " F\n";
 		
 		cTEV.timeEvent("display", new String[] {}, "01:01:30.5");
 		
@@ -333,33 +333,33 @@ public class ChronoTimerEventHandlerTest {
 		
 		//test all running
 		cTEV.timeEvent("start", new String[] {}, "01:01:11.0");
-		correctDisplay = cTEV.race.getCorrectRacer(4).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(4).getStartTime(), "01:01:12.0")+ " R\n";
+		correctDisplay = cTEV.race.getCorrectRacer("4").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("4").getStartTime(), "01:01:12.0")+ " R\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(3).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(3).getStartTime(), "01:01:12.0") + " R\n";
+		correctDisplay += cTEV.race.getCorrectRacer("3").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("3").getStartTime(), "01:01:12.0") + " R\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(2).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(2).getStartTime(), "01:01:12.0")+ " R\n";
+		correctDisplay += cTEV.race.getCorrectRacer("2").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("2").getStartTime(), "01:01:12.0")+ " R\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(1).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(1).getStartTime(), "01:01:12.0") + " R\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("1").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("1").getStartTime(), "01:01:12.0") + " R\n\n";
 		cTEV.timeEvent("display", new String[] {}, "01:01:12.0");
 		assertEquals(correctDisplay, cTEV.display);
 		//test 1 finish
 		cTEV.timeEvent("finish", new String[] {}, "01:01:12.0");
 		
-		correctDisplay = cTEV.race.getCorrectRacer(4).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(4).getStartTime(), "01:01:22.5")+ " R\n";
+		correctDisplay = cTEV.race.getCorrectRacer("4").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("4").getStartTime(), "01:01:22.5")+ " R\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(3).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(3).getStartTime(), "01:01:22.5") + " R\n";
+		correctDisplay += cTEV.race.getCorrectRacer("3").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("3").getStartTime(), "01:01:22.5") + " R\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(2).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(2).getStartTime(), "01:01:22.5")+ " R\n\n";
+		correctDisplay += cTEV.race.getCorrectRacer("2").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("2").getStartTime(), "01:01:22.5")+ " R\n\n";
 		
-		correctDisplay += cTEV.race.getCorrectRacer(1).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(1).getStartTime(), "01:01:22.5") + " F\n";
+		correctDisplay += cTEV.race.getCorrectRacer("1").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("1").getStartTime(), "01:01:22.5") + " F\n";
 		
 		cTEV.timeEvent("display", new String[] {}, "01:01:22.5");
 		assertEquals(correctDisplay, cTEV.display);
@@ -368,8 +368,8 @@ public class ChronoTimerEventHandlerTest {
 		cTEV.timeEvent("finish", new String[] {}, "01:01:26.0");
 		cTEV.timeEvent("finish", new String[] {}, "01:01:27.6");
 		
-		correctDisplay = "\n" + cTEV.race.getCorrectRacer(4).getNumber() + " " + 
-				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer(4).getStartTime(), "01:01:28.6")+ " F\n";
+		correctDisplay = "\n" + cTEV.race.getCorrectRacer("4").getNumber() + " " + 
+				cTEV.timer.getRunDuration(cTEV.race.getCorrectRacer("4").getStartTime(), "01:01:28.6")+ " F\n";
 		cTEV.timeEvent("display", new String[] {}, "01:01:28.6");
 		assertEquals(correctDisplay, cTEV.display);
 	}

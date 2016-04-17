@@ -110,7 +110,7 @@ public class RacePARIND extends Race {
 	 * @return true if add was successful, else false
 	 */
 	@Override
-	public boolean addRacerToStart(int racerNum) {
+	public boolean addRacerToStart(String racerNum) {
 		boolean result = false;
 		Racer racer = null;
 		ArrayList<Racer> startList = super.getStartList();
@@ -134,7 +134,7 @@ public class RacePARIND extends Race {
 	 * @return true if remove was successful, else false
 	 */
 	@Override
-	public boolean removeRacerFromStart(int racerNum) {
+	public boolean removeRacerFromStart(String racerNum) {
 		boolean result = false;
 		ArrayList<Racer> startList = super.getStartList();
 		Racer racer = super.getCorrectRacer(racerNum);
@@ -817,4 +817,5 @@ public class RacePARIND extends Race {
 			assertEquals(315, race1.getRaceB().getRunningList().get(0).getNumber());
 		}
 	}
+
 }
