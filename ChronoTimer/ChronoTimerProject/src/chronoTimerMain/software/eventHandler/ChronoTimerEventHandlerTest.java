@@ -326,7 +326,7 @@ public class ChronoTimerEventHandlerTest {
 		cTEV.timeEvent("num", new String[] {"3"}, "01:01:04.4");
 		cTEV.timeEvent("num", new String[] {"4"}, "01:01:05.5");
 		
-		String correctDisplay = "00000 01:01:10.5\n";
+		String correctDisplay = "\n";
 		cTEV.timeEvent("display", new String[] {}, "01:01:10.5");
 		
 		assertEquals(correctDisplay, cTEV.display);//no starts displayed

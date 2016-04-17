@@ -25,7 +25,13 @@ public class ChronoHardwareHandler {
 
 	protected Timer time = new Timer();
 	protected Sensor[] sensors = new Sensor[13];//no sensor stored in index 0. 12 max
+	public Sensor[] getSensors() {
+		return sensors;
+	}
 	protected boolean[] isEnabledChannel = new boolean[13];
+	public boolean[] getIsEnabledChannel() {
+		return isEnabledChannel;
+	}
 	protected  ArrayList<SingleEvent> eventLog = new ArrayList<SingleEvent>();
 	protected boolean power = false;
 	protected ChronoTimerEventHandler eventHandler;

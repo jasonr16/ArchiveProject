@@ -43,6 +43,7 @@ public class ChronoGUI {
 	String command;
 	private Vector<JComboBox<String>> channelType = new Vector<JComboBox<String>>();
 	private Vector<JRadioButton> channels = new Vector<JRadioButton>();
+	private Vector<JRadioButton> enDiss = new Vector<JRadioButton>();
 	private ScrollPane displayPane;
 	private ScrollPane printerPane;
 	private JTextField keypadText;
@@ -50,6 +51,8 @@ public class ChronoGUI {
 	private ArrayList<JToggleButton> commands = new ArrayList<JToggleButton>();
 	private int cmdIndex = 0;
 	private JLabel raceType;
+	private JButton funButton;
+	private JButton cmdButton;
 
 //	/**
 //	 * Launch the application.
@@ -75,6 +78,7 @@ public class ChronoGUI {
 		for(int i = 0; i < 9; i++) {
 			channels.add(new JRadioButton("placeholder"));
 			channelType.add(new JComboBox<String>());
+			enDiss.add(new JRadioButton("placeholder"));
 		}
 		initialize();
 	}
@@ -99,9 +103,13 @@ public class ChronoGUI {
 			public void mousePressed(MouseEvent e) {
 				if(!btnPower.isSelected()) {//pressed does not change state before running
 					btnPower.setBackground(new Color(152,251,152));
+					funButton.setEnabled(true);
+					cmdButton.setEnabled(true);
 				}
 				else {
 					btnPower.setBackground(new Color(192,192,192));
+					funButton.setEnabled(false);
+					cmdButton.setEnabled(false);
 				}
 				sendToHardware("POWER", "", "");
 			}
@@ -114,6 +122,7 @@ public class ChronoGUI {
 		//btnFunction.addActionListener(new commandListener("Function"));
 		
 		JButton btnfunction = new JButton("FUNCTION");
+		btnfunction.setEnabled(false);
 		btnfunction.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btnfunction.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnfunction.setBackground(new Color(192, 192, 192));
@@ -127,6 +136,7 @@ public class ChronoGUI {
 
 		});
 		btnfunction.setBounds(12, 236, 143, 67);
+		funButton = btnfunction;
 		MainFramePanel.add(btnfunction);
 		
 		JPanel panel = new JPanel();
@@ -321,6 +331,7 @@ public class ChronoGUI {
 		//btnfinish8.addActionListener(new manualStartFin('8'));
 		
 		JRadioButton radbtnenable1 = new JRadioButton("New radio button");
+		radbtnenable1.setEnabled(false);
 		radbtnenable1.setBackground(new Color(211, 211, 211));
 		radbtnenable1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -330,9 +341,11 @@ public class ChronoGUI {
 		});
 		radbtnenable1.setBounds(295, 140, 20, 25);
 		MainFramePanel.add(radbtnenable1);
+		enDiss.set(1, radbtnenable1);
 		//radbtnenable1.addActionListener(new toggleListner('1',true) );
 		
 		JRadioButton radbtnenable3 = new JRadioButton("New radio button");
+		radbtnenable3.setEnabled(false);
 		radbtnenable3.setBackground(new Color(211, 211, 211));
 		radbtnenable3.addMouseListener(new MouseAdapter() {
 			@Override
@@ -342,9 +355,11 @@ public class ChronoGUI {
 		});
 		radbtnenable3.setBounds(350, 140, 20, 25);
 		MainFramePanel.add(radbtnenable3);
+		enDiss.set(3, radbtnenable3);
 		//radbtnenable1.addActionListener(new toggleListner('3',true) );
 		
 		JRadioButton radbtnenable5 = new JRadioButton("New radio button");
+		radbtnenable5.setEnabled(false);
 		radbtnenable5.setBackground(new Color(211, 211, 211));
 		radbtnenable5.addMouseListener(new MouseAdapter() {
 			@Override
@@ -354,9 +369,11 @@ public class ChronoGUI {
 		});
 		radbtnenable5.setBounds(405, 140, 20, 25);
 		MainFramePanel.add(radbtnenable5);
+		enDiss.set(5, radbtnenable5);
 		//radbtnenable1.addActionListener(new toggleListner('5',true) );
 		
 		JRadioButton radbtnenable7 = new JRadioButton("New radio button");
+		radbtnenable7.setEnabled(false);
 		radbtnenable7.setBackground(new Color(211, 211, 211));
 		radbtnenable7.addMouseListener(new MouseAdapter() {
 			@Override
@@ -366,9 +383,11 @@ public class ChronoGUI {
 		});
 		radbtnenable7.setBounds(460, 140, 20, 25);
 		MainFramePanel.add(radbtnenable7);
+		enDiss.set(7, radbtnenable7);
 		//radbtnenable1.addActionListener(new toggleListner('7',true) );
 		
 		JRadioButton radbtnenable2 = new JRadioButton("New radio button");
+		radbtnenable2.setEnabled(false);
 		radbtnenable2.setBackground(new Color(211, 211, 211));
 		radbtnenable2.addMouseListener(new MouseAdapter() {
 			@Override
@@ -378,9 +397,11 @@ public class ChronoGUI {
 		});
 		radbtnenable2.setBounds(295, 249, 20, 25);
 		MainFramePanel.add(radbtnenable2);
+		enDiss.set(2, radbtnenable2);
 		//radbtnenable1.addActionListener(new toggleListner('2',true) );
 		
 		JRadioButton radbtnenable4 = new JRadioButton("New radio button");
+		radbtnenable4.setEnabled(false);
 		radbtnenable4.setBackground(new Color(211, 211, 211));
 		radbtnenable4.addMouseListener(new MouseAdapter() {
 			@Override
@@ -390,9 +411,11 @@ public class ChronoGUI {
 		});
 		radbtnenable4.setBounds(350, 249, 20, 25);
 		MainFramePanel.add(radbtnenable4);
+		enDiss.set(4, radbtnenable4);
 		//radbtnenable1.addActionListener(new toggleListner('4',true) );
 		
 		JRadioButton radbtnenable6 = new JRadioButton("New radio button");
+		radbtnenable6.setEnabled(false);
 		radbtnenable6.setBackground(new Color(211, 211, 211));
 		radbtnenable6.addMouseListener(new MouseAdapter() {
 			@Override
@@ -402,9 +425,11 @@ public class ChronoGUI {
 		});
 		radbtnenable6.setBounds(405, 249, 20, 25);
 		MainFramePanel.add(radbtnenable6);
+		enDiss.set(6, radbtnenable6);
 		//radbtnenable1.addActionListener(new toggleListner('6',true) );
 		
 		JRadioButton radbtnenable8 = new JRadioButton("New radio button");
+		radbtnenable8.setEnabled(false);
 		radbtnenable8.setBackground(new Color(211, 211, 211));
 		radbtnenable8.addMouseListener(new MouseAdapter() {
 			@Override
@@ -414,6 +439,7 @@ public class ChronoGUI {
 		});
 		radbtnenable8.setBounds(460, 249, 20, 25);
 		MainFramePanel.add(radbtnenable8);
+		enDiss.set(8, radbtnenable8);
 		//radbtnenable1.addActionListener(new toggleListner('8',true) );
 		
 		JTextArea txtrStart = new JTextArea();
@@ -434,14 +460,14 @@ public class ChronoGUI {
 		txtrEnabledisable.setBackground(new Color(211, 211, 211));
 		txtrEnabledisable.setEditable(false);
 		txtrEnabledisable.setText("Enable/Disable");
-		txtrEnabledisable.setBounds(161, 141, 126, 22);
+		txtrEnabledisable.setBounds(161, 141, 126, 16);
 		MainFramePanel.add(txtrEnabledisable);
 		
 		JTextArea textED2 = new JTextArea();
 		textED2.setBackground(new Color(211, 211, 211));
 		textED2.setEditable(false);
 		textED2.setText("Enable/Disable");
-		textED2.setBounds(161, 253, 126, 22);
+		textED2.setBounds(167, 242, 126, 16);
 		MainFramePanel.add(textED2);
 		
 		JButton btnkeypad1 = new JButton("1");
@@ -620,9 +646,11 @@ public class ChronoGUI {
 				String type = channelType.get(1).getSelectedItem().toString();
 				if(!chan1.isSelected()) {
 					sendToHardware("conn", type, "1");
+					enDiss.get(1).setEnabled(true);
 				}
 				else {
 					sendToHardware("disc", "1", "");
+					enDiss.get(1).setEnabled(false);
 				}
 			}
 		});
@@ -639,9 +667,11 @@ public class ChronoGUI {
 				String type = channelType.get(3).getSelectedItem().toString();
 				if(!chan3.isSelected()) {
 					sendToHardware("conn", type, "3");
+					enDiss.get(3).setEnabled(true);
 				}
 				else {
 					sendToHardware("disc", "3", "");
+					enDiss.get(3).setEnabled(false);
 				}
 			}
 		});
@@ -658,9 +688,11 @@ public class ChronoGUI {
 				String type = channelType.get(5).getSelectedItem().toString();
 				if(!chan5.isSelected()) {
 					sendToHardware("conn", type, "5");
+					enDiss.get(5).setEnabled(true);
 				}
 				else {
 					sendToHardware("disc", "5", "");
+					enDiss.get(5).setEnabled(false);
 				}
 			}
 		});
@@ -677,9 +709,11 @@ public class ChronoGUI {
 				String type = channelType.get(7).getSelectedItem().toString();
 				if(!chan7.isSelected()) {
 					sendToHardware("conn", type, "7");
+					enDiss.get(7).setEnabled(true);
 				}
 				else {
 					sendToHardware("disc", "7", "");
+					enDiss.get(7).setEnabled(false);
 				}
 			}
 		});
@@ -696,9 +730,11 @@ public class ChronoGUI {
 				String type = channelType.get(2).getSelectedItem().toString();
 				if(!chan2.isSelected()) {
 					sendToHardware("conn", type, "2");
+					enDiss.get(2).setEnabled(true);
 				}
 				else {
 					sendToHardware("disc", "2", "");
+					enDiss.get(2).setEnabled(false);
 				}
 			}
 		});
@@ -715,9 +751,11 @@ public class ChronoGUI {
 				String type = channelType.get(4).getSelectedItem().toString();
 				if(!chan4.isSelected()) {
 					sendToHardware("conn", type, "4");
+					enDiss.get(4).setEnabled(true);
 				}
 				else {
 					sendToHardware("disc", "4", "");
+					enDiss.get(4).setEnabled(false);
 				}
 			}
 		});
@@ -734,9 +772,11 @@ public class ChronoGUI {
 				String type = channelType.get(6).getSelectedItem().toString();
 				if(!chan6.isSelected()) {
 					sendToHardware("conn", type, "6");
+					enDiss.get(6).setEnabled(true);
 				}
 				else {
 					sendToHardware("disc", "6", "");
+					enDiss.get(6).setEnabled(false);
 				}
 			}
 		});
@@ -753,9 +793,11 @@ public class ChronoGUI {
 				String type = channelType.get(8).getSelectedItem().toString();
 				if(!chan8.isSelected()) {
 					sendToHardware("conn", type, "8");
+					enDiss.get(8).setEnabled(true);
 				}
 				else {
 					sendToHardware("disc", "8", "");
+					enDiss.get(8).setEnabled(false);
 				}
 			}
 		});
@@ -992,6 +1034,7 @@ public class ChronoGUI {
 		keypadText.setBackground(new Color(245, 245, 245));
 		
 		JButton btnEnter = new JButton("ENTER CMD");
+		btnEnter.setEnabled(false);
 		btnEnter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
@@ -1003,6 +1046,7 @@ public class ChronoGUI {
 		btnEnter.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnEnter.setBackground(new Color(192, 192, 192));
 		btnEnter.setBounds(12, 496, 143, 62);
+		cmdButton = btnEnter;
 		MainFramePanel.add(btnEnter);
 		
 		JTextArea textArea = new JTextArea();
@@ -1129,6 +1173,18 @@ public class ChronoGUI {
 		btnSwap.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btnSwap.setBounds(34, 169, 97, 25);
 		MainFramePanel.add(btnSwap);
+		
+		JTextArea txtrConnectedSensor = new JTextArea();
+		txtrConnectedSensor.setBackground(new Color(211, 211, 211));
+		txtrConnectedSensor.setText("Connected Sensor");
+		txtrConnectedSensor.setBounds(157, 159, 130, 16);
+		MainFramePanel.add(txtrConnectedSensor);
+		
+		JTextArea textArea_9 = new JTextArea();
+		textArea_9.setText("Connected Sensor");
+		textArea_9.setBackground(new Color(211, 211, 211));
+		textArea_9.setBounds(167, 259, 130, 16);
+		MainFramePanel.add(textArea_9);
 		frame.setVisible(true);
 	}
 
