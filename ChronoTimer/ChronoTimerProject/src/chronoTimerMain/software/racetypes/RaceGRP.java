@@ -80,30 +80,30 @@ public class RaceGRP extends Race {
 	 * @return true if a racer was moved from one queue to another, false if not
 	 */
 	@Override
-	// TODO: figure out what needs to happen here;
 	public boolean trig(int channelNum, String timeStamp) {
 		boolean result = false;
 		ArrayList<Racer> finishList = super.getFinishList();
 		
 
-		if (channelNum != 2 && channelNum != 1)
+		if (channelNum != this.startChannel && channelNum != this.finishChannel)
 			return false;
 		
+		// check channel is enabled
 		if(super.getChannelToggles()[channelNum]){
-			
-			// if the event was a start trigger then the channel trigger was 1 and startTime is set
-			// to timeStamp
-			if (channelNum == 1 && startTime == null) {
-				if (timeStamp.equals("")){
-					startTime = super.getTimer().getCurrentChronoTime();
-				}
-				else{
-					startTime = timeStamp;
+			// if trigger on start channel, startTime is set
+			if (channelNum == this.startChannel) {
+				// do nothing if race already started (startTime was already set)
+				if (startTime == null) {
+					if (timeStamp.equals("")){
+						startTime = super.getTimer().getCurrentChronoTime();
+					}
+					else{
+						startTime = timeStamp;
+					}
 				}
 			}
 
-			// a later trigger on a different channel must be a finish event, 
-			
+			// if trigger on finish channel, set finish time of a new racer
 			else {
 				Racer john = new Racer(String.format("%05d", finishList.size()+1));
 				john.setStartTime(startTime);
