@@ -53,6 +53,7 @@ public class ChronoGUI {
 	private JLabel raceType;
 	private JButton funButton;
 	private JButton cmdButton;
+	private JTextField commandText;
 
 //	/**
 //	 * Launch the application.
@@ -1018,7 +1019,7 @@ public class ChronoGUI {
 		keypadText.setEditable(false);
 		keypadText.setMargin(new Insets(10, 10, 10, 10));
 		keypadText.setBorder(new LineBorder(new Color(0, 0, 0), 4));
-		keypadText.setBounds(23, 452, 119, 31);
+		keypadText.setBounds(70, 452, 72, 31);
 		MainFramePanel.add(keypadText);
 		keypadText.setBackground(new Color(245, 245, 245));
 		
@@ -1172,6 +1173,15 @@ public class ChronoGUI {
 		textArea_9.setBackground(new Color(211, 211, 211));
 		textArea_9.setBounds(167, 259, 130, 16);
 		MainFramePanel.add(textArea_9);
+		
+		commandText = new JTextField();
+		commandText.setText("num");
+		commandText.setMargin(new Insets(10, 20, 10, 10));
+		commandText.setEditable(false);
+		commandText.setBorder(new LineBorder(new Color(0, 0, 0), 4));
+		commandText.setBackground(new Color(245, 245, 245));
+		commandText.setBounds(12, 452, 58, 31);
+		MainFramePanel.add(commandText);
 		frame.setVisible(true);
 	}
 
@@ -1264,5 +1274,6 @@ public class ChronoGUI {
 		cmdIndex=(cmdIndex+1)%commands.size();
 		commands.get(cmdIndex).doClick();
 		commands.get(cmdIndex).setBackground(new Color(53,151,255));
+		commandText.setText(commands.get(cmdIndex).getText());
 	}
 }
