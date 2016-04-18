@@ -73,7 +73,6 @@ public class Simulator {
 				TimeUnit.MILLISECONDS.sleep(11);//purely for aeshetic purposes, 
 												//delays loop for driver to catch up
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			System.out.print("Enter Command<EXIT to quit>: ");
