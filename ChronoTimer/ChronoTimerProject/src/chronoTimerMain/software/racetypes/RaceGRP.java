@@ -160,12 +160,17 @@ public class RaceGRP extends Race {
 	}
 
 	/**
-	 * returns false as we cant do this in a group
+	 * set the next racer to finish as DNF
 	 * @return true if a racer was handled, else false
 	 */
 	@Override
 	public boolean handleRacerDNF() {
-		return false;
+		ArrayList<Racer> finishList = super.getFinishList();
+		Racer racer = new Racer(String.format("%05d", finishList.size()+1));
+		racer.setStartTime(startTime);
+		racer.setDNF(true);
+		finishList.add(racer);
+		return true;
 	}
 
 	public static class raceGRPTester extends TestCase{
@@ -229,6 +234,16 @@ public class RaceGRP extends Race {
 			assertTrue(race2.getFinishList().get(0).getNumber().equals("00001"));
 			assertTrue(race2.getFinishList().get(1).getNumber().equals("00002"));
 			assertTrue(race2.getFinishList().get(2).getNumber().equals("00003"));
+		}
+		
+		public void testDNF(){
+			race2.start("");
+			race2.finish("");
+			race2.handleRacerDNF();
+			race2.finish("");
+			assertFalse(race2.getFinishList().get(0).getDNF());
+			assertTrue(race2.getFinishList().get(1).getDNF());
+			assertFalse(race2.getFinishList().get(2).getDNF());
 		}
 	}
 }
