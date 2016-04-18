@@ -1178,7 +1178,7 @@ public class ChronoGUI {
 		commandText = new JTextField();
 		commandText.setHorizontalAlignment(SwingConstants.CENTER);
 		commandText.setText("num");
-		commandText.setMargin(new Insets(10, 20, 10, 10));
+		commandText.setMargin(new Insets(10, 10, 10, 10));
 		commandText.setEditable(false);
 		commandText.setBorder(new LineBorder(new Color(0, 0, 0), 4));
 		commandText.setBackground(new Color(245, 245, 245));
