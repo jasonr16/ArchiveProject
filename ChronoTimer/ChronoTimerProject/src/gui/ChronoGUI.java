@@ -1016,6 +1016,7 @@ public class ChronoGUI {
 		MainFramePanel.add(starttxt8);
 		
 		keypadText = new JTextField();
+		keypadText.setHorizontalAlignment(SwingConstants.CENTER);
 		keypadText.setEditable(false);
 		keypadText.setMargin(new Insets(10, 10, 10, 10));
 		keypadText.setBorder(new LineBorder(new Color(0, 0, 0), 4));
@@ -1175,6 +1176,7 @@ public class ChronoGUI {
 		MainFramePanel.add(textArea_9);
 		
 		commandText = new JTextField();
+		commandText.setHorizontalAlignment(SwingConstants.CENTER);
 		commandText.setText("num");
 		commandText.setMargin(new Insets(10, 20, 10, 10));
 		commandText.setEditable(false);
