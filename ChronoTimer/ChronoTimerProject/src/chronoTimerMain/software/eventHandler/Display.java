@@ -7,6 +7,7 @@ import chronoTimerMain.software.racetypes.Racer;
 import chronoTimerMain.software.racetypes.RaceGRP;
 import chronoTimerMain.software.racetypes.RaceIND;
 import chronoTimerMain.software.racetypes.RaceIND.raceINDTester;
+import chronoTimerMain.software.racetypes.RacePARGRP;
 import chronoTimerMain.software.racetypes.RacePARIND;
 /**
  * used for gui display text showing start, running, finished racer number and times.
@@ -57,7 +58,20 @@ public class Display implements EventCommand{
 			cTEH.display += "\n";
 			displayRacerList(finishList, Math.max(0, finishList.size()-1), Math.max(-1, finishList.size()-1));//display last racer to finish
 		}
-		//TODO PARGRP
+		else if (cTEH.race instanceof RacePARGRP) {
+			String rTime;
+			if(cTEH.race.getStartTime() != null) {
+				
+				if(timestamp.equals("")) {
+					cTEH.display += "00000 " + cTEH.timer.getRunDuration(cTEH.race.getStartTime(), cTEH.timer.getCurrentChronoTime());
+				}
+				else {
+					cTEH.display += "00000 " + cTEH.timer.getRunDuration(cTEH.race.getStartTime(), timestamp);
+				}
+			}
+			cTEH.display += "\n";
+			displayRacerList(finishList, Math.max(0, finishList.size()-4), Math.max(-1, finishList.size()-1));//display last 4 racers to finish
+		}
 	}
 	
 	private void displayRacerList(ArrayList<Racer> raceList, int finishIndex, int startIndex) {//racers are displayed in reverse queue order

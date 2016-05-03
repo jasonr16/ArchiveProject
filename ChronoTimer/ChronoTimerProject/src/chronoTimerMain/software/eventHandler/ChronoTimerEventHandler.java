@@ -3,6 +3,7 @@ package chronoTimerMain.software.eventHandler;
 
 import java.util.ArrayList;
 
+import chronoTimerMain.simulator.Sensor;
 import chronoTimerMain.software.Timer.Timer;
 import chronoTimerMain.software.eventHandler.commands.EventCommand;
 import chronoTimerMain.software.racetypes.RaceIND;
@@ -86,5 +87,9 @@ public class ChronoTimerEventHandler {
 	}
 	public void passToggles(boolean[] togArray) {
 		race.updateTogglesInRace(togArray);
+	}
+	public void passSensors(Sensor[] sensors) {
+		// TODO Auto-generated method stub
+		race.updateSensorsInRace(sensors);
 	}
 }

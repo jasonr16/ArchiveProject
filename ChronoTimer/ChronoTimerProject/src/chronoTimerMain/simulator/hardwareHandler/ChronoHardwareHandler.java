@@ -84,6 +84,7 @@ public class ChronoHardwareHandler {
 					System.out.println(timestamp +" Connecting sensor " + args[0] + " at channel " + args[1]);
 					try{
 						conn(args[0], Integer.parseInt(args[1]));
+						eventHandler.passSensors(sensors);
 					}catch (NumberFormatException e) {
 						System.out.println("Error - Could not parse channel number");
 					}
@@ -92,6 +93,7 @@ public class ChronoHardwareHandler {
 					System.out.println(timestamp + " Disconnecting channel " + args[0]);
 					try{
 						disc(Integer.parseInt(args[0]));
+						eventHandler.passSensors(sensors);
 					}catch (NumberFormatException e) {
 						System.out.println(timestamp + " Error - Could not parse channel number");
 					}

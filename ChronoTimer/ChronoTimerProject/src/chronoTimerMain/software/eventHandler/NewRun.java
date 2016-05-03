@@ -3,6 +3,7 @@ package chronoTimerMain.software.eventHandler;
 import chronoTimerMain.software.eventHandler.commands.EventCommand;
 import chronoTimerMain.software.racetypes.RaceGRP;
 import chronoTimerMain.software.racetypes.RaceIND;
+import chronoTimerMain.software.racetypes.RacePARGRP;
 import chronoTimerMain.software.racetypes.RacePARIND;
 /**
  * creates a newRun, ending the previous run first
@@ -41,7 +42,13 @@ public class NewRun implements EventCommand {
 			cTEH.race.replaceToggles(toggles);
 			
 		}
-		//TODO Jason add other race types
+		else if (cTEH.raceType.equals("PARGRP")){
+			cTEH.raceList.add(cTEH.race);
+			toggles = cTEH.race.getChannelToggles();
+			cTEH.race = new RacePARGRP(++cTEH.runNumber, cTEH.timer);
+			cTEH.race.replaceToggles(toggles);
+			
+		}
 	}
 	
 }

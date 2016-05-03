@@ -2,6 +2,7 @@ package chronoTimerMain.software.racetypes.race;
 
 import java.util.ArrayList;
 
+import chronoTimerMain.simulator.Sensor;
 import chronoTimerMain.software.Timer.Timer;
 import chronoTimerMain.software.racetypes.Racer;
 
@@ -20,6 +21,8 @@ public abstract class Race {
 	private ArrayList<Racer> runningList; // queue of racers who are running
 	private ArrayList<Racer> finishList; // queue of racers who have finished
 	private boolean[] channelToggles = new boolean[13];
+	protected Sensor[] sensors = new Sensor[13];//no sensor stored in index 0. 12 max
+	ClientHTML cHTML = new ClientHTML();
 	//TODO YANG/CHRIS - implement channelToggles array in each RaceType 
 	//according to start/finish channel and trig implementation
 
@@ -259,6 +262,10 @@ public abstract class Race {
 			racer.setDNF(true);
 			finishList.add(racer);
 		}
+		for(int i = 0; i < finishList.size(); i++) {
+			cHTML.addRacer(finishList.get(i));
+			cHTML.sendData();
+		}
 	}
 	
 	/**
@@ -296,5 +303,9 @@ public abstract class Race {
 	
 	public void replaceToggles(boolean [] toggles) {
 		channelToggles = toggles;
+	}
+	public void updateSensorsInRace(Sensor[] sensors) {
+		this.sensors = sensors;
+		
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import chronoTimerMain.software.eventHandler.commands.EventCommand;
 import chronoTimerMain.software.racetypes.RaceGRP;
 import chronoTimerMain.software.racetypes.RaceIND;
+import chronoTimerMain.software.racetypes.RacePARGRP;
 import chronoTimerMain.software.racetypes.RacePARIND;
 import chronoTimerMain.software.racetypes.Racer;
 /**
@@ -48,7 +49,12 @@ public class Event implements EventCommand {
 				cTEH.race = new RaceGRP(cTEH.runNumber, cTEH.timer, tempList);
 				cTEH.race.replaceToggles(toggles);
 			}
+			else if(args[0].equalsIgnoreCase("PARGRP")) {
+				toggles = cTEH.race.getChannelToggles();
+				cTEH.race = new RacePARGRP(cTEH.runNumber, cTEH.timer, tempList);
+				cTEH.race.replaceToggles(toggles);
+			}
 		}
-		//TODO pargrp
+		
 	}
 }
