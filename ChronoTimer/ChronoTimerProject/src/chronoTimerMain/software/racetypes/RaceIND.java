@@ -120,7 +120,7 @@ public class RaceIND extends Race {
 		Racer racer = null;
 		boolean[] channelToggleArray = super.getChannelToggles();
 		
-		if (channelNum > 12 || channelNum < 1 || channelToggleArray[channelNum] == false)
+		if (channelNum > 8 || channelNum < 1 || channelToggleArray[channelNum] == false)
 			return false;
 		
 		// if there are racers in the start queue, a start event should move the racer at the head of the start queue
@@ -239,7 +239,7 @@ public class RaceIND extends Race {
 			race2.setChannelToggles(true);
 		}
 		
-		public void testAddRacerToStart() {
+		public void testNum() {
 			assertEquals(0, race1.getStartList().size());
 			assertEquals(0, race1.getRunningList().size());
 			assertEquals(0, race1.getFinishList().size());
@@ -300,7 +300,7 @@ public class RaceIND extends Race {
 			assertEquals("201", race2.getStartList().get(3).getNumber());
 		}
 		
-		public void testRemoveRacerFromStart() {
+		public void testRemove() {
 			race1.num("234");
 			race1.num("315");
 			

@@ -10,10 +10,7 @@ import chronoTimerMain.software.racetypes.race.Race;
 import junit.framework.TestCase;
 
 /**
- * Represents a single race of the individual event type.
- * single	start	(signaled	on	channel	1)	and	
- * a	series	of	single	finishes	(first,	second,	third,	etc)	
- * that	are	signaled	on	channel	2
+ * Represents a single race of the group event type.
  */
 public class RaceGRP extends Race {
 	private int startChannel;
@@ -184,6 +181,7 @@ public class RaceGRP extends Race {
 			race2 = new RaceGRP(2,timer);
 			race1.setChannelToggles(true);
 			race2.setChannelToggles(true);
+			// TODO: test if channels are not toggled on?
 		}	
 		public void testGRP(){
 			//tests adding num to finish list before start
