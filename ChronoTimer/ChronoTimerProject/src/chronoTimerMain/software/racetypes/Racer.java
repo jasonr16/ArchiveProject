@@ -12,6 +12,7 @@ public class Racer {
 	private String startTime; // timestamp of start time
 	private String finishTime; // timestamp of finish time
 	private boolean dnf; // whether the racer did not finish a race
+	private String runTime;
 	
 	public Racer(String number) {
 		this.number = number;
@@ -49,5 +50,13 @@ public class Racer {
 
 	public void setFinishTime(String finishTime) {
 		this.finishTime = finishTime;
+	}
+
+	public String getRunTime() {
+		return runTime;
+	}
+
+	public void setRunTime(String runTime) {
+		this.runTime = runTime;
 	}
 }

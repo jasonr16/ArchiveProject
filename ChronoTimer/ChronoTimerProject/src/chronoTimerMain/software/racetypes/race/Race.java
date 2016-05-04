@@ -263,6 +263,7 @@ public abstract class Race {
 			finishList.add(racer);
 		}
 		for(int i = 0; i < finishList.size(); i++) {
+			finishList.get(i).setRunTime(getRacerDuration(finishList.get(i).getNumber()));
 			cHTML.addRacer(finishList.get(i));
 			cHTML.sendData();
 		}
