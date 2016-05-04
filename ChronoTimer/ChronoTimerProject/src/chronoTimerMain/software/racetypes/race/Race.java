@@ -3,6 +3,7 @@ package chronoTimerMain.software.racetypes.race;
 import java.util.ArrayList;
 
 import chronoTimerMain.simulator.Sensor;
+import chronoTimerMain.simulator.sensor.*;
 import chronoTimerMain.software.Timer.Timer;
 import chronoTimerMain.software.racetypes.Racer;
 
@@ -294,6 +295,15 @@ public abstract class Race {
 	protected void setChannelToggles(boolean bool) {
 		for(int i = 0; i < this.channelToggles.length; ++i) {
 			this.channelToggles[i] = bool;
+		}
+	}
+	
+	/**
+	 * Used to set channel-to-sensor connection for unit tests
+	 */
+	protected void setSensorsToPad() {
+		for (int i = 0; i < this.sensors.length; ++i) {
+			this.sensors[i] = new SensorPad();
 		}
 	}
 	public void setTogsToTrue() {//can remove later
