@@ -123,7 +123,7 @@ public class RacePARGRP extends Race {
 				super.startTime = super.getTimer().getCurrentChronoTime();
 			else
 				super.startTime = timeStamp;
-			while(!startList.isEmpty()) {
+			while(!(startList.size() == 0)) {
 				racer = startList.remove(0);
 				// set each racers' start times
 				racer.setStartTime(super.getStartTime());

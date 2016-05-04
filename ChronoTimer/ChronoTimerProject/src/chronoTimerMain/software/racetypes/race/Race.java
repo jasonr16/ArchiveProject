@@ -248,6 +248,7 @@ public abstract class Race {
 	 */
 	public void endRun() {
 		Racer racer = null;
+		cHTML = new ClientHTML();
 		// move remaining racers in start queue to finish queue and mark them as DNF
 		while(startList.size() > 0) {
 			racer = startList.remove(0);
@@ -262,8 +263,15 @@ public abstract class Race {
 			finishList.add(racer);
 		}
 		for(int i = 0; i < finishList.size(); i++) {
+			finishList.get(i).setRunTime(getRacerDuration(finishList.get(i).getNumber()));
 			cHTML.addRacer(finishList.get(i));
+			
+		}
+		try {
 			cHTML.sendData();
+		}
+		catch(Exception e) {
+			System.out.println("Error. Server not available.");
 		}
 	}
 	
@@ -314,6 +322,15 @@ public abstract class Race {
 	}
 	public void updateSensorsInRace(Sensor[] sensors) {
 		this.sensors = sensors;
+	
+		
+	}
+	public Sensor[] getSensors() {
+		// TODO Auto-generated method stub
+		return sensors;
+	}
+	public void replaceSensors(Sensor[] sensors2) {
+		this.sensors = sensors2;
 		
 	}
 }

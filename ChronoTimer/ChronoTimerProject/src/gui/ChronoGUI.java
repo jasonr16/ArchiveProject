@@ -1249,6 +1249,9 @@ public class ChronoGUI {
 			raceType.setText("GRP");
 			break;
 		case "GRP":
+			raceType.setText("PARGRP");
+			break;
+		case "PARGRP":
 			raceType.setText("IND");
 			break;
 		default:

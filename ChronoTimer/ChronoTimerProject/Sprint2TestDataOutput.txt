@@ -1,4 +1,4 @@
-File or Console input <C or F> : F
+File, GUI, or Console input <C, G, or F> : F
 Running Simulator from file: Sprint2TestData.txt ...
 Error with file time format 13:06.13.0 at line 41. Ignoring command TOGGLE 2.
 
@@ -37,8 +37,9 @@ Error with file time format 13:26.30.0 at line 47. Ignoring command TRIG 2.
 12:04:25.0 Exporting run 1
 12:04:50.0 Printing racer times to console
 
-Race 1
-	234	00:00:02.0
+     Race 1
+     234     00:00:45.0
+     315     00:01:03.0
 
 12:06:00.0 Run ended.
 12:06:10.0 New Run Started.
@@ -57,18 +58,18 @@ Race 1
 13:05:25.3 Run ended.
 13:05:26.3 Printing racer times to console
 
-Race 2
-	167	00:00:00.100000000
-	166	00:00:03.0
-	200	DNF
-	201	DNF
+     Race 2
+     167     00:00:32.0
+     166     00:00:34.9
+     200     DNF
+     201     DNF
 
 13:06:00.0 New Run Started.
 13:06:12.4  Toggling channel 1
 13:06.13.0 Run ended.
 13:06.15.1 Printing racer times to console
 
-Race 3
+     Race 3
 
 13:26.11.0  Powering off
 13:26.17.0  Exiting Simulator. Have a nice day.

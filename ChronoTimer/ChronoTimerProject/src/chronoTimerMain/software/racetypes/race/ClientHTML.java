@@ -24,7 +24,7 @@ public class ClientHTML {
 	}
 	public void sendData() {
 		try{
-			System.out.println("in the client");
+			//System.out.println("in the client");
 		//Client will connect to this location
 		URL site = new URL(url + "/sendresults");
 		HttpURLConnection conn = (HttpURLConnection) site.openConnection();
@@ -33,18 +33,19 @@ public class ClientHTML {
 		conn.setRequestMethod("POST");
 		conn.setDoOutput(true);
 		conn.setDoInput(true);
+		
 		DataOutputStream out = new DataOutputStream(conn.getOutputStream());
 		
 		// build a string that contains JSON from console
 		String content = "";
 		content += "data=" + getJSON();
-		System.out.println("\n" + content);
+		//System.out.println("\n" + content);
 		// write out string to output buffer for message
 		out.writeBytes(content);
 		out.flush();
 		out.close();
 
-		System.out.println("Done sent to server");
+		//System.out.println("Done sent to server");
 		
 		InputStreamReader inputStr = new InputStreamReader(conn.getInputStream());
 
@@ -57,17 +58,17 @@ public class ClientHTML {
 			sb=sb.append((char)nextChar);
 			nextChar=inputStr.read();
 		}
-		System.out.println("Return String: "+ sb);
+		//System.out.println("Return String: "+ sb);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Connection Error to Server.");
 		}
 	}
 	
 	
 	
 	String getJSON() {
-		System.out.println("in the client");
+		//System.out.println("in the client");
 		Gson g = new Gson();		
 		String out = g.toJson(racers);
 		return out;
