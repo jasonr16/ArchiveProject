@@ -14,9 +14,6 @@ import junit.framework.TestCase;
  * Single common start	(signaled	on	channel	1)	and	
  * a	multiple finishes with different finish lanes
  * that	are	signaled on channels 1-8
- * TODO: have to check that finish channels must be connected to SensorPads
- * TODO: if channel is not connected to a SensorPad or Sensor, mark DNF for racer
- * TODO: if channel is connected but racer is not assigned to that channel, ignore
  */
 public class RacePARGRP extends Race {
 	private int startChannel;
@@ -42,6 +39,7 @@ public class RacePARGRP extends Race {
 	public RacePARGRP(int runNumber, Timer timer, ArrayList<Racer> startList) {
 		super(runNumber, timer, startList);
 		this.startChannel = 1;
+		this.lanes = new Racer[9];
 	}
 	
 	public Racer[] getLanes() {
@@ -147,14 +145,16 @@ public class RacePARGRP extends Race {
 				}
 				else {
 					// set the racer's finish time
-					if (timeStamp.equals(""))
-						racer.setFinishTime(super.getTimer().getCurrentChronoTime());
-					else
-						racer.setFinishTime(timeStamp);
-					// move the racer in the corresponding lane to the finish list
-					runningList.remove(racer);
-					finishList.add(racer);
-					result = true;
+					if(runningList.contains(racer)) {//only first finish on each trigger should be processed
+						if (timeStamp.equals(""))
+							racer.setFinishTime(super.getTimer().getCurrentChronoTime());
+						else
+							racer.setFinishTime(timeStamp);
+						// move the racer in the corresponding lane to the finish list
+						runningList.remove(racer);
+						finishList.add(racer);
+						result = true;
+					}
 				}
 			} 
 		}
@@ -188,12 +188,39 @@ public class RacePARGRP extends Race {
 	}
 
 	/**
-	 * Cancel the latest racer that started, does nothing for Group races
-	 * @return true if a racer was handled, else false
+	 * Cancel all racers in running list (and any in finish list) and move them back to start 
+	 * list
+	 * @return true if racers handled, else false
 	 */
 	@Override
 	public boolean handleRacerCancel() {
-		return false;
+		boolean result = false;
+		ArrayList<Racer> startList = super.getStartList();
+		ArrayList<Racer> runningList = super.getRunningList();
+		ArrayList<Racer> finishList = super.getFinishList();
+		Racer racer = null;
+		// cancel only if running is not empty (race has started but isn't completely over yet)
+		if (!runningList.isEmpty()) {
+			super.startTime = null;
+			while(!runningList.isEmpty()) {
+				racer = runningList.remove(0);
+				// reset each racer's start times
+				racer.setStartTime("00:00:00.0");
+				startList.add(racer);
+			}
+			if (!finishList.isEmpty()) {
+				while(!finishList.isEmpty()) {
+					racer = finishList.remove(0);
+					// reset each racer's fields 
+					racer.setStartTime("00:00:00.0");
+					racer.setFinishTime("00:00:00.0");
+					racer.setDNF(false);
+					startList.add(racer);
+				}
+			}
+			result = true;
+		}
+		return result;
 	}
 
 	/**
@@ -207,12 +234,25 @@ public class RacePARGRP extends Race {
 	}
 
 	/**
-	 * DNF does nothing because there is no "next" racer to finish
+	 * DNF marks all running racers as DNF and adds them to finish list
 	 * @return true if a racer was handled, else false
 	 */
 	@Override
 	public boolean handleRacerDNF() {
-		return false;
+		boolean result = false;
+		ArrayList<Racer> runningList = super.getRunningList();
+		ArrayList<Racer> finishList = super.getFinishList();
+		Racer racer = null;
+		if (!runningList.isEmpty()) {
+			while(!runningList.isEmpty()) {
+				racer = runningList.remove(0);
+				// reset each racer's start times
+				racer.setDNF(true);
+				finishList.add(racer);
+			}
+			result = true;
+		}
+		return result;
 	}
 
 	public static class racePARGRPTester extends TestCase{
@@ -338,6 +378,7 @@ public class RacePARGRP extends Race {
 			assertEquals(0, race.getStartList().size());
 			assertEquals(8, race.getRunningList().size());
 			ArrayList<Racer> runningList = race.getRunningList();
+			assertEquals("00:00:01.0", race.getStartTime());
 			for (Racer racer : runningList) {
 				assertEquals("00:00:01.0", racer.getStartTime());
 			}
@@ -410,6 +451,13 @@ public class RacePARGRP extends Race {
 			assertEquals("00:00:08.0", lanes[7].getFinishTime());
 			assertEquals("00:00:09.0", lanes[8].getFinishTime());
 			
+			// test redundant finishes
+			race.trig(3, "00:00:10.0");
+			assertEquals(0, race.getRunningList().size());
+			assertEquals(8, race.getFinishList().size());
+			assertEquals("00:00:04.0", finishList.get(2).getFinishTime());
+			assertEquals("00:00:04.0", lanes[3].getFinishTime());
+			
 			// test fewer racers than channels
 			race = new RacePARGRP(1,timer);
 			race.num("1");
@@ -432,6 +480,10 @@ public class RacePARGRP extends Race {
 			race.num("2");
 			race.num("3");
 			race.num("4");
+			race.num("5");
+			race.num("6");
+			race.num("7");
+			race.num("8");
 			
 			// test normal start
 			assertTrue(race.start("00:00:01.0"));
@@ -442,6 +494,93 @@ public class RacePARGRP extends Race {
 			assertFalse(race.start("00:00:01.0"));
 			assertEquals(0, race.getStartList().size());
 			assertEquals(8, race.getRunningList().size());
+		}
+		
+		public void testCancel() {
+			race = new RacePARGRP(1,timer);
+			race.num("1");
+			race.num("2");
+			race.num("3");
+			race.num("4");
+			race.num("5");
+			race.num("6");
+			race.num("7");
+			race.num("8");
+			race.setSensorsToPad();
+			race.setTogsToTrue();
+			
+			assertFalse(race.handleRacerCancel());
+			
+			race.trig(1, "00:00:01.0");
+			race.trig(1, "00:00:02.0");
+			assertEquals(0, race.getStartList().size());
+			assertEquals(7, race.getRunningList().size());
+			assertEquals(1, race.getFinishList().size());
+			assertTrue(race.handleRacerCancel());
+			ArrayList<Racer> startList = race.getStartList();
+			ArrayList<Racer> runningList = race.getRunningList();
+			ArrayList<Racer> finishList = race.getFinishList();
+			lanes = race.getLanes();
+			assertEquals(8, race.getStartList().size());
+			assertEquals(0, race.getRunningList().size());
+			assertEquals(0, race.getFinishList().size());
+			for (Racer racer: startList) {
+				assertEquals("00:00:00.0", racer.getStartTime());
+				assertEquals("00:00:00.0", racer.getFinishTime());
+				assertFalse(racer.getDNF());
+			}
+			for (int i = 1; i < lanes.length; ++i) {
+				assertEquals("00:00:00.0", lanes[i].getStartTime());
+				assertEquals("00:00:00.0", lanes[i].getFinishTime());
+				assertFalse(lanes[i].getDNF());
+			}
+			assertEquals(null, race.getStartTime());
+		}
+
+		public void testDNF() {
+			race = new RacePARGRP(1,timer);
+			race.num("1");
+			race.num("2");
+			race.num("3");
+			race.num("4");
+			race.num("5");
+			race.num("6");
+			race.num("7");
+			race.num("8");
+			race.setSensorsToPad();
+			race.setTogsToTrue();
+			
+			assertFalse(race.handleRacerDNF());
+			
+			race.trig(1, "00:00:01.0");
+			race.trig(1, "00:00:02.0");
+			assertEquals(0, race.getStartList().size());
+			assertEquals(7, race.getRunningList().size());
+			assertEquals(1, race.getFinishList().size());
+			assertTrue(race.handleRacerDNF());
+			ArrayList<Racer> startList = race.getStartList();
+			ArrayList<Racer> runningList = race.getRunningList();
+			ArrayList<Racer> finishList = race.getFinishList();
+			lanes = race.getLanes();
+			assertEquals(0, race.getStartList().size());
+			assertEquals(0, race.getRunningList().size());
+			assertEquals(8, race.getFinishList().size());
+			assertFalse(finishList.get(0).getDNF());
+			assertTrue(finishList.get(1).getDNF());
+			assertTrue(finishList.get(2).getDNF());
+			assertTrue(finishList.get(3).getDNF());
+			assertTrue(finishList.get(4).getDNF());
+			assertTrue(finishList.get(5).getDNF());
+			assertTrue(finishList.get(6).getDNF());
+			assertTrue(finishList.get(7).getDNF());
+			assertFalse(lanes[1].getDNF());
+			assertTrue(lanes[2].getDNF());
+			assertTrue(lanes[3].getDNF());
+			assertTrue(lanes[4].getDNF());
+			assertTrue(lanes[5].getDNF());
+			assertTrue(lanes[6].getDNF());
+			assertTrue(lanes[7].getDNF());
+			assertTrue(lanes[8].getDNF());
 		}
 	}
 }

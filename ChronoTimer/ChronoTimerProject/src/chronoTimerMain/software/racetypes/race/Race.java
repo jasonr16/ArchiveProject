@@ -24,8 +24,6 @@ public abstract class Race {
 	private boolean[] channelToggles = new boolean[13];
 	protected Sensor[] sensors = new Sensor[13];//no sensor stored in index 0. 12 max
 	ClientHTML cHTML = new ClientHTML();
-	//TODO YANG/CHRIS - implement channelToggles array in each RaceType 
-	//according to start/finish channel and trig implementation
 
 	public String getStartTime() {
 		return startTime;

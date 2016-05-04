@@ -10,7 +10,6 @@ import chronoTimerMain.software.racetypes.RaceGRP;
 import chronoTimerMain.software.racetypes.RaceIND;
 import chronoTimerMain.software.racetypes.RacePARIND;
 
-//TODO complete
 public class RaceTest {
 	RaceIND rI;
 	RacePARIND rPI;

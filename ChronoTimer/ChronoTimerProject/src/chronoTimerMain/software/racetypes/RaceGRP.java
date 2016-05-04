@@ -46,7 +46,6 @@ public class RaceGRP extends Race {
 	 * @param racer number of racer to be modified
 	 * @return true if change was successful, else false
 	 */
-	// TODO ask jason/whoever about DNFS added after finish.
 	@Override
 	public boolean num(String racerNum) {
 		boolean result = false;
@@ -181,7 +180,6 @@ public class RaceGRP extends Race {
 			race2 = new RaceGRP(2,timer);
 			race1.setChannelToggles(true);
 			race2.setChannelToggles(true);
-			// TODO: test if channels are not toggled on?
 		}	
 		public void testGRP(){
 			//tests adding num to finish list before start
