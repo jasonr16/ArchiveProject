@@ -2,6 +2,7 @@ package chronoTimerMain.software.eventHandler;
 
 import java.util.ArrayList;
 
+import chronoTimerMain.simulator.Sensor;
 import chronoTimerMain.software.eventHandler.commands.EventCommand;
 import chronoTimerMain.software.racetypes.RaceGRP;
 import chronoTimerMain.software.racetypes.RaceIND;
@@ -14,6 +15,7 @@ import chronoTimerMain.software.racetypes.Racer;
  */
 public class Event implements EventCommand {
 	boolean[] toggles;
+	Sensor[] sensors;
 	String timestamp;
 	ChronoTimerEventHandler cTEH;
 	ArrayList<Racer> tempList;
@@ -25,7 +27,8 @@ public class Event implements EventCommand {
 	@Override
 	public void execute(String[] args) {
 		System.out.println(timestamp + " Setting event type " + args[0]);
-		if(args[0].equalsIgnoreCase("IND") || args[0].equalsIgnoreCase("PARIND") || args[0].equalsIgnoreCase("GRP")) {
+		if(args[0].equalsIgnoreCase("IND") || args[0].equalsIgnoreCase("PARIND") 
+				|| args[0].equalsIgnoreCase("GRP") || args[0].equalsIgnoreCase("PARGRP")) {
 			cTEH.raceType = args[0];
 		}
 		//change current racetype if not started
@@ -36,23 +39,31 @@ public class Event implements EventCommand {
 			}
 			if(args[0].equalsIgnoreCase("IND")) {
 				toggles = cTEH.race.getChannelToggles();
+				sensors = cTEH.race.getSensors();
 				cTEH.race = new RaceIND(cTEH.runNumber, cTEH.timer, tempList);
 				cTEH.race.replaceToggles(toggles);
+				cTEH.race.replaceSensors(sensors);
 			}
 			else if(args[0].equalsIgnoreCase("PARIND")) {
 				toggles = cTEH.race.getChannelToggles();
+				sensors = cTEH.race.getSensors();
 				cTEH.race = new RacePARIND(cTEH.runNumber, cTEH.timer, tempList);
 				cTEH.race.replaceToggles(toggles);
+				cTEH.race.replaceSensors(sensors);
 			}
 			else if(args[0].equalsIgnoreCase("GRP")) {
 				toggles = cTEH.race.getChannelToggles();
+				sensors = cTEH.race.getSensors();
 				cTEH.race = new RaceGRP(cTEH.runNumber, cTEH.timer, tempList);
 				cTEH.race.replaceToggles(toggles);
+				cTEH.race.replaceSensors(sensors);
 			}
 			else if(args[0].equalsIgnoreCase("PARGRP")) {
 				toggles = cTEH.race.getChannelToggles();
+				sensors = cTEH.race.getSensors();
 				cTEH.race = new RacePARGRP(cTEH.runNumber, cTEH.timer, tempList);
 				cTEH.race.replaceToggles(toggles);
+				cTEH.race.replaceSensors(sensors);
 			}
 		}
 		

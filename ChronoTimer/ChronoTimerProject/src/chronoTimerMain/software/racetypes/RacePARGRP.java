@@ -42,6 +42,7 @@ public class RacePARGRP extends Race {
 	public RacePARGRP(int runNumber, Timer timer, ArrayList<Racer> startList) {
 		super(runNumber, timer, startList);
 		this.startChannel = 1;
+		this.lanes = new Racer[9];
 	}
 	
 	public Racer[] getLanes() {
@@ -125,11 +126,11 @@ public class RacePARGRP extends Race {
 				super.startTime = super.getTimer().getCurrentChronoTime();
 			else
 				super.startTime = timeStamp;
-			while(!startList.isEmpty()) {
+			while(!(startList.size() == 0)) {
 				racer = startList.remove(0);
 				// set each racers' start times
 				racer.setStartTime(super.getStartTime());
-				runningList.add(startList.remove(0));
+				runningList.add(racer);
 			}
 			result = true;
 		}
@@ -147,14 +148,17 @@ public class RacePARGRP extends Race {
 				}
 				else {
 					// set the racer's finish time
-					if (timeStamp.equals(""))
-						racer.setFinishTime(super.getTimer().getCurrentChronoTime());
-					else
-						racer.setFinishTime(timeStamp);
-					// move the racer in the corresponding lane to the finish list
-					runningList.remove(racer);
-					finishList.add(racer);
-					result = true;
+					if(racer.getFinishTime().equals("00:00:00.0")) {//only first finish on each trigger should be processed
+						if (timeStamp.equals(""))
+							racer.setFinishTime(super.getTimer().getCurrentChronoTime());
+						else
+							racer.setFinishTime(timeStamp);
+						
+						// move the racer in the corresponding lane to the finish list
+						runningList.remove(racer);
+						finishList.add(racer);
+						result = true;
+					}
 				}
 			}
 		}
